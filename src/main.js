@@ -4,9 +4,9 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 import axios from "axios";
+import vuetify from "./plugins/vuetify";
 
-
-Vue.prototype.$http = axios
+Vue.prototype.$http = axios;
 /*
 this is where you added any headers that are global to all the requests to the api
  for example credentials
@@ -22,5 +22,6 @@ Vue.config.productionTip = false;
 new Vue({
   router,
   store,
+  vuetify,
   render: (h) => h(App),
 }).$mount("#app");

@@ -1,23 +1,15 @@
-import axios from 'axios'
+import axios from "axios";
 
 /*
     authentication setup
 */
 const auth = {
-    namespaced: true,
-    state: {
+  namespaced: true,
+  state: {},
+  mutations: {},
+  actions: {},
 
-    },
-    mutations: {
-
-    },
-    actions: {
-
-    },
-
-    getters: {
-
-    }
-}
+  getters: {},
+};
 
 export default auth;

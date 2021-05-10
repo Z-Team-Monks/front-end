@@ -1,13 +1,11 @@
-import axios from 'axios';
-
+import axios from "axios";
 
 const shops = {
-    namespaced: true,
-    state: {},
-    mutations: {},
-    actions: {},
-    getters: {},
-}
-
+  namespaced: true,
+  state: {},
+  mutations: {},
+  actions: {},
+  getters: {},
+};
 
 export default shops;

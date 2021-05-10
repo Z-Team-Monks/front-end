@@ -1,18 +1,12 @@
-import axios from 'axios';
+import axios from "axios";
 
 const product = {
-    namespaced: true,
-    states: {
+  namespaced: true,
+  states: {},
+  mutations: {},
+  actions: {},
 
-    },
-    mutations: {
-
-    },
-    actions: {
-
-    },
-
-    getters: {}
-}
+  getters: {},
+};
 
 export default product;
