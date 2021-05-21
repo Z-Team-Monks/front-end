@@ -1,18 +1,15 @@
-<template>
+  <template>
   <div>
-    <h1>auth components</h1>
+    <!-- <TheHeader /> -->
   </div>
 </template>
 
 <script>
+// import TheHeader from "../header/TheHeader";
+
 export default {
-  name: "auth",
-  data() {
-    return {};
+  components: {
+    // TheHeader,
   },
-  created() {},
-  computed: {},
-  methods: {},
-  props: {},
 };
 </script>
