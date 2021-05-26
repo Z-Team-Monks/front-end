@@ -13,9 +13,9 @@
                 <span class="bar3"></span>
               </div>
               <div class="logo">
-                <a href="index.html"
+                <router-link :to="{ name: 'Home' }"
                   ><img src="../../assets/img/logo/logo.png" alt=""
-                /></a>
+                /></router-link>
               </div>
 
               <div class="category-menu">

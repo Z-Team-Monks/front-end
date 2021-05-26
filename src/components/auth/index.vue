@@ -87,8 +87,8 @@
               <v-text-field
                 label="phone"
                 v-model="phone"
-                type="text" 
-                :rules = "phoneRules"
+                type="text"
+                :rules="phoneRules"
               ></v-text-field>
               <v-text-field
                 v-model="password"
@@ -112,10 +112,13 @@
               class="mb-4"
               contain
               height="128"
-              src="https://cdn.vuetifyjs.com/images/logos/v.svg"
+              src="https://img-premium.flaticon.com/png/512/709/709510.png?token=exp=1622063580~hmac=68194b3a531d09ec7e524b7ffa281d36"
             ></v-img>
-            <h3 class="title font-weight-light mb-2">Welcome to Vuetify</h3>
-            <span class="caption grey--text">Thanks for signing up!</span>
+            <h3 class="title font-weight-light  mb-2">
+              Welcome to the Zembil Family
+            </h3>
+            <span class="caption grey--text ">Thanks for signing up!</span>
+            <span class="d-block caption blue--text">Redirecting</span>
           </div>
         </v-window-item>
       </v-window>
@@ -163,17 +166,18 @@ export default {
         // (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
       ],
       passwordRules: [
-        (v) =>  (v.length <= 6) || "password less than 6 characters",
+        (v) => v.length <= 6 || "password less than 6 characters",
         (v) => !!v || "Password is required",
       ],
       passwordConfirmationRules: [
-        (v) => ( v.length >= 6) || "password less than 6 characters",
+        (v) => v.length >= 6 || "password less than 6 characters",
         (v) => !!v || "Password is required",
         (v) =>
           this.passwordConfirmation === this.password || "Password mismatch!",
       ],
-      phoneRules: [(v) => /.[2-9]{1}\d{2}/.test(v) || "Incorrect phonenumber",
-        v => (v.length === 10) || "phone number must be 10 digits!"
+      phoneRules: [
+        (v) => /.[2-9]{1}\d{2}/.test(v) || "Incorrect phonenumber",
+        (v) => v.length === 10 || "phone number must be 10 digits!",
       ],
       /// loader
       loading5: false,
@@ -209,7 +213,7 @@ export default {
   },
   methods: {
     AttemptLogin(e) {
-      // this.$store.dispatch("auth/changeMessageStatus");
+      // this.$store.dispatch("auth/changeMessag  eStatus");
       this.loader = "loading4";
       this.$store.dispatch("auth/makeLoginRequest", {
         username: "Kidus",
@@ -220,17 +224,17 @@ export default {
       this.validate();
       if (this.valid) {
         this.step++;
-        this.$store
-          .dispatch("auth/makeRegisterLoginRequest", {
-            username: this.username,
-            email: this.email,
-            password: this.password,
-            phone: this.phone,
-          })
-          .then((res) => {
-              // this.$route.redirect()
-              this.reset();
-          });
+        // this.$store
+        //   .dispatch("auth/makeRegisterLoginRequest", {
+        //     username: this.username,
+        //     email: this.email,
+        //     password: this.password,
+        //     phone: this.phone,
+        //   })
+        //   .then((res) => {
+        //     // this.$route.redirect()
+        //   });
+        // this.reset();
       }
     },
 

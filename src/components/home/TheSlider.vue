@@ -24,10 +24,11 @@
                   </h1>
                   <div class="slide-btn">
                     <a
-                      class="btn theme-btn"
+                      class="btn theme-btn text-white"
                       href="shop.html"
                       data-animation="fadeInLeft"
                       data-delay=".7s"
+                      
                       >shop now</a
                     >
                     <a
