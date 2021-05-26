@@ -210,8 +210,8 @@
                           <a href="contact.html">Contact Us</a>
                         </li>
                         <li>
-                          <router-lin k :to="{ name: 'Auth' }"
-                            >login</router-lin
+                          <router-link :to="{ name: 'Auth' }"
+                            >login</router-link
                           >
                         </li>
                         <li>
@@ -220,7 +220,7 @@
                         <li>
                           <a href="cart.html">Shoping Cart</a>
                         </li>
-                        <li>  
+                        <li>
                           <a href="checkout.html">Checkout</a>
                         </li>
                         <li>
@@ -244,7 +244,9 @@
                     ></a>
                   </li>
                   <li class="login-btn">
-                    <router-link :to="{name : 'Auth'}"><i class="far fa-user"></i></router-link>
+                    <router-link :to="{ name: 'Auth' }"
+                      ><i class="far fa-user"></i
+                    ></router-link>
                   </li>
                   <li class="d-shop-cart">
                     <a href="#"
@@ -364,7 +366,7 @@
 </template>
 <script>
 export default {
-  name: "TheHeader",
+  // name: "TheHeader",
   data() {
     return {};
   },

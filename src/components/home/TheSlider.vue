@@ -5,7 +5,7 @@
         <div
           class="single-slider slide-1-style slide-height d-flex align-items-center"
           data-background="../../assets/img/slider/slide1.jpg"
-        > 
+        >
           <div class="shape-title bounce-animate">
             <h2>UX</h2>
           </div>
@@ -62,7 +62,7 @@
         <div
           class="single-slider slide-1-style slide-height d-flex align-items-center"
           data-background="../../assets/img/slider/slide1.jpg"
-        > 
+        >
           <div class="shape-title bounce-animate">
             <h2>UX</h2>
           </div>
@@ -116,7 +116,6 @@
             </div>
           </div>
         </div>
-       
       </div>
     </section>
   </main>

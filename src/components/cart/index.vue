@@ -39,7 +39,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(p,index) in products" :key="index">
+                    <tr v-for="(p, index) in products" :key="index">
                       <td class="product-thumbnail">
                         <a href="#"
                           ><img src="../../assets/img/product/pro2.jpg" alt=""
@@ -52,7 +52,7 @@
                         <span class="amount">$120.50</span>
                       </td>
                       <td class="product-quantity">
-                        <div  class="cart-plus-minus">
+                        <div class="cart-plus-minus">
                           <input type="text" value="1" />
                         </div>
                       </td>
@@ -60,7 +60,9 @@
                         <span class="amount">$120.50</span>
                       </td>
                       <td class="product-remove">
-                        <a @click="removeFromCart"><i class="fa fa-times"></i></a>
+                        <a @click="removeFromCart"
+                          ><i class="fa fa-times"></i
+                        ></a>
                       </td>
                     </tr>
                   </tbody>
@@ -122,7 +124,7 @@
 export default {
   data() {
     return {
-        cartElements :  ["one", "two", "three", "for", "five", "six"]
+      cartElements: ["one", "two", "three", "for", "five", "six"],
     };
   },
   created() {},
@@ -138,8 +140,8 @@ export default {
       } else console.log("increment");
     },
     removeFromCart() {
-        this.cartElements.pop();
-    }
+      this.cartElements.pop();
+    },
   },
   props: {},
 };

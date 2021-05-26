@@ -16,19 +16,18 @@ const routes = [
   {
     path: "/auth",
     name: "Auth",
-    component: AuthLogin
-
+    component: AuthLogin,
   },
   {
     path: "/shop",
     name: "shop",
-    component: Shop
+    component: Shop,
   },
   {
     path: "/cart",
     name: "cart",
-    component: Cart
-  }
+    component: Cart,
+  },
 ];
 
 const router = new VueRouter({
