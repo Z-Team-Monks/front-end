@@ -1,21 +1,6 @@
 <template>
   <div>
-    <section class="breadcrumb-area" data-background="img/bg/page-title.png">
-      <div class="container">
-        <div class="row">
-          <div class="col-xl-12">
-            <div class="breadcrumb-text text-center">
-              <h1>Our Shop</h1>
-              <ul class="breadcrumb-menu">
-                <li><a href="index.html">home</a></li>
-                <li><span>shop</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="shop-area pt-100 pb-100">
+    <section class="shop-area pt-50 pb-100">
       <div class="container">
         <div class="row">
           <div class="col-xl-8 col-lg-8">
@@ -69,140 +54,185 @@
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="col">
+                <ProductCard />
+              </div>
+              <div class="col">
+                <ProductCard />
+              </div>
+            </div>
             <ShopContent />
+
+            <div class="text-center">
+              <v-pagination v-model="page" :length="4" circle></v-pagination>
+            </div>
           </div>
           <div class="col-xl-4 col-lg-4">
             <div class="sidebar-box">
               <div class="shop-widget">
                 <h3 class="shop-title">Search by</h3>
-                <form action="#" class="shop-search">
-                  <input type="text" placeholder="Your keyword...." />
-                  <button><i class="fa fa-search"></i></button>
-                </form>
+                <v-text-field
+                  v-model="search"
+                  append-icon="mdi-magnify"
+                  label="Search"
+                  single-line
+                  hide-details
+                ></v-text-field>
               </div>
 
               <div class="shop-widget">
                 <h3 class="shop-title">Brand</h3>
                 <ul class="shop-link">
                   <li>
-                    <a href="shop.html"><i class="far fa-square"></i> Apex</a>
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="exampleCheck1"
+                    />
+                    Apex
                   </li>
                   <li>
-                    <a href="shop.html"><i class="far fa-square"></i> Bata</a>
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="exampleCheck1"
+                    />Bata
                   </li>
                   <li>
-                    <a href="shop.html"><i class="far fa-square"></i> Puma</a>
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="exampleCheck1"
+                    />
+                    Puma
                   </li>
                   <li>
-                    <a href="shop.html"><i class="far fa-square"></i> Nike</a>
-                  </li>
-                  <li>
-                    <a href="shop.html"><i class="far fa-square"></i> Likoda</a>
-                  </li>
-                  <li>
-                    <a href="shop.html"
-                      ><i class="far fa-square"></i> Piolaba</a
-                    >
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="exampleCheck1"
+                    />
+                    Nike
                   </li>
                 </ul>
               </div>
 
               <div class="shop-widget">
-                <h3 class="shop-title">Filter selection</h3>
+                <h3 class="shop-title">Price Range</h3>
                 <div class="price-filter">
-                  <div id="slider-range"></div>
-                  <input type="text" id="amount" />
+                  <v-range-slider
+                    v-model="range"
+                    :max="max"
+                    :min="min"
+                    hide-details
+                    class="align-center"
+                  >
+                  </v-range-slider>
                 </div>
               </div>
 
               <div class="shop-widget">
                 <h3 class="shop-title">Price filter</h3>
-                <ul class="shop-link">
-                  <li>
-                    <a href="shop.html"
-                      ><i class="far fa-square"></i> £0.00 - £50.00</a
-                    >
+                <ul>
+                  <li class="my-3">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="exampleCheck1"
+                    />
+                    &nbsp;&nbsp;&nbsp;£50.00 - £100.00
                   </li>
-                  <li>
-                    <a href="shop.html"
-                      ><i class="far fa-square"></i> £50.00 - £100.00</a
-                    >
+                  <li class="my-3">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="exampleCheck1"
+                    />
+                    &nbsp;&nbsp;&nbsp;£50.00 - £100.00
                   </li>
-                  <li>
-                    <a href="shop.html"
-                      ><i class="far fa-square"></i> £100.00 - £150.00</a
-                    >
+                  <li class="my-3">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="exampleCheck1"
+                    />
+                    &nbsp;&nbsp;&nbsp;£50.00 - £100.00
                   </li>
-                  <li>
-                    <a href="shop.html"
-                      ><i class="far fa-square"></i> £150.00 - £200.00</a
-                    >
-                  </li>
-                  <li>
-                    <a href="shop.html"
-                      ><i class="far fa-square"></i> £200.00+</a
-                    >
+                  <li class="my-3">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="exampleCheck1"
+                    />
+                    &nbsp;&nbsp;&nbsp;£50.00 - £100.00
                   </li>
                 </ul>
               </div>
-
-              <!-- <div class="shop-widget">
-                <h3 class="shop-title">Product Size</h3>
-                <ul class="shop-link">
-                  <li>
-                    <a href="shop.html"><i class="far fa-square"></i> L</a>
-                  </li>
-                  <li>
-                    <a href="shop.html"><i class="far fa-square"></i> M</a>
-                  </li>
-                  <li>
-                    <a href="shop.html"><i class="far fa-square"></i> X</a>
-                  </li>
-                  <li>
-                    <a href="shop.html"><i class="far fa-square"></i> XL</a>
-                  </li>
-                  <li>
-                    <a href="shop.html"><i class="far fa-square"></i> XXL</a>
-                  </li>
-                </ul>
-              </div> -->
 
               <div class="shop-widget">
                 <h3 class="shop-title">Catergories</h3>
                 <ul class="shop-link">
                   <li>
-                    <a href="shop.html"
-                      ><i class="far fa-square"></i> Accessories</a
-                    >
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="exampleCheck1"
+                    />
+                    Accessories
                   </li>
                   <li>
-                    <a href="shop.html"><i class="far fa-square"></i> Bags</a>
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="exampleCheck1"
+                    />
+                    Bags
                   </li>
                   <li>
-                    <a href="shop.html"
-                      ><i class="far fa-square"></i> Clothing</a
-                    >
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="exampleCheck1"
+                    />
+                    Clothing
                   </li>
                   <li>
-                    <a href="shop.html"><i class="far fa-square"></i> Shoes</a>
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="exampleCheck1"
+                    />
+                    Shoes
                   </li>
                   <li>
-                    <a href="shop.html"
-                      ><i class="far fa-square"></i> Exclusive</a
-                    >
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="exampleCheck1"
+                    />
+                    Exclusive
                   </li>
                   <li>
-                    <a href="shop.html"
-                      ><i class="far fa-square"></i> Uncategorized</a
-                    >
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="exampleCheck1"
+                    />
+                    Uncategorized
                   </li>
                   <li>
-                    <a href="shop.html"><i class="far fa-square"></i> Women</a>
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="exampleCheck1"
+                    />
+                    Women
                   </li>
                 </ul>
               </div>
 
-              <!-- <div class="shop-widget">
+              <div class="shop-widget">
                 <h3 class="shop-title">Tags</h3>
                 <ul class="shop-tag">
                   <li><a href="shop.html"> Minimal</a></li>
@@ -214,130 +244,7 @@
                   <li><a href="shop.html"> New</a></li>
                   <li><a href="shop.html"> Sale</a></li>
                 </ul>
-              </div> -->
-
-              <!-- <div class="shop-widget">
-                <h3 class="shop-title">color</h3>
-                <ul class="shop-link">
-                  <li>
-                    <a href="shop.html"><span class="blue"></span> Blue</a>
-                  </li>
-                  <li>
-                    <a href="shop.html"><span class="green"></span> Green</a>
-                  </li>
-                  <li>
-                    <a href="shop.html"><span class="orange"></span> Orange</a>
-                  </li>
-                  <li>
-                    <a href="shop.html"><span class="navy"></span> Navy</a>
-                  </li>
-                  <li>
-                    <a href="shop.html"
-                      ><span class="pinkish"></span> Pinkish</a
-                    >
-                  </li>
-                  <li>
-                    <a href="shop.html"
-                      ><span class="vista"></span> Vista Blue</a
-                    >
-                  </li>
-                </ul>
-              </div> -->
-
-              <!-- <div class="shop-widget">
-                <h3 class="shop-title">Recent Product</h3>
-                <ul class="shop-sidebar-product">
-                  <li>
-                    <div class="side-pro-img">
-                      <a href="product-details.html"
-                        ><img src="../../assets/img/product/latest/shop-rsp1.jpg" alt=""
-                      /></a>
-                    </div>
-                    <div class="side-pro-content">
-                      <div class="side-pro-rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                      </div>
-                      <h5>
-                        <a href="product-details.html">Raglan Baseball-Style</a>
-                      </h5>
-                      <div class="side-pro-price">
-                        <span>$119.00 USD</span>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="side-pro-img">
-                      <a href="product-details.html"
-                        ><img src="../../assets/img/product/latest/shop-rsp3.jpg" alt=""
-                      /></a>
-                    </div>
-                    <div class="side-pro-content">
-                      <div class="side-pro-rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                      </div>
-                      <h5>
-                        <a href="product-details.html">Raglan Baseball-Style</a>
-                      </h5>
-                      <div class="side-pro-price">
-                        <span>$119.00 USD</span>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="side-pro-img">
-                      <a href="product-details.html"
-                        ><img src="../../assets/img/product/latest/shop-rsp2.jpg" alt=""
-                      /></a>
-                    </div>
-                    <div class="side-pro-content">
-                      <div class="side-pro-rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                      </div>
-                      <h5>
-                        <a href="product-details.html">Raglan Baseball-Style</a>
-                      </h5>
-                      <div class="side-pro-price">
-                        <span>$119.00 USD</span>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="side-pro-img">
-                      <a href="product-details.html"
-                        ><img src="../../assets/img/product/latest/shop-rsp4.jpg" alt=""
-                      /></a>
-                    </div>
-                    <div class="side-pro-content">
-                      <div class="side-pro-rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                      </div>
-                      <h5>
-                        <a href="product-details.html">Raglan Baseball-Style</a>
-                      </h5>
-                      <div class="side-pro-price">
-                        <span>$119.00 USD</span>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div> -->
-
+              </div>
               <div class="shop-widget">
                 <div class="shop-sidebar-banner">
                   <a href="shop.html"
@@ -373,12 +280,22 @@
 </template>
 <script>
 import ShopContent from "../../components/shop/index";
+import ProductCard from "../../components/shop/ProductCard";
 export default {
   components: {
     ShopContent,
+    ProductCard,
   },
   data() {
-    return {};
+    return {
+      search: "",
+      min: -50,
+      max: 90,
+      range: [-20, 70],
+      page: 1,
+      ex4: "",
+      checkbox: "",
+    };
   },
   created() {},
   computed: {},
@@ -386,3 +303,15 @@ export default {
   props: {},
 };
 </script>
+
+
+<style scoped>
+.v-input__slot {
+  align-items: center;
+  justify-content: center;
+}
+
+.form-check-input {
+  cursor: pointer;
+}
+</style>
