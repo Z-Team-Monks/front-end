@@ -1,8 +1,10 @@
 <template>
   <div>
-    <TheHeader />
-    <router-view />
-    <TheFooter />
+    <v-app>
+      <TheHeader />
+      <router-view />
+      <TheFooter />
+    </v-app>
   </div>
 </template>
 
@@ -22,7 +24,6 @@ export default {
 </script>
 
 <style>
-
 @import url("assets/css/bootstrap.min.css");
 /* @import url("assets/css/owl.carousel.min.css"); */
 @import url("assets/css/animate.min.css");
@@ -33,5 +34,5 @@ export default {
 @import url("assets/css/slick.css");
 @import url("assets/css/default.css");
 @import url("assets/css/style.css");
-@import url("assets/css/responsive.css"); 
+@import url("assets/css/responsive.css");
 </style>
