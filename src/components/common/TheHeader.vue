@@ -2,8 +2,8 @@
   <div>
     <header>
       <div id="header-sticky" class="header-area box-90">
-        <div class="container-fluid">
-          <div class="row align-items-center">
+        <div class="container-fluid"  style="z-index: 10000;">
+          <div class="row align-items-center"  style="z-index: 10000;">
             <div
               class="col-xl-2 col-lg-6 col-md-6 col-7 col-sm-5 d-flex align-items-center pos-relative"
             >
@@ -255,32 +255,7 @@
                     >
                     <ul class="minicart">
                       <li>
-                        <div class="cart-img">
-                          <a href="product-details.html">
-                            <img
-                              src="../../assets/img/product/pro1.jpg"
-                              alt=""
-                            />
-                          </a>
-                        </div>
-                        <div class="cart-content">
-                          <h3>
-                            <a href="product-details.html"
-                              >Black & White Shoes</a
-                            >
-                          </h3>
-                          <div class="cart-price">
-                            <span class="new">$ 229.9</span>
-                            <span>
-                              <del>$239.9</del>
-                            </span>
-                          </div>
-                        </div>
-                        <div class="del-icon">
-                          <a href="#">
-                            <i class="far fa-trash-alt"></i>
-                          </a>
-                        </div>
+                          <CartCard @deleteCart = "deleteCart"/>
                       </li>
                       <li>
                         <div class="cart-img">
@@ -365,14 +340,24 @@
   </div>
 </template>
 <script>
+import CartCard from '@/components/cart/CartCard'
 export default {
   // name: "TheHeader",
+  components: {
+    CartCard
+  },
   data() {
     return {};
   },
   created() {},
   computed: {},
-  methods: {},
+  methods: {
+
+    deleteCart(id) {
+      // do your deletion in here
+      console.log(id);
+    }
+  },
   props: {},
 };
 </script>
