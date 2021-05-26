@@ -1,9 +1,9 @@
 <template>
   <div>
-    <header>
+    <header class="border-bottom pb-2 sticky-top">
       <div id="header-sticky" class="header-area box-90">
-        <div class="container-fluid"  style="z-index: 10000;">
-          <div class="row align-items-center"  style="z-index: 10000;">
+        <div class="container-fluid" style="z-index: 10000">
+          <div class="row align-items-center" style="z-index: 10000">
             <div
               class="col-xl-2 col-lg-6 col-md-6 col-7 col-sm-5 d-flex align-items-center pos-relative"
             >
@@ -254,65 +254,10 @@
                       <span class="cart-count">3</span></a
                     >
                     <ul class="minicart">
-                      <li>
-                          <CartCard @deleteCart = "deleteCart"/>
+                      <li v-for="(item, i) in carts" :key="i">
+                        <CartCard @deleteCart="deleteCart"  />
                       </li>
-                      <li>
-                        <div class="cart-img">
-                          <a href="product-details.html">
-                            <img
-                              src="../../assets/img/product/pro2.jpg"
-                              alt=""
-                            />
-                          </a>
-                        </div>
-                        <div class="cart-content">
-                          <h3>
-                            <a href="product-details.html"
-                              >Black & White Shoes</a
-                            >
-                          </h3>
-                          <div class="cart-price">
-                            <span class="new">$ 229.9</span>
-                            <span>
-                              <del>$239.9</del>
-                            </span>
-                          </div>
-                        </div>
-                        <div class="del-icon">
-                          <a href="#">
-                            <i class="far fa-trash-alt"></i>
-                          </a>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="cart-img">
-                          <a href="product-details.html">
-                            <img
-                              src="../../assets/img/product/pro3.jpg"
-                              alt=""
-                            />
-                          </a>
-                        </div>
-                        <div class="cart-content">
-                          <h3>
-                            <a href="product-details.html"
-                              >Black & White Shoes</a
-                            >
-                          </h3>
-                          <div class="cart-price">
-                            <span class="new">$ 229.9</span>
-                            <span>
-                              <del>$239.9</del>
-                            </span>
-                          </div>
-                        </div>
-                        <div class="del-icon">
-                          <a href="#">
-                            <i class="far fa-trash-alt"></i>
-                          </a>
-                        </div>
-                      </li>
+
                       <li>
                         <div class="total-price">
                           <span class="f-left">Total:</span>
@@ -340,23 +285,24 @@
   </div>
 </template>
 <script>
-import CartCard from '@/components/cart/CartCard'
+import CartCard from "@/components/cart/CartCard";
 export default {
   // name: "TheHeader",
   components: {
-    CartCard
+    CartCard,
   },
   data() {
-    return {};
+    return {
+      carts: [1, 2, 5],
+    };
   },
   created() {},
   computed: {},
   methods: {
-
     deleteCart(id) {
       // do your deletion in here
       console.log(id);
-    }
+    },
   },
   props: {},
 };

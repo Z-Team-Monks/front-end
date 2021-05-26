@@ -56,7 +56,7 @@
             </div>
             <div class="row">
               <div class="col">
-                <ProductCard />
+                <ProductCard  @AddToCart = "AddToCart" />
               </div>
               <div class="col">
                 <ProductCard />
@@ -280,7 +280,7 @@
 </template>
 <script>
 import ShopContent from "../../components/shop/index";
-import ProductCard from "../../components/shop/ProductCard";
+import ProductCard from "../../components/product/ProductCard";
 export default {
   components: {
     ShopContent,
@@ -299,7 +299,11 @@ export default {
   },
   created() {},
   computed: {},
-  methods: {},
+  methods: {
+    AddToCart(id) {
+      console.log(id)
+    }
+  },
   props: {},
 };
 </script>

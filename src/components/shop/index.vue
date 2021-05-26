@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>Shop components</h1>
   </div>
 </template>
 
