@@ -11,7 +11,7 @@
                 <span class="bar1"></span>
                 <span class="bar2"></span>
                 <span class="bar3"></span>
-              </div> 
+              </div>
               <div class="logo">
                 <a href="index.html"
                   ><img src="../../assets/img/logo/logo.png" alt=""
@@ -210,7 +210,9 @@
                           <a href="contact.html">Contact Us</a>
                         </li>
                         <li>
-                          <a href="login.html">login</a>
+                          <router-lin k :to="{ name: 'Auth' }"
+                            >login</router-lin
+                          >
                         </li>
                         <li>
                           <a href="register.html">Register</a>
@@ -218,7 +220,7 @@
                         <li>
                           <a href="cart.html">Shoping Cart</a>
                         </li>
-                        <li>
+                        <li>  
                           <a href="checkout.html">Checkout</a>
                         </li>
                         <li>
@@ -242,7 +244,7 @@
                     ></a>
                   </li>
                   <li class="login-btn">
-                    <a href="login.html"><i class="far fa-user"></i></a>
+                    <router-link :to="{name : 'Auth'}"><i class="far fa-user"></i></router-link>
                   </li>
                   <li class="d-shop-cart">
                     <a href="#"
@@ -265,7 +267,7 @@
                               >Black & White Shoes</a
                             >
                           </h3>
-                          <div class="cart-price"> 
+                          <div class="cart-price">
                             <span class="new">$ 229.9</span>
                             <span>
                               <del>$239.9</del>

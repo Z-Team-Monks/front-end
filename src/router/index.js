@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import AuthLogin from "../views/auth/index";
+import AuthLogin from "../views/Auth/index";
 import Home from "../views/Home.vue";
 import Shop from "../views/shop/index";
 import Cart from "../views/cart/index";
