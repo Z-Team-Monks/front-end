@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header class="border-bottom pb-2 sticky-top">
+    <header class="border-bottom sticky-top">
       <div id="header-sticky" class="header-area box-90">
         <div class="container-fluid" style="z-index: 10000">
           <div class="row align-items-center" style="z-index: 10000">
@@ -14,8 +14,9 @@
               </div>
               <div class="logo">
                 <router-link :to="{ name: 'Home' }"
-                  ><img src="../../assets/img/logo/logo.png" alt=""
-                /></router-link>
+                  >
+                  <!-- <img src="../../assets/img/logo/logo.png" alt=""/> -->
+                  </router-link>
               </div>
 
               <div class="category-menu">
