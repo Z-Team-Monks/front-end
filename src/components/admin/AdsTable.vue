@@ -12,9 +12,9 @@
     <div class="mx-auto">
       <v-data-table :headers="headers" :items="desserts" class="elevation-1">
         <template v-slot:item.glutenfree="{ item }">
-          <v-btn sm color="primary"> Approve </v-btn>
+          <v-btn sm color="primary"> Display </v-btn>
 
-          <v-btn sm class="ml-2" color="error"> Reject </v-btn>
+          <v-btn sm class="ml-2" color="error"> Hide </v-btn>
         </template>
       </v-data-table>
     </div>
@@ -22,8 +22,7 @@
 </template>
 <script>
 export default {
-  components: {
-  },
+  components: {},
   data() {
     return {
       desserts: [
@@ -85,8 +84,6 @@ export default {
         { text: "Calories", value: "calories" },
         { text: "Fat (g)", value: "fat" },
         { text: "Carbs (g)", value: "carbs" },
-        { text: "Iron (%)", value: "iron" },
-        { text: "Gluten-Free", value: "glutenfree" },
       ],
     };
   },
