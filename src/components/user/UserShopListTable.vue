@@ -15,10 +15,11 @@
           <v-dialog v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
-                color="red lighten-4"
-                class="mb-2 red--text"
+                class="mb-2 "
                 v-bind="attrs"
                 v-on="on"
+                dark
+                color="pink"
               >
                 Add new Shop
               </v-btn>
@@ -94,8 +95,8 @@
         </v-toolbar>
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
-        <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+        <v-icon small class="mr-2" @click="editItem(item)" color="red lighten--4"> mdi-pencil </v-icon>
+        <v-icon small @click="deleteItem(item)" color="red lighten--4"> mdi-delete </v-icon>
       </template>
 
       <!-- <template v-slot:item.rating="{ item }">
@@ -136,8 +137,8 @@ export default {
         sortable: false,
         value: "name",
       },
-      { text: "Product amount", value: "calories" },
-      { text: "Category", value: "fat" },
+      { text: "Product amount", value: "calories" , sortable: false},
+      { text: "Category", value: "fat" ,sortable: false },
       // { text: "Carbs (g)", value: "carbs" },
       // { text: "Protein (g)", value: "protein" },
       { text: "Actions", value: "actions", sortable: false },
@@ -263,7 +264,7 @@ export default {
           protein: 7,
         },
       ];
-          // rating: 3.5,
+      // rating: 3.5,
     },
 
     editItem(item) {
