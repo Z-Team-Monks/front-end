@@ -98,7 +98,7 @@
       </template>
       <template v-slot:item.actions="{ item }">
         <!-- <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon> -->
-        <v-icon medium @click="deleteItem(item)"> mdi-delete </v-icon>
+        <v-icon small @click="deleteItem(item)" color="red lighten--4"> mdi-delete </v-icon>
       </template>
       <template v-slot:item.item="{ item }">
         <v-img
@@ -109,12 +109,12 @@
         ></v-img>
       </template>
       <template v-slot:item.calories="{ item }">
-        <v-btn @click="increment(item)" class="mx-2" dark x-small>
-          <v-icon small dark> mdi-arrow-up </v-icon>
+        <v-btn @click="increment(item)" class="mx-2" color = "red lighten-4" x-small>
+          <v-icon small > mdi-arrow-up </v-icon>
         </v-btn>
         {{ item.calories }}
-        <v-btn @click="decrement(item)" class="mx-2" dark x-small>
-          <v-icon small dark> mdi-arrow-down </v-icon>
+        <v-btn @click="decrement(item)" class="mx-2" col<v-btn @click="increment(item)" class="mx-2" color = "red lighten-4" x-small>
+          <v-icon small > mdi-arrow-down </v-icon>
         </v-btn>
       </template>
       <template v-slot:no-data>
