@@ -30,35 +30,9 @@
     <br />
     <br />
     <br />
-    <br />
-    <br />
     <v-divider></v-divider>
-    <!-- <v-container class="lighten-5">
-      <v-row no-gutters class="justify-content-around">
-        <v-col cols="4" md="2">
-          <v-card class="mx-auto" max-width="500">
-            <v-list>
-              <v-list-item-group v-model="model">
-                <v-list-item v-for="(item, i) in items" :key="i">
-                  <v-list-item-icon>
-                    <v-icon v-text="item.icon"></v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    <v-list-item-title v-text="item.text"></v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
-          </v-card>
-        </v-col>
-        <v-col cols="12" sm="6" md="8">
-          <v-card class="pa-2" outlined tile>
-            .col-12 .col-sm-6 .col-md-8
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container> -->
-    <!-- <v-card> -->
+    <br />
+    <br />
     <v-tabs vertical>
       <v-tab class="justify-center">
         <v-list-item> <v-icon left> mdi-basket </v-icon>Shops </v-list-item>
@@ -72,51 +46,44 @@
         </v-list-item>
       </v-tab>
       <v-tab class="text-left">
+        <v-list-item> <v-icon left>mdi-google-ads </v-icon> Ads </v-list-item>
+      </v-tab>
+      <v-tab class="text-left">
         <v-list-item>
           <v-icon left>mdi-cog-outline</v-icon> settings
         </v-list-item>
       </v-tab>
       <v-tab-item>
-        <shopTable />
+        <ShopTable />
       </v-tab-item>
       <v-tab-item>
         <UserCartTable />
       </v-tab-item>
       <v-tab-item>
-        <v-card flat>
-          <v-card-text>
-            <p>
-              Fusce a quam. Phasellus nec sem in justo pellentesque facilisis.
-              Nam eget dui. Proin viverra, ligula sit amet ultrices semper,
-              ligula arcu tristique sapien, a accumsan nisi mauris ac eros. In
-              dui magna, posuere eget, vestibulum et, tempor auctor, justo.
-            </p>
-
-            <p class="mb-0">
-              Cras sagittis. Phasellus nec sem in justo pellentesque facilisis.
-              Proin sapien ipsum, porta a, auctor quis, euismod ut, mi. Donec
-              quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nam
-              at tortor in tellus interdum sagittis.
-            </p>
-          </v-card-text>
-        </v-card>
+        <UserWishListTable />
+      </v-tab-item>
+      <v-tab-item>
+        <UserAdsTable />
+      </v-tab-item>
+      <v-tab-item>
+        <UserSettings />
       </v-tab-item>
     </v-tabs>
-    <!-- </v-card> -->
   </div>
 </template>
-   
-    
-    <!-- </v-card> -->
-<!--  </div>
-</template> -->
 <script>
 import ShopTable from "@/components/user/UserShopListTable";
 import UserCartTable from "@/components/user/UserCartTable";
+import UserWishListTable from "@/components/user/UserWishListTable";
+import UserAdsTable from "@/components/user/UserAdsTable";
+import UserSettings from "@/components/user/UserSettings";
 export default {
   components: {
     ShopTable,
     UserCartTable,
+    UserWishListTable,
+    UserAdsTable,
+    UserSettings,
   },
   data() {
     return {
