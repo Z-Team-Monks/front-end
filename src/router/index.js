@@ -6,6 +6,7 @@ import Admin from "../views/admin/index";
 import Shop from "../views/shop/index";
 import Cart from "../views/cart/index";
 import Product from "../views/products/detail";
+import User from "../views/user/index";
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,14 @@ const routes = [
     path: "/admin",
     name: "Admin",
     component: Admin,
+    children: [
+      
+    ]
+  },
+  {
+    path: "/user",
+    name: "user",
+    component: User,
   },
   {
     path: "/shop",
