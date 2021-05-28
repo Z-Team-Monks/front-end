@@ -56,7 +56,7 @@
             </div>
             <div class="row">
               <div class="col">
-                <ProductCard  @AddToCart = "AddToCart" />
+                <ProductCard  @emitProductDetail = "showProductDetail"  @emitAddToCart = "AddToCart" />
               </div>
               <div class="col">
                 <ProductCard />
@@ -302,6 +302,14 @@ export default {
   methods: {
     AddToCart(id) {
       console.log(id)
+    },
+    showProductDetail(id) {
+      this.$router.push({
+        name: "productDetail",
+        params: {
+          id: 1
+        }
+      })
     }
   },
   props: {},
