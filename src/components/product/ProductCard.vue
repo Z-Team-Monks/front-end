@@ -14,7 +14,7 @@
           <a @click="emitAddToCart" href="" title="Shoppingb Cart">
             <i class="flaticon-shopping-cart"></i>
           </a>
-          <a href="#" title="Quick View">
+          <a @click="emitProductDetail" href="" title="Quick View">
             <i class="flaticon-eye"></i>
           </a>
           <a
@@ -67,8 +67,12 @@ export default {
     },
     emitAddToCart(e) {
       e.preventDefault();
-      this.$emit("AddToCart", 12)
+      this.$emit("emitAddToCart", 12)
       console.log("it wont keep us apart")
+    },
+    emitProductDetail(e) {
+      e.preventDefault();
+      this.$emit("emitProductDetail")
     }
   },
   props: {},

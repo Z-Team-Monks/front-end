@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>product components</h1>
+    <h1>Product index</h1>
   </div>
 </template>
 
