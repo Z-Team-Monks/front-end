@@ -1,13 +1,13 @@
 <template>
   <div>
-    <ShopWrapper />
+    <ProductCard />
   </div>
 </template>
 <script>
-import ShopWrapper from "@/components/shop/index";
+import ProductCard from "@/components/product/ProductCard";
 export default {
   components: {
-    ShopWrapper,
+    ProductCard,
   },
   data() {
     return {};
