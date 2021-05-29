@@ -113,7 +113,7 @@
           <v-icon small > mdi-arrow-up </v-icon>
         </v-btn>
         {{ item.calories }}
-        <v-btn @click="decrement(item)" class="mx-2" col<v-btn @click="increment(item)" class="mx-2" color = "red lighten-4" x-small>
+        <v-btn @click="decrement(item)" class="mx-2" color = "red lighten-4" x-small>
           <v-icon small > mdi-arrow-down </v-icon>
         </v-btn>
       </template>
