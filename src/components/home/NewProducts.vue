@@ -1,5 +1,5 @@
 <template>
-  <section class="product-area box-90 pt-70 pb-40">
+  <section class="product-area box-90 pt-70 pb-20">
     <div class="container-fluid">
       <div class="row">
         <div class="col-xl-5 col-lg-12">
@@ -64,6 +64,46 @@
                 >
               </li>
             </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="product-tab-content">
+          <div class="tab-content" id="myTabContent">
+            <carousel>
+              <slide>
+                <div class="ml-2 row">
+                  <div class="col">
+                    <ProductCard @emitProductDetail="showDetailModal" />
+                  </div>
+                  <div class="col">
+                    <ProductCard @emitProductDetail="showDetailModal" />
+                  </div>
+                </div>
+              </slide>
+              <slide>
+                <div class="ml-2 row">
+                  <div class="col">
+                    <ProductCard @emitProductDetail="showDetailModal" />
+                  </div>
+                  <div class="col">
+                    <ProductCard @emitProductDetail="showDetailModal" />
+                  </div>
+                </div>
+              </slide>
+              <slide>
+                <div class="ml-2 row">
+                  <div class="col">
+                    <ProductCard @emitProductDetail="showDetailModal" />
+                  </div>
+                  <div class="col">
+                    <ProductCard @emitProductDetail="showDetailModal" />
+                  </div>
+                </div>
+              </slide>
+            </carousel>
           </div>
         </div>
       </div>

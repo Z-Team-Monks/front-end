@@ -2,7 +2,7 @@
   <div class="pro-item">
     <div class="product-wrapper mb-50">
       <div class="product-img mb-25">
-        <a href="product-details.html">
+        <a @click="emitProductDetail" href = "#">
           <img src="../../assets/img/product/pro3.jpg" alt="" />
           <img
             class="secondary-img"
@@ -54,12 +54,12 @@ export default {
     },
     emitAddToCart(e) {
       e.preventDefault();
-      this.$emit("emitAddToCart", 12)
+      this.$emit("emitAddToCart", 12);
     },
     emitProductDetail(e) {
       e.preventDefault();
-      this.$emit("emitProductDetail",123)
-    }
+      this.$emit("emitProductDetail", 123);
+    },
   },
   props: {},
 };
