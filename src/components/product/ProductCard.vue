@@ -17,14 +17,6 @@
           <a @click="emitProductDetail" href="" title="Quick View">
             <i class="flaticon-eye"></i>
           </a>
-          <a
-            href="#"
-            data-toggle="tooltip"
-            data-placement="right"
-            title="Compare"
-          >
-            <i class="flaticon-compare"></i>
-          </a>
         </div>
         <div class="sale-tag">
           <span class="new">new</span>
@@ -45,11 +37,6 @@
             <span class="old-price">$230.00 USD</span>
           </div>
         </div>
-        <div class="product-wishlist mr-4">
-          <v-btn icon color="pink" elevation="2"  @click="emitProductLike">
-            <v-icon>mdi-heart</v-icon>
-          </v-btn>
-        </div>
       </div>
     </div>
   </div>
@@ -68,11 +55,10 @@ export default {
     emitAddToCart(e) {
       e.preventDefault();
       this.$emit("emitAddToCart", 12)
-      console.log("it wont keep us apart")
     },
     emitProductDetail(e) {
       e.preventDefault();
-      this.$emit("emitProductDetail")
+      this.$emit("emitProductDetail",123)
     }
   },
   props: {},
