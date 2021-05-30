@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import auth from "./modules/auth";
 import product from "./modules/product";
 import shops from "./modules/shops";
+import Ads from "./modules/Ads";
 
 Vue.use(Vuex);
 
@@ -11,5 +12,7 @@ export default new Vuex.Store({
     auth,
     product,
     shops,
+    Ads
+
   },
 });

@@ -28,6 +28,7 @@
                 <span class="light-text">200</span>
                 <v-btn
                   x-small
+                  elevation="0"
                   :hidden="followingC"
                   @click="following = !following"
                   color="red lighten--6"
@@ -38,6 +39,7 @@
                 </v-btn>
                 <v-btn
                   x-small
+                  elevation="0"
                   @click="following = !following"
                   :hidden="!followingC"
                   color="red lighten--6"

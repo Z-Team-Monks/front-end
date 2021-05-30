@@ -7,6 +7,7 @@ import Shop from "../views/shop/index";
 import Cart from "../views/cart/index";
 import Product from "../views/products/detail";
 import User from "../views/user/index";
+import Test from "../views/Trial/index";
 
 Vue.use(VueRouter);
 
@@ -48,7 +49,13 @@ const routes = [
     path: "/product/:id",
     name: "productDetail",
     component: Product
-  }
+  },
+  {
+    path: "/test",
+    name: "test",
+    component: Test
+  },
+  
 ];
 
 const router = new VueRouter({

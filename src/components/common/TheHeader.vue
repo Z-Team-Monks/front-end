@@ -60,7 +60,7 @@
                 </ul>
               </div>
             </div>
-            <div class="col-xl-8 col-lg-6 col-md-8 col-8 d-none d-xl-block">
+            <!-- <div class="col-xl-8 col-lg-6 col-md-8 col-8 d-none d-xl-block">
               <div class="main-menu text-center">
                 <nav id="mobile-menu">
                   <ul>
@@ -235,7 +235,7 @@
                   </ul>
                 </nav>
               </div>
-            </div>
+            </div> -->
             <div class="col-xl-2 col-lg-6 col-md-6 col-5 col-sm-7 pl-0">
               <div class="header-right f-right">
                 <ul>

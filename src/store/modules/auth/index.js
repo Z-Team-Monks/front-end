@@ -32,16 +32,14 @@ const auth = {
 
   },
   actions: {
-
-
-    async makeLoginRequest({ commit }, credentials) {
+    async Login({ commit }, credentials) {
       const options = {
         headers: {
           "Content-Type": "application/json",
         },
       };
       commit('CREATE_LOADING', true);
-      await axios.post("users/auth", JSON.stringify(credentials), options)
+      await axios.post("/auth", JSON.stringify(credentials), options)
         .then((res) => {
           console.log(res.data)
           commit("CHANGE_AUTH_STATUS", (res.data.token) ? true : false)
