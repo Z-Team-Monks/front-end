@@ -14,53 +14,62 @@
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                class="mb-2 "
-                v-bind="attrs"
-                v-on="on"
-                dark
-                color="pink"
-              >
-                Add new Shop
+              <v-btn class="mb-2" v-bind="attrs" v-on="on" dark color="pink">
+                Add new proposal
               </v-btn>
             </template>
             <v-card>
-              <v-card-title>
+              <v-card-title class="border-bottom">
                 <span class="headline">{{ formTitle }}</span>
               </v-card-title>
-
               <v-card-text>
                 <v-container>
                   <v-row>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field
-                        v-model="editedItem.name"
-                        label="Dessert name"
-                      ></v-text-field>
+                    <v-col cols="12">
+                      <v-file-input
+                        :rules="rules"
+                        accept="image/png, image/jpeg, image/bmp"
+                        prepend-icon="mdi-camera"
+                        placeholder="Profile Picture"
+                      ></v-file-input>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4">
+                    <v-col cols="12">
                       <v-text-field
-                        v-model="editedItem.calories"
-                        label="Calories"
-                      ></v-text-field>
+                        placeholder="Shop Name"
+                        prepend-icon="mdi-store-24-hour "
+                      />
                     </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field
-                        v-model="editedItem.fat"
-                        label="Fat (g)"
-                      ></v-text-field>
+
+                    <v-col cols="12">
+                      <v-combobox
+                        :items="items"
+                        v-model="selected"
+                        placeholder="Category"
+                        prepend-icon="mdi-shape"
+                      />
                     </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field
-                        v-model="editedItem.carbs"
-                        label="Carbs (g)"
-                      ></v-text-field>
+                    <v-col>
+                      <v-textarea
+                        rows="1"
+                        prepend-icon="mdi-semantic-web"
+                        placeholder="Description"
+                      ></v-textarea>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field
-                        v-model="editedItem.protein"
-                        label="Protein (g)"
-                      ></v-text-field>
+                    <v-col cols="12">
+                      <v-row>
+                        <v-col align="center" cols="2"
+                          ><v-btn fab icon>
+                            <v-icon>mdi-map</v-icon></v-btn
+                          ></v-col
+                        >
+                        <v-col
+                          ><v-text-field placeholder="Longtiude"></v-text-field
+                        ></v-col>
+                        <v-col
+                          ><v-text-field placeholder="Latitude"></v-text-field
+                        ></v-col>
+                        <!-- <v-col cols="2"><v-btn small fab icon> <v-icon>mdi-google-maps</v-icon></v-btn></v-col> -->
+                      </v-row>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -68,10 +77,12 @@
 
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="close">
+                <v-btn color="red lighten--4 darken-1" text @click="close">
                   Cancel
                 </v-btn>
-                <v-btn color="blue darken-1" text @click="save"> Save </v-btn>
+                <v-btn color="red lighten--4 darken-1" text @click="save">
+                  Create Shop
+                </v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -95,19 +106,24 @@
         </v-toolbar>
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)" color="red lighten--4"> mdi-pencil </v-icon>
-        <v-icon small @click="deleteItem(item)" color="red lighten--4"> mdi-delete </v-icon>
+        <v-icon
+          small
+          class="mr-2"
+          @click="editItem(item)"
+          color="red lighten--4"
+        >
+          mdi-pencil
+        </v-icon>
+        <v-icon small @click="deleteItem(item)" color="red lighten--4">
+          mdi-delete
+        </v-icon>
       </template>
 
-      <!-- <template v-slot:item.rating="{ item }">
-        <v-rating
-          v-model="item.rating"
-          background-color="purple lighten-3"
-          color="red lighten-2"
-          small
-          readonly
-        ></v-rating>
-      </template> -->
+      <template v-slot:item.name="{ item }">
+        <router-link class="text-dark" :to="{ name: 'shop', params: { id: '12' } }">
+          {{ item.name }}</router-link
+        >
+      </template>
       <template v-slot:no-data>
         No Current Shops
         <v-btn
@@ -117,7 +133,7 @@
           v-bind="attrs"
           v-on="on"
         >
-          Add new Shop
+          New Shop Request Form
         </v-btn>
       </template>
     </v-data-table>
@@ -137,12 +153,20 @@ export default {
         sortable: false,
         value: "name",
       },
-      { text: "Product amount", value: "calories" , sortable: false},
-      { text: "Category", value: "fat" ,sortable: false },
+      { text: "Product amount", value: "calories", sortable: false },
+      { text: "Category", value: "fat", sortable: false },
       // { text: "Carbs (g)", value: "carbs" },
       // { text: "Protein (g)", value: "protein" },
       { text: "Actions", value: "actions", sortable: false },
     ],
+    rules: [
+      (value) =>
+        !value ||
+        value.size < 2000000 ||
+        "Avatar size should be less than 2 MB!",
+    ],
+    items: ["Electronics", "Cosmotics", "Furniture"],
+    selected: "",
     desserts: [],
     editedIndex: -1,
     editedItem: {
@@ -163,7 +187,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "Add A new Shop" : "Edit Shop";
+      return this.editedIndex === -1 ? "New Shop Request Form" : "Edit Shop";
     },
   },
 
