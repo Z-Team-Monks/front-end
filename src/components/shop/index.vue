@@ -1,5 +1,5 @@
 <template>
-  <div class="container w-75">
+  <div class="w-75 mx-auto">
     <ShopHeader />
     <br />
     <br />

@@ -27,25 +27,30 @@
               </v-btn>
             </template>
             <v-card>
-              <v-card-title>
-                <span class="headline">{{ formTitle }}</span>
+              <v-card-title class="border-bottom">
+                Total Cart  
               </v-card-title>
+              <v-container style="margin-top:0;">
+                <div class="cart-page-total m-0 p-0" style="margin-top:0;">
+                  <!-- <h2></h2> -->
+                  
+                  <ul class="mb-20">
+                    <li>Procut cost <span>$250.00</span></li>
+                    <li>tax <span>$20</span></li>
+                    <li>Total <span>$270.00</span></li>
+                  </ul>
+                </div>
+                <v-btn dark color="red lighten--4" block elevation="0"
+                  >Proceed to checkout</v-btn
+                >
+                <br>
+                <v-btn @click="dialog = false" dark color="green lighten--4" block elevation="0"
+                  >Cancel</v-btn
+                >
+              </v-container>
 
-              <v-card-text>
-                <v-container>
-                    <CartCard />
-                    <CartCard />
-                    <CartCard />
-                </v-container>
-              </v-card-text>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="close">
-                  Cancel
-                </v-btn>
-                <v-btn color="blue darken-1" text @click="save"> Save </v-btn>
-              </v-card-actions>
+              <!-- <v-card-> -->
+              <!-- </v-card-actions> -->
             </v-card>
           </v-dialog>
           <v-dialog v-model="dialogDelete" max-width="500px">
@@ -69,7 +74,9 @@
       </template>
       <template v-slot:item.actions="{ item }">
         <!-- <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon> -->
-        <v-icon small @click="deleteItem(item)" color="red lighten--4"> mdi-delete </v-icon>
+        <v-icon small @click="deleteItem(item)" color="red lighten--4">
+          mdi-delete
+        </v-icon>
       </template>
       <template v-slot:item.item="{ item }">
         <v-img
@@ -80,12 +87,22 @@
         ></v-img>
       </template>
       <template v-slot:item.calories="{ item }">
-        <v-btn @click="increment(item)" class="mx-2" color = "red lighten-4" x-small>
-          <v-icon small > mdi-arrow-up </v-icon>
+        <v-btn
+          @click="increment(item)"
+          class="mx-2"
+          color="red lighten-4"
+          x-small
+        >
+          <v-icon small> mdi-arrow-up </v-icon>
         </v-btn>
         {{ item.calories }}
-        <v-btn @click="decrement(item)" class="mx-2" color = "red lighten-4" x-small>
-          <v-icon small > mdi-arrow-down </v-icon>
+        <v-btn
+          @click="decrement(item)"
+          class="mx-2"
+          color="red lighten-4"
+          x-small
+        >
+          <v-icon small> mdi-arrow-down </v-icon>
         </v-btn>
       </template>
       <template v-slot:no-data>
@@ -106,10 +123,10 @@
 
 
 <script>
-import CartCard from '@/components/cart/CartCard'
+import CartCard from "@/components/cart/CartCard";
 export default {
   components: {
-    CartCard
+    CartCard,
   },
   data: () => ({
     dialog: false,

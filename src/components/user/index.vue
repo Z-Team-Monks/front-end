@@ -1,5 +1,5 @@
 <template>
-  <div class="container w-75">
+  <div class="mx-auto w-75">
     <v-card class="mx-auto">
       <v-btn absolute bottom color="pink" right fab>
         <v-icon dark> mdi-cloud-upload </v-icon>
