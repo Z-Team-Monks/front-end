@@ -14,7 +14,7 @@
           </v-card>
           <v-card  ripple color ="red lighten-4" class="col-md-6 col-lg-3">
             <v-card-text dark class = "">
-              <h4 class="desc ">items sold</h4>
+              <h4 class="desc ">Shops</h4>
               <h2 class="number ">388,688</h2>
               <div class="icon">
                 <!-- <i class="fa fa-shopping-cart"></i> -->
@@ -23,7 +23,7 @@
           </v-card>
           <v-card ripple color ="red lighten-4" class="col-md-6 col-lg-3">
             <v-card-text class = "">
-              <h4 class="desc ">items sold</h4>
+              <h4 class="desc ">Products</h4>
               <h2 class="number ">388,688</h2>
               <div class="icon">
                 <!-- <i class="fa fa-shopping-cart"></i> -->

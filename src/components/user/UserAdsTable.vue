@@ -1,26 +1,16 @@
 <template>
   <div class="container w-75 mx-auto">
-    <v-row>
-      <v-col>
-        <h3 class="display-1 mr-2 d-inline-block">Live Ads:</h3>
-        <div class="display-1 d-inline-block">25</div>
-      </v-col>
-      <v-col></v-col>
-      <v-col>
-      </v-col>
-    </v-row>
-    <v-divider />
-
     <v-data-table
       :headers="headers"
       :items="desserts"
       sort-by="calories"
-      class="elevation-1"
+      class="elevation-1 border"
       :items-per-page="5"
+
     >
       <template v-slot:top>
         <v-toolbar flat elevation="0">
-          <v-toolbar-title>My Shops</v-toolbar-title>
+          <v-toolbar-title>Live Ads: 200</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
 

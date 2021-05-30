@@ -31,8 +31,6 @@
     <br />
     <br />
     <v-divider></v-divider>
-    <br />
-    <br />
     <v-tabs vertical>
       <v-tab class="justify-center">
         <v-list-item> <v-icon left> mdi-basket </v-icon>Shops </v-list-item>

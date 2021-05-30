@@ -12,9 +12,8 @@
     <div class="mx-auto">
       <v-data-table :headers="headers" :items="desserts" class="elevation-1">
         <template v-slot:item.glutenfree="{ item }">
-          <v-btn small elevation = "0" color="primary"> Approve </v-btn>
 
-          <v-btn small elevation="0" class="ml-2" color="error"> Reject </v-btn>
+          <v-btn small elevation="0" class="ml-2" color="error"> Delete Product </v-btn>
         </template>
       </v-data-table>
     </div>

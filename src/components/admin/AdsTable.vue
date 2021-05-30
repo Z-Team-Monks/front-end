@@ -4,14 +4,14 @@
       <div class="row">
         <div class="col-xl-5 col-lg-12">
           <div class="area-title mb-50">
-            <h2>Shop Application</h2>
+            <h2>Ads </h2>
           </div>
         </div>
       </div>
     </div>
     <div class="mx-auto">
       <v-data-table :headers="headers" :items="desserts" class="elevation-1">
-        <template v-slot:item.glutenfree="{ item }">
+        <template v-slot:item.crabs="{ item }">
           <v-btn sm color="primary"> Display </v-btn>
 
           <v-btn sm class="ml-2" color="error"> Hide </v-btn>

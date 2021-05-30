@@ -1,7 +1,6 @@
 <template>
   <div class="container w-75">
-    <div class="display-1">User Settings</div>
-    <v-divider />
+    <!-- <p class="">User Settings</p> -->
     <v-container fluid>
       <v-card>
         <v-btn @click="unlock" absolute top color="pink" right dark fab>

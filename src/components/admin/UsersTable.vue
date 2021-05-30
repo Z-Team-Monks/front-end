@@ -12,7 +12,7 @@
     <div class="mx-auto">
       <v-data-table :headers="headers" :items="desserts" class="elevation-1">
         <template v-slot:item.glutenfree="{ item }">
-          <v-btn sm class="ml-2" color="error"> Delete </v-btn>
+          <v-btn small elevation="0" class="ml-2" color="error"> Deactivate <v-icon right>mdi-account</v-icon> </v-btn>
         </template>
       </v-data-table>
     </div>

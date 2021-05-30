@@ -24,13 +24,13 @@
         <UsersTable />
       </v-tab-item>
       <v-tab-item :key="3" value="products">
-        <ShopListTable />
+        <ProductsTable />
       </v-tab-item>
       <v-tab-item :key="4" value="ads">
         <Ads />
       </v-tab-item>
       <v-tab-item :key="5" value="admin">
-        <Ads />
+        <AdminTable />
       </v-tab-item>
     </v-tabs-items>
     <!-- <ShopListTable /> -->
@@ -39,6 +39,8 @@
 </template>
 <script>
 import ShopListTable from "@/components/admin/ShopListTable";
+import AdminTable from "@/components/admin/AdminTable";
+import ProductsTable from "@/components/admin/ProductsTable";
 import UsersTable from "@/components/admin/UsersTable";
 import Ads from "@/components/admin/AdsTable";
 import Banner from "@/components/admin/Banner";
@@ -47,6 +49,8 @@ export default {
     ShopListTable,
     Banner,
     UsersTable,
+    ProductsTable,
+    AdminTable,
     Ads
   },
   data() {
