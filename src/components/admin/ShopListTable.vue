@@ -1,29 +1,26 @@
 <template>
-  <div class="">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-xl-5 col-lg-12">
-          <div class="area-title mb-50">
-            <h2>Shop Application</h2>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="mx-auto">
-      <v-data-table :headers="headers" :items="desserts" class="elevation-1">
-        <template v-slot:item.glutenfree="{ item }">
-          <v-btn small elevation = "0" color="primary"> Approve </v-btn>
+  <v-col cols="12" class="mt-50">
+    <base-material-card color="warning" class="px-5 py-3">
+      <template v-slot:heading>
+        <div class="display-2 font-weight-light">Shop Admission table</div>
+      </template>
+      <v-card-text>
+        <v-data-table :headers="headers" :items="desserts">
+          <template v-slot:item.glutenfree="{ item }">
+            <v-btn small elevation="0" color="primary"> Approve </v-btn>
 
-          <v-btn small elevation="0" class="ml-2" color="error"> Reject </v-btn>
-        </template>
-      </v-data-table>
-    </div>
-  </div>
+            <v-btn small elevation="0" class="ml-2" color="error">
+              Reject
+            </v-btn>
+          </template>
+        </v-data-table>
+      </v-card-text>
+    </base-material-card>
+  </v-col>
 </template>
 <script>
 export default {
-  components: {
-  },
+  components: {},
   data() {
     return {
       desserts: [

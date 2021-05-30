@@ -1,22 +1,24 @@
 <template>
-  <div class="">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-xl-5 col-lg-12">
-          <div class="area-title mb-50">
-            <h2>Zembil Users</h2>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="mx-auto">
-      <v-data-table :headers="headers" :items="desserts" class="elevation-1">
-        <template v-slot:item.glutenfree="{ item }">
-          <v-btn small elevation="0" class="ml-2" color="error"> Deactivate <v-icon right>mdi-account</v-icon> </v-btn>
-        </template>
-      </v-data-table>
-    </div>
-  </div>
+  <v-col cols="12" class="mt-50">
+    <base-material-card color="warning" class="px-5 py-3">
+      <template v-slot:heading>
+        <div class="display-2 font-weight-light">All Users</div>
+
+        <!-- <div class="subtitle-1 font-weight-light">
+          New employees on 15th September, 2016
+        </div> -->
+      </template>
+      <v-card-text>
+        <v-data-table :headers="headers" :items="desserts">
+          <template v-slot:item.glutenfree="{ item }">
+            <v-btn small elevation="0" class="ml-2" color="error">
+              Deactivate <v-icon right>mdi-account</v-icon>
+            </v-btn>
+          </template>
+        </v-data-table>
+      </v-card-text>
+    </base-material-card>
+  </v-col>
 </template>
 <script>
 export default {
