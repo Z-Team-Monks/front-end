@@ -5,6 +5,8 @@ import router from "./router";
 import store from "./store";
 import axios from "axios";
 import vuetify from "./plugins/vuetify";
+import './plugins/chartist'
+import './plugins/base'
 
 Vue.prototype.$http = axios;
 /*
@@ -18,6 +20,7 @@ axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "http://localhost:51044/api/v1";
 // axios.defaults.baseURL = "http://localhost:51042/api/v1";
 
+Vue.use(require('vue-chartist'))
 Vue.config.productionTip = false;
 
 new Vue({
