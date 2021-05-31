@@ -76,5 +76,9 @@ export default {
       ],
     };
   },
+
+  created() {
+    this.$store.dispatch("admin/GetAllUsers")
+  }
 };
 </script>

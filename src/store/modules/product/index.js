@@ -2,12 +2,19 @@ import axios from "axios";
 
 const product = {
   namespaced: true,
-  states: {},
-  mutations: {},
+  states: {
+    products: []
+  },
+  mutations: {
+    SAVE_PRODUCTS(state, product) {
+      state.products = product;
+    }
+  },
   actions: {
-    async GetProducts({ commit }, credentials) {
+    async GetProducts({ commit }) {
       await axios.get("/products")
         .then(res => {
+          commit("SAVE_PRODUCTS" , res.data)
           console.log(res.data)
         }).catch(e => {
           console.log(e)

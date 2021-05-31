@@ -21,6 +21,9 @@
 <script>
 export default {
   components: {},
+  created() {
+    this.$store.dispatch("admin/GetAllShops")
+  },
   data() {
     return {
       desserts: [

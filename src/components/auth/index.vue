@@ -68,7 +68,7 @@
                   <v-col cols="12">
                     <v-text-field
                       prepend-icon="mdi-account"
-                      v-model="firstName"
+                      v-model="username"
                       :rules="[rules.required]"
                       label="Username"
                       maxlength="20"
@@ -80,6 +80,15 @@
                       prepend-icon="mdi-email"
                       v-model="email"
                       :rules="emailRules"
+                      label="E-mail"
+                      required
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      prepend-icon="mdi-email"
+                      v-model="phone"
+                      :rules="phoneRules"
                       label="E-mail"
                       required
                     ></v-text-field>
@@ -119,7 +128,7 @@
                       block
                       dark
                       color="red lighten--4"
-                      @click="validate"
+                      @click="register"
                       >Register</v-btn
                     >
                   </v-col>
@@ -153,23 +162,31 @@ export default {
 
     firstName: "",
     email: "",
+    username: "",
     password: "",
+    phone: "",
     verify: "",
     loginPassword: "",
     loginEmail: "",
     loginEmailRules: [
       (v) => !!v || "Required",
-      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+      // (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
     ],
     emailRules: [
       (v) => !!v || "Required",
       (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
     ],
+    phoneRules: [
+      (v) => !!v || "Required",
+      (v) => (v && v.length == 10) || "invalid phone number",
+
+      // (v) => /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/.test(v) || "phone number must be valid",
+    ],
 
     show1: false,
     rules: {
       required: (value) => !!value || "Required.",
-      min: (v) => (v && v.length >= 8) || "Min 8 characters",
+      min: (v) => (v && v.length >= 6) || "Min 8 characters",
     },
   }),
 
@@ -189,8 +206,19 @@ export default {
     login(e) {
       if (this.$refs.loginForm.validate()) {
         this.$store.dispatch("auth/Login", {
-          username: "nati",
-          password: "nati",
+          username: "Niko",
+          password: "Niko123",
+        });
+      }
+    },
+    register() {
+      if (this.$refs.registerForm.validate()) {
+        this.$store.dispatch("auth/Register", {
+          username: this.username,
+          email: this.email,
+          role: "user",
+          phone: this.phone,
+          password: this.password,
         });
       }
     },

@@ -35,32 +35,49 @@ const auth = {
   },
   actions: {
     async Login({ commit }, credentials) {
-      await axios.get("/products")
+      await axios.get("/products", { withCredentials: false })
         .then(res => {
           console.log(res.data)
         }).catch(e => {
           console.log(e)
         })
 
-      // const options = {
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // };
-      // commit('CREATE_LOADING', true);
-      // await axios.post("/auth", JSON.stringify(credentials), options)
-      //   .then((res) => {
-      //     console.log(res.data)
-      //     commit("CHANGE_AUTH_STATUS", (res.data.token) ? true : false)
-      //     localStorage.setItem("AUTH_STATUS", (res.data.token) ? res.data.token : undefined)
-      //     commit('SAVE_SUCCESS_MESSAGE', "successfully logged in");
-      //   })
-      //   .catch((error) => {
-      //     commit('SAVE_MESSAGE', error);
-      //   });
-      // commit('CREATE_LOADING', false);
+      const options = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      commit('CREATE_LOADING', true);
+      await axios.post("/auth", JSON.stringify(credentials), options, { withCredentials: true })
+        .then((res) => {
+          console.log(res.data)
+          commit("CHANGE_AUTH_STATUS", (res.data.token) ? true : false)
+          localStorage.setItem("AUTH_STATUS", (res.data.token) ? res.data.token : undefined)
+          commit('SAVE_SUCCESS_MESSAGE', "successfully logged in");
+        })
+        .catch((error) => {
+          commit('SAVE_MESSAGE', error);
+        });
+      commit('CREATE_LOADING', false);
     },
 
+    async Register({ commit }, credentials) {
+      const options = {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      };
+      console.log("register ")
+      await axios.post("/users", credentials, options)
+        .then(res => {
+          console.log(res.data)
+          commit("CHANGE_AUTH_STATUS", (res.data.token) ? true : false)
+          localStorage.setItem("AUTH_STATUS", (res.data.token) ? res.data.token : undefined)
+          commit('SAVE_SUCCESS_MESSAGE', "successfully logged in");
+        }).catch(e => {
+          console.log(e);
+        })
+    },
     changeMessageStatus({ commit }) {
       commit('SAVE_SUCCESS_MESSAGE', "");
       commit('SAVE_MESSAGE', "")

@@ -1,7 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import admin from "./modules/admin";
 import auth from "./modules/auth";
-import Ads from "./modules/ads";
+import ads from "./modules/ads";
 import category from "./modules/category";
 import notification from "./modules/notification";
 import product from "./modules/product";
@@ -19,11 +20,12 @@ export default new Vuex.Store({
     auth,
     product,
     shops,
-    Ads,
+    ads,
     wishlist,
     search,
     review,
     category,
-    notification
+    notification,
+    admin
   },
 });

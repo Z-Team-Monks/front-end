@@ -1,14 +1,17 @@
 <template>
- <v-col cols="12" class="mt-50">
+  <v-col cols="12" class="mt-50">
+    {{products}}
     <base-material-card color="warning" class="px-5 py-3">
       <template v-slot:heading>
         <div class="display-2 font-weight-light">All Products</div>
       </template>
       <v-card-text>
         <v-data-table :headers="headers" :items="desserts">
-           <template v-slot:item.glutenfree="{ item }">
-          <v-btn small elevation="0" class="ml-2" color="error"> Delete Product </v-btn>
-        </template>
+          <template v-slot:item.glutenfree="{ item }">
+            <v-btn small elevation="0" class="ml-2" color="error">
+              Delete Product
+            </v-btn>
+          </template>
         </v-data-table>
       </v-card-text>
     </base-material-card>
@@ -16,7 +19,14 @@
 </template>
 <script>
 export default {
-  components: {
+  components: {},
+  created() {
+    this.$store.dispatch("admin/GetAllProducts");
+  },
+  computed: {
+    products() {
+      return this.$store.state.admin.AProducts;
+    },
   },
   data() {
     return {

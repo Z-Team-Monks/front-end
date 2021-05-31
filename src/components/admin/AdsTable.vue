@@ -1,14 +1,17 @@
 <template>
- <v-col cols="12" class="mt-50">
+  <v-col cols="12" class="mt-50">
+    {{ads}}
     <base-material-card color="warning" class="px-5 py-3">
       <template v-slot:heading>
         <div class="display-2 font-weight-light">Ads</div>
       </template>
       <v-card-text>
         <v-data-table :headers="headers" :items="desserts">
-           <template v-slot:item.iron="{ item }">
-          <v-btn small elevation="0" class="ml-2" color="error"> Delete Product </v-btn>
-        </template>
+          <template v-slot:item.iron="{ item }">
+            <v-btn small elevation="0" class="ml-2" color="error">
+              Delete Product
+            </v-btn>
+          </template>
         </v-data-table>
       </v-card-text>
     </base-material-card>
@@ -80,6 +83,17 @@ export default {
         { text: "Carbs (g)", value: "carbs" },
       ],
     };
+  },
+
+  created() {
+    this.$store.dispatch("ads/GetAllAds");
+    this.$store.dispatch("ads/GetUserAds");
+  },
+
+  computed: {
+    ads() {
+      return this.$store.state.allAds;
+    },
   },
 };
 </script>

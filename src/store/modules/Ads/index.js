@@ -1,10 +1,22 @@
 import axios from 'axios'
 
 const ads = {
-    state: {},
-    mutations: {},
-    action: {
-        async StoreAd({ commit }, ads) {
+    namespaced: true,
+
+    state: {
+        allAds: [],
+        userAds: []
+    },
+    mutations: {
+        SAVE_ALL_ADS(state, ads) {
+            state.allAds = ads;
+        },
+        SAVE_USER_ADS(state, ads) {
+            state.allAds = ads;
+        },
+    },
+    actions: {
+        async CreateAd({ commit }, ads) {
             const options = {
                 headers: {
                     "Content-Type": "application/json",
@@ -20,6 +32,16 @@ const ads = {
         async GetUserAds({ commit }) {
             await axios.get("ads/user")
                 .then(res => {
+                    commit("SAVE_ADS" , res.data)
+                    console.log(res.data)
+                }).catch(e => {
+                    console.log(e)
+                })
+        },
+        async GetAllAds({ commit }) {
+            await axios.get("/ads")
+                .then(res => {
+                    commit("SAVE_ALL_ADS" , res.data)
                     console.log(res.data)
                 }).catch(e => {
                     console.log(e)

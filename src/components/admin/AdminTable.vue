@@ -1,5 +1,7 @@
 <template>
   <v-col cols="12" class="mt-50">
+    <h1>    {{ ss }}</h1>
+
     <base-material-card color="warning" class="px-5 py-3">
       <template v-slot:heading>
         <div class="display-2 font-weight-light">Admins</div>
@@ -71,6 +73,16 @@ export default {
         { text: "Gluten-Free", value: "glutenfree" },
       ],
     };
+  },
+
+  created() {
+    this.$store.dispatch("product/GetProducts");
+  },
+  computed: {
+    ss() {
+      console.log(this.$store.state.product.products)
+      return this.$store.state.product.products;
+    },
   },
 };
 </script>
