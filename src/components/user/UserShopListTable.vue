@@ -18,72 +18,106 @@
                 Add new proposal
               </v-btn>
             </template>
+
             <v-card>
               <v-card-title class="border-bottom">
                 <span class="headline">{{ formTitle }}</span>
               </v-card-title>
-              <v-card-text>
-                <v-container>
-                  <v-row>
-                    <v-col cols="12">
-                      <v-file-input
-                        :rules="rules"
-                        accept="image/png, image/jpeg, image/bmp"
-                        prepend-icon="mdi-camera"
-                        placeholder="Profile Picture"
-                      ></v-file-input>
-                    </v-col>
-                    <v-col cols="12">
-                      <v-text-field
-                        placeholder="Shop Name"
-                        prepend-icon="mdi-store-24-hour "
-                      />
-                    </v-col>
+              <v-form>
+                <v-card-text>
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12">
+                        <input type="file" @change="fileMe" name="file" id="" />
+                      </v-col>
+                      <v-col cols="12">
+                        <v-text-field
+                          v-model="shopName"
+                          placeholder="Shop Name"
+                          prepend-icon="mdi-store-24-hour "
+                        />
+                      </v-col>
+                      <v-col cols="12">
+                        <v-text-field
+                          :rules="phoneRules"
+                          required
+                          v-model="phonenumber"
+                          placeholder="Phone number"
+                          prepend-icon="mdi-phone"
+                        />
+                      </v-col>
+                      <v-col cols="12">
+                        <v-text-field
+                          v-model="buildingName"
+                          placeholder="Building name"
+                          prepend-icon="mdi-store-24-hour "
+                        />
+                      </v-col>
+                      <v-col cols="12">
+                        <v-text-field
+                          v-model="locationName"
+                          placeholder="Location name"
+                          prepend-icon="mdi-store-24-hour "
+                        />
+                      </v-col>
 
-                    <v-col cols="12">
-                      <v-combobox
-                        :items="items"
-                        v-model="selected"
-                        placeholder="Category"
-                        prepend-icon="mdi-shape"
-                      />
-                    </v-col>
-                    <v-col>
-                      <v-textarea
-                        rows="1"
-                        prepend-icon="mdi-semantic-web"
-                        placeholder="Description"
-                      ></v-textarea>
-                    </v-col>
-                    <v-col cols="12">
-                      <v-row>
-                        <v-col align="center" cols="2"
-                          ><v-btn fab icon>
-                            <v-icon>mdi-map</v-icon></v-btn
-                          ></v-col
-                        >
-                        <v-col
-                          ><v-text-field placeholder="Longtiude"></v-text-field
-                        ></v-col>
-                        <v-col
-                          ><v-text-field placeholder="Latitude"></v-text-field
-                        ></v-col>
-                        <!-- <v-col cols="2"><v-btn small fab icon> <v-icon>mdi-google-maps</v-icon></v-btn></v-col> -->
-                      </v-row>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-card-text>
+                      <v-col cols="12">
+                        <v-combobox
+                          :value="values"
+                          :items="categories"
+                          v-model="selected"
+                          placeholder="Category"
+                          prepend-icon="mdi-shape"
+                        />
+                      </v-col>
+                      <v-col>
+                        <v-textarea
+                          rows="1"
+                          v-model="description"
+                          prepend-icon="mdi-semantic-web"
+                          placeholder="Description"
+                        ></v-textarea>
+                      </v-col>
+                      <v-col cols="12">
+                        <v-row>
+                          <v-col align="center" cols="2"
+                            ><v-btn @click="getLocation" fab icon>
+                              <v-icon>mdi-map</v-icon></v-btn
+                            ></v-col
+                          >
+                          <v-col
+                            ><v-text-field
+                              v-model="longtiude"
+                              hint="longtiude"
+                            ></v-text-field
+                          ></v-col>
+                          <v-col
+                            ><v-text-field
+                              hint="latitude"
+                              v-model="latitude"
+                            ></v-text-field
+                          ></v-col>
+                          <!-- <v-col cols="2"><v-btn small fab icon> <v-icon>mdi-google-maps</v-icon></v-btn></v-col> -->
+                        </v-row>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-card-text>
 
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="red lighten--4 darken-1" text @click="close">
-                  Cancel
-                </v-btn>
-                <v-btn color="red lighten--4 darken-1" text @click="save">
-                  Create Shop
-                </v-btn>
-              </v-card-actions>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="red lighten--4 darken-1" text @click="close">
+                    Cancel
+                  </v-btn>
+                  <v-btn
+                    color="red lighten--4 darken-1"
+                    text
+                    @click="CreateShop"
+                  >
+                    Create Shop
+                  </v-btn>
+                </v-card-actions>
+              </v-form>
             </v-card>
           </v-dialog>
           <v-dialog v-model="dialogDelete" max-width="500px">
@@ -120,7 +154,10 @@
       </template>
 
       <template v-slot:item.name="{ item }">
-        <router-link class="text-dark" :to="{ name: 'shop', params: { id: '12' } }">
+        <router-link
+          class="text-dark"
+          :to="{ name: 'shop', params: { id: '12' } }"
+        >
           {{ item.name }}</router-link
         >
       </template>
@@ -146,6 +183,17 @@ export default {
   data: () => ({
     dialog: false,
     dialogDelete: false,
+    selected: "",
+    file: "",
+    longtiude: "",
+    latitude: "",
+    shopName: "",
+    buildingName: "",
+    categoryId: 1,
+    locationName: "",
+    description: "",
+    phoneRules: [(v) => (v && v.length == 10) || "invalid phone number"],
+    phonenumber: "",
     headers: [
       {
         text: "Dessert (100g serving)",
@@ -166,7 +214,6 @@ export default {
         "Avatar size should be less than 2 MB!",
     ],
     items: ["Electronics", "Cosmotics", "Furniture"],
-    selected: "",
     desserts: [],
     editedIndex: -1,
     editedItem: {
@@ -189,6 +236,16 @@ export default {
     formTitle() {
       return this.editedIndex === -1 ? "New Shop Request Form" : "Edit Shop";
     },
+    categories() {
+      return this.$store.state.category.categories.length != 0
+        ? this.$store.state.category.categories.map((e) => e.categoryName)
+        : [];
+    },
+    values() {
+      return this.$store.state.category.categories.length != 0
+        ? this.$store.state.category.categories.map((e) => e.categoryID)
+        : [];
+    },
   },
 
   watch: {
@@ -202,6 +259,7 @@ export default {
 
   created() {
     this.initialize();
+    this.$store.dispatch("category/GetCategories");
   },
 
   methods: {
@@ -324,13 +382,45 @@ export default {
       });
     },
 
-    save() {
+    CreateShop() {
       if (this.editedIndex > -1) {
         Object.assign(this.desserts[this.editedIndex], this.editedItem);
       } else {
         this.desserts.push(this.editedItem);
       }
       this.close();
+
+      const formData = new FormData();
+      formData.append("file", this.file);
+      formData.append("shopName", this.shopName);
+      formData.append("buildingName", this.phoneNumber);
+      // formData.append("coverImage", this.phoneNumber);
+      formData.append("categoryId", this.phoneNumber);
+      const location = {
+        longitude: this.longtiude,
+        latitude: this.latitude,
+        locationName: this.locationName,
+      };
+      formData.append("shopLocationDto", JSON.stringify(location));
+      formData.append("description", this.description);
+      console.log(formData);
+      this.$store.dispatch("shops/CreateShop", formData);
+    },
+    getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(this.showPosition);
+      } else {
+        console.log("not supported");
+      }
+    },
+    showPosition(position) {
+      console.log(position);
+      this.latitude = position.latitude;
+      this.longtiude = position.longitude;
+    },
+    fileMe(e) {
+      this.file = e.target.files[0];
+      console.log(e.target.files[0]);
     },
   },
 };

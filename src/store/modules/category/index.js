@@ -2,8 +2,14 @@ import axios from "axios";
 
 const category = {
     namespaced: true,
-    state: {},
-    mutations: {},
+    state: {
+        categories: []
+    },
+    mutations: {
+        SAVE_CATEGORIES(state, cat) {
+            state.categories = cat;
+        }
+    },
     actions: {
         async AddCategory({ commit }, category) {
             const options = {
@@ -18,9 +24,10 @@ const category = {
                     console.log(e)
                 })
         },
-        async GetCategories({ commit }, id) {
+        async GetCategories({ commit }) {
             await axios.get(`/categories`)
                 .then(res => {
+                    commit("SAVE_CATEGORIES", res.data)
                     console.log(res.data)
                 }).catch(e => {
                     console.log(e)

@@ -44,10 +44,11 @@ const shops = {
     async CreateShop({ commit }, data) {
       const options = {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
+          "Authorization" : `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjMiLCJuYmYiOjE2MjI0NzczOTQsImV4cCI6MTYzMTExNzM5NCwiaWF0IjoxNjIyNDc3Mzk0fQ.BcSbNle3lakMDknwTMJR5Sm_TMScMG0uaostMNmt_ac` 
         },
       };
-      await axios.post("/shops", JSON.stringify(data), options)
+      await axios.post("/shops", data, options)
         .then(res => {
           console.log(res.data)
         }).catch(e => {

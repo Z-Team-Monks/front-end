@@ -18,9 +18,7 @@
         </div>
       </div>
     </section>
-    <!-- breadcrumb-area-end -->
 
-    <!-- Cart Area Strat-->
     <section class="cart-area pt-100 pb-100">
       <div class="container">
         <div class="row">
@@ -117,7 +115,6 @@
         </div>
       </div>
     </section>
-    <!-- Cart Area End-->
   </div>
 </template>
 <script>

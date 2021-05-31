@@ -17,7 +17,7 @@
             />
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class="title" style="margin-top: 20px"
+            <v-list-item-title class="title" style="margin-top: 20px;font-size:3rem"
               >Nabek Abebe (Niko)</v-list-item-title
             >
             <v-list-item-subtitle
