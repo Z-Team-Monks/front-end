@@ -35,7 +35,7 @@ const auth = {
   },
   actions: {
     async Login({ commit }, credentials) {
-      await axios.get("http://localhost:51044/api/v1/products")
+      await axios.get("/products")
         .then(res => {
           console.log(res.data)
         }).catch(e => {
