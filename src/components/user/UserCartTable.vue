@@ -4,14 +4,14 @@
       <v-toolbar-title>My Cart </v-toolbar-title>
       <v-divider class="mx-4" inset vertical></v-divider>
       <v-spacer></v-spacer>
+
+      
       <v-btn v-if ="carts.length != 0" @click="dialog = !dialog" class="mx-2" fab dark small color="pink">
         <v-icon small dark> mdi-cart </v-icon>
       </v-btn>
       <v-btn v-else  @click="$router.push({name : 'Home'})" class="mx-2" fab dark small color="pink">
         <v-icon small dark> mdi-cart </v-icon>
       </v-btn>
-
-      
       <v-dialog v-model="dialog" max-width="500px">
         <v-card>
           <v-card-title class="border-bottom"> Total Cart </v-card-title>

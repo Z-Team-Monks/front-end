@@ -1,12 +1,12 @@
 <template>
   <div class="container w-75 mx-auto">
     <v-data-table
-      :headers="headers"
+      :headers="userAds"
       :items="desserts"
       sort-by="calories"
       class="elevation-1 border"
       :items-per-page="5"
-
+      no-data-text="No Ads avialable"
     >
       <template v-slot:top>
         <v-toolbar flat elevation="0">
@@ -95,6 +95,10 @@ export default {
     formTitle() {
       return this.editedIndex === -1 ? "Add A new Shop" : "Edit Shop";
     },
+
+    userAds() {
+      return this.$store.state.ads.userAds
+    }
   },
 
   watch: {
@@ -108,6 +112,7 @@ export default {
 
   created() {
     this.initialize();
+    this.$store.dispatch("ads/GetUserAds")
   },
 
   methods: {
