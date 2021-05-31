@@ -1,7 +1,6 @@
 <template>
   <section class="product-area box-90 pt-70 pb-40">
     <div class="text-center">
-      <!-- <Banner /> -->
     </div>
     <v-row>
       <v-col cols="12" sm="6" lg="3">

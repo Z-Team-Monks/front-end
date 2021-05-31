@@ -1,10 +1,6 @@
 <template>
-  <div class="container">
-    <v-row>
-      <v-col></v-col>
-      <v-col><AuthForm /></v-col>
-      <v-col></v-col>
-    </v-row>
+  <div class="container w-50 mx-auto">
+    <AuthForm />
   </div>
 </template>
 <script>
