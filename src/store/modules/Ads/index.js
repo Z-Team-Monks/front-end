@@ -30,18 +30,25 @@ const ads = {
                 })
         },
         async GetUserAds({ commit }) {
-            await axios.get("ads/user")
+            const options = {
+                headers: {
+                    "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjIiLCJuYmYiOjE2MjI0ODY3MjYsImV4cCI6MTYzMTEyNjcyNiwiaWF0IjoxNjIyNDg2NzI2fQ.fOp-k_QW98ms0T3HpsytgXdupCHx9-xsgWfA5tnCUT0`
+
+                }
+            }
+            await axios.get("ads/user", options)
                 .then(res => {
-                    commit("SAVE_ADS" , res.data)
+                    commit("SAVE_USER_ADS", res.data)
                     console.log(res.data)
                 }).catch(e => {
                     console.log(e)
                 })
         },
+
         async GetAllAds({ commit }) {
             await axios.get("/ads")
                 .then(res => {
-                    commit("SAVE_ALL_ADS" , res.data)
+                    commit("SAVE_ALL_ADS", res.data)
                     console.log(res.data)
                 }).catch(e => {
                     console.log(e)
