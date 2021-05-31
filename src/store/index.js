@@ -1,12 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import auth from "./modules/auth";
+import Ads from "./modules/ads";
 import category from "./modules/category";
+import notification from "./modules/notification";
 import product from "./modules/product";
+import review from "./modules/review";
 import shops from "./modules/shops";
 import search from "./modules/search";
-import review from "./modules/review";
-import Ads from "./modules/ads";
 import wishlist from './modules/wishlist'
 
 
@@ -22,6 +23,7 @@ export default new Vuex.Store({
     wishlist,
     search,
     review,
-    category
+    category,
+    notification
   },
 });
