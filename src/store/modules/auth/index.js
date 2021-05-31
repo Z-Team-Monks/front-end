@@ -1,8 +1,10 @@
-import axios from "axios";
-
-/*
-    authentication setup
-*/
+import axios from 'axios'
+// axios.get("http://localhost:51042/api/v1/products")
+//   .then(res => {
+//     console.log(res.data)
+//   }).catch(e => {
+//     console.log(e)
+//   })
 const auth = {
   namespaced: true,
   state: {
@@ -33,26 +35,33 @@ const auth = {
   },
   actions: {
     async Login({ commit }, credentials) {
-      const options = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      commit('CREATE_LOADING', true);
-      await axios.post("/auth", JSON.stringify(credentials), options)
-        .then((res) => {
+      await axios.get("http://localhost:51044/api/v1/products")
+        .then(res => {
           console.log(res.data)
-          commit("CHANGE_AUTH_STATUS", (res.data.token) ? true : false)
-          localStorage.setItem("AUTH_STATUS", (res.data.token) ? res.data.token : undefined)
-          commit('SAVE_SUCCESS_MESSAGE', "successfully logged in");
+        }).catch(e => {
+          console.log(e)
         })
-        .catch((error) => {
-          commit('SAVE_MESSAGE', error);
-        });
-      commit('CREATE_LOADING', false);
+
+      // const options = {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // };
+      // commit('CREATE_LOADING', true);
+      // await axios.post("/auth", JSON.stringify(credentials), options)
+      //   .then((res) => {
+      //     console.log(res.data)
+      //     commit("CHANGE_AUTH_STATUS", (res.data.token) ? true : false)
+      //     localStorage.setItem("AUTH_STATUS", (res.data.token) ? res.data.token : undefined)
+      //     commit('SAVE_SUCCESS_MESSAGE', "successfully logged in");
+      //   })
+      //   .catch((error) => {
+      //     commit('SAVE_MESSAGE', error);
+      //   });
+      // commit('CREATE_LOADING', false);
     },
 
-    changeMessageStatus({commit}) {
+    changeMessageStatus({ commit }) {
       commit('SAVE_SUCCESS_MESSAGE', "");
       commit('SAVE_MESSAGE', "")
     }
