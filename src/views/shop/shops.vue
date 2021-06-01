@@ -6,7 +6,6 @@
           <div class="shop-banner mb-50">
             <img src="../../assets/img/bg/shop-banner.jpg" alt="" />
           </div>
-          <!-- tab filter -->
           <div class="row">
             <div class="col-xl-5 col-lg-6 col-md-6">
               <div class="product-showing mb-40">
@@ -25,16 +24,35 @@
               <div class="row"></div>
             </div>
             <div
-              class="tab-pane fade show active " 
+              v-if="shops.length != 0"
+              class="tab-pane fade show active"
               id="profile"
               role="tabpanel"
               aria-labelledby="profile-tab"
             >
-              <!-- <div class="border-bottom mb-1"></div> -->
-              <ShopsCard v-for="(shop, i) in shops" :key="i" :shop="shop" />
+              <div class="wrapper-shop" v-for="(shop, i) in shops" :key="i">
+              <v-divider />
+                <ShopsCard :shop="shop" />
+              <v-divider />
+              </div>
+            </div>
+
+            <div
+              v-else
+              class="tab-pane fade show active"
+              id="profile"
+              role="tabpanel"
+              aria-labelledby="profile-tab"
+            >
+              <v-divider />
+              <h2>No Shops!</h2>
+              <v-divider />
             </div>
           </div>
-          <div v-if="shops.length != 0" class="basic-pagination basic-pagination-2 text-center mt-50">
+          <div
+            v-if="shops.length != 0 && hasPaggination"
+            class="basic-pagination basic-pagination-2 text-center mt-50"
+          >
             <ul>
               <li>
                 <a href="#"><i class="fas fa-angle-double-left"></i></a>
@@ -68,14 +86,9 @@
             <div class="shop-widget">
               <h3 class="shop-title mb-2">Categories</h3>
               <ul class="shop-tag">
-                <v-chip-group v-model="neighborhoods" column multiple>
-                  <!-- <v-chip filter outlined> Electronics </v-chip> -->
-                  <!-- <v-chip filter outlined> Mobile Phone </v-chip> -->
-                  <!-- <v-chip filter outlined> Men Clothing </v-chip> -->
-                  <!-- <v-chip filter outlined> Furniture </v-chip> -->
+                <v-chip-group v-model="tags" column multiple>
                   <v-chip
                     filter
-                    @change="categoryChange"
                     :value="c.categoryId"
                     outlined
                     v-for="(c, i) in categories"
@@ -89,10 +102,7 @@
 
             <div class="shop-widget">
               <div class="shop-sidebar-banner">
-                <!-- <router-link href="shop.html"> -->
-
                 <img src="../../assets/img/banner/shop-banner.jpg" alt="" />
-                <!-- </router-link> -->
               </div>
             </div>
           </div>
@@ -113,11 +123,23 @@ export default {
   },
   data() {
     return {
-      neighborhoods: [],
+      tags: [],
       searchQuery: "",
     };
   },
-
+  watch: {
+    tags(newVal, old) {
+      this.shops.forEach((s) => {
+        if (newVal.length != 0) {
+          if (newVal.includes(s.categoryId)) {
+            s.isVisible = true;
+          } else {
+            s.isVisible = false;
+          }
+        } else s.isVisible = true;
+      });
+    },
+  },
   computed: {
     categories() {
       return this.$store.state.category.categories;
@@ -125,22 +147,11 @@ export default {
     shops() {
       return this.$store.state.shops.allShops;
     },
+    hasPaggination() {
+      return this.$store.state.shops.allShops.length <= 8;
+    },
   },
   methods: {
-    categoryChange() {
-      console.log("it is changing");
-      let c = this.shops;
-      if (c.length != 0) {
-        c.forEach((e) => {
-          if (!this.neighborhoods.includes(e.categoryId)) {
-            e.isVisible = false;
-          } else {
-            e.isVisible = true;
-          }
-        });
-        console.log(c);
-      }
-    },
     searchShop() {
       this.$store.dispatch("shops/SearchShop", { query: this.searchQuery });
     },

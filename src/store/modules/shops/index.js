@@ -5,6 +5,7 @@ const shops = {
   state: {
     shops: [],
     allShops: [],
+    AllProducts: []
   },
   mutations: {
     SAVE_SHOPS(state, shops) {
@@ -12,7 +13,10 @@ const shops = {
     },
     SAVE_ALL_SHOPS(state, shops) {
       state.allShops = shops;
-    }
+    },
+    SAVE_ALL_PRODUCTS(state, AllProducts) {
+      state.AllProducts = AllProducts;
+    },
   },
   actions: {
     async GetShops({ commit }) {
@@ -41,7 +45,15 @@ const shops = {
         }).catch(e => {
           console.log(e)
         })
-
+    },
+    async GetAllProducts({ commit }, id) {
+      await axios.get(`/shops/${id}/products`)
+        .then(res => {
+          commit("SAVE_ALL_PRODUCTS", res.data.forEach(e => e.isVisible = true))
+          console.log(res.data)
+        }).catch(e => {
+          console.log(e)
+        })
     },
     async GetShopProducts({ commit }, id) {
       await axios.get(`/shops/${id}/products`)

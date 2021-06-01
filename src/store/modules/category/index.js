@@ -3,11 +3,15 @@ import axios from "axios";
 const category = {
     namespaced: true,
     state: {
-        categories: []
+        categories: [],
+        category: {}
     },
     mutations: {
         SAVE_CATEGORIES(state, cat) {
             state.categories = cat;
+        },
+        SAVE_CATEGORY(state, cat) {
+            state.category = cat;
         }
     },
     actions: {
@@ -28,6 +32,15 @@ const category = {
             await axios.get(`/categories`)
                 .then(res => {
                     commit("SAVE_CATEGORIES", res.data)
+                    console.log(res.data)
+                }).catch(e => {
+                    console.log(e)
+                })
+        },
+        async GetCategory({ commit },id) {
+            await axios.get(`/categories/${id}`)
+                .then(res => {
+                    commit("SAVE_CATEGORY", res.data)
                     console.log(res.data)
                 }).catch(e => {
                     console.log(e)
