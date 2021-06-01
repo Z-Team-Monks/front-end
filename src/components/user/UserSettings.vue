@@ -13,9 +13,8 @@
               <v-col>
                 <v-text-field
                   prepend-icon="mdi-account"
-                  v-model="name"
-                  label="Name"
                   required
+                  :value = "userDetails.username"
                   :disabled="disabled"
                   @change = "nameChange"
                 ></v-text-field>
@@ -106,8 +105,14 @@ export default {
       passwordConfirmation: "",
     };
   },
-  created() {},
+  created() {
+    console.log("created")
+    this.$store.dispatch("users/GetUserDetails",2)
+  },
   computed: {
+    userDetails() {
+      return this.$store.state.users.userDetails
+    },
     lockIcon() {
       return this.d_lockIcon;
     },

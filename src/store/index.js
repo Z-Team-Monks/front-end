@@ -9,6 +9,7 @@ import product from "./modules/product";
 import review from "./modules/review";
 import shops from "./modules/shops";
 import search from "./modules/search";
+import users from "./modules/users";
 import wishlist from './modules/wishlist'
 
 
@@ -26,6 +27,7 @@ export default new Vuex.Store({
     review,
     category,
     notification,
-    admin
+    admin,
+    users
   },
 });

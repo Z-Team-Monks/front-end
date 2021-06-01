@@ -1,174 +1,160 @@
 <template>
   <div class="container w-75 mx-auto">
+    <v-toolbar flat elevation="0">
+      <v-toolbar-title>My Shops</v-toolbar-title>
+      <v-divider class="mx-4" inset vertical></v-divider>
+      <v-spacer></v-spacer>
+      <v-btn class="mb-2" @click="dialog = !dialog" dark color="pink">
+        Add new proposal
+      </v-btn>
+      <v-dialog v-model="dialog" max-width="500px">
+        <v-card>
+          <v-card-title class="border-bottom">
+            <span class="headline">{{ formTitle }}</span>
+          </v-card-title>
+          <v-form>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" v-if="store">
+                    <input type="file" @change="fileMe" name="file" id="" />
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      v-model="shopName"
+                      placeholder="Shop Name"
+                      prepend-icon="mdi-store-24-hour "
+                    />
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      :rules="phoneRules"
+                      required
+                      v-model="phonenumber"
+                      placeholder="Phone number"
+                      prepend-icon="mdi-phone"
+                    />
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      v-model="buildingName"
+                      placeholder="Building name"
+                      prepend-icon="mdi-store-24-hour "
+                    />
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      v-model="locationName"
+                      placeholder="Location name"
+                      prepend-icon="mdi-store-24-hour "
+                    />
+                  </v-col>
+
+                  <v-col cols="12">
+                    <v-combobox
+                      :value="values"
+                      :items="categories"
+                      v-model="selected"
+                      placeholder="Category"
+                      prepend-icon="mdi-shape"
+                    />
+                  </v-col>
+                  <v-col>
+                    <v-textarea
+                      rows="1"
+                      v-model="description"
+                      prepend-icon="mdi-semantic-web"
+                      placeholder="Description"
+                    ></v-textarea>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-row>
+                      <v-col align="center" cols="2"
+                        ><v-btn @click="getLocation" fab icon>
+                          <v-icon>mdi-map</v-icon></v-btn
+                        ></v-col
+                      >
+                      <v-col
+                        ><v-text-field
+                          v-model="longtiude"
+                          hint="longtiude"
+                        ></v-text-field
+                      ></v-col>
+                      <v-col
+                        ><v-text-field
+                          hint="latitude"
+                          v-model="latitude"
+                        ></v-text-field
+                      ></v-col>
+                      <!-- <v-col cols="2"><v-btn small fab icon> <v-icon>mdi-google-maps</v-icon></v-btn></v-col> -->
+                    </v-row>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="red lighten--4 darken-1" text @click="dialog = !dialog">
+                Cancel
+              </v-btn>
+              <v-btn color="red lighten--4 darken-1" text @click="CreateShop">
+                Create Shop
+              </v-btn>
+            </v-card-actions>
+          </v-form>
+        </v-card>
+      </v-dialog>
+      <v-dialog v-model="dialogDelete" max-width="500px">
+        <v-card>
+          <v-card-title class="headline"
+            >Are you sure you want to delete this item?</v-card-title
+          >
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="dialogDelete = !dialogDelete"
+              >Cancel</v-btn
+            >
+            <v-btn color="blue darken-1" text @click="deleteItemConfirm"
+              >OK</v-btn
+            >
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-toolbar>
     <v-data-table
       :headers="headers"
-      :items="desserts"
+      :items="shops"
       sort-by="calories"
       class="elevation-1"
       :items-per-page="5"
     >
-      <template v-slot:top>
-        <v-toolbar flat elevation="0">
-          <v-toolbar-title>My Shops</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical></v-divider>
-          <v-spacer></v-spacer>
-          <v-dialog v-model="dialog" max-width="500px">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn class="mb-2" v-bind="attrs" v-on="on" dark color="pink">
-                Add new proposal
-              </v-btn>
-            </template>
-
-            <v-card>
-              <v-card-title class="border-bottom">
-                <span class="headline">{{ formTitle }}</span>
-              </v-card-title>
-              <v-form>
-                <v-card-text>
-                  <v-container>
-                    <v-row>
-                      <v-col cols="12">
-                        <input type="file" @change="fileMe" name="file" id="" />
-                      </v-col>
-                      <v-col cols="12">
-                        <v-text-field
-                          v-model="shopName"
-                          placeholder="Shop Name"
-                          prepend-icon="mdi-store-24-hour "
-                        />
-                      </v-col>
-                      <v-col cols="12">
-                        <v-text-field
-                          :rules="phoneRules"
-                          required
-                          v-model="phonenumber"
-                          placeholder="Phone number"
-                          prepend-icon="mdi-phone"
-                        />
-                      </v-col>
-                      <v-col cols="12">
-                        <v-text-field
-                          v-model="buildingName"
-                          placeholder="Building name"
-                          prepend-icon="mdi-store-24-hour "
-                        />
-                      </v-col>
-                      <v-col cols="12">
-                        <v-text-field
-                          v-model="locationName"
-                          placeholder="Location name"
-                          prepend-icon="mdi-store-24-hour "
-                        />
-                      </v-col>
-
-                      <v-col cols="12">
-                        <v-combobox
-                          :value="values"
-                          :items="categories"
-                          v-model="selected"
-                          placeholder="Category"
-                          prepend-icon="mdi-shape"
-                        />
-                      </v-col>
-                      <v-col>
-                        <v-textarea
-                          rows="1"
-                          v-model="description"
-                          prepend-icon="mdi-semantic-web"
-                          placeholder="Description"
-                        ></v-textarea>
-                      </v-col>
-                      <v-col cols="12">
-                        <v-row>
-                          <v-col align="center" cols="2"
-                            ><v-btn @click="getLocation" fab icon>
-                              <v-icon>mdi-map</v-icon></v-btn
-                            ></v-col
-                          >
-                          <v-col
-                            ><v-text-field
-                              v-model="longtiude"
-                              hint="longtiude"
-                            ></v-text-field
-                          ></v-col>
-                          <v-col
-                            ><v-text-field
-                              hint="latitude"
-                              v-model="latitude"
-                            ></v-text-field
-                          ></v-col>
-                          <!-- <v-col cols="2"><v-btn small fab icon> <v-icon>mdi-google-maps</v-icon></v-btn></v-col> -->
-                        </v-row>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-card-text>
-
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="red lighten--4 darken-1" text @click="close">
-                    Cancel
-                  </v-btn>
-                  <v-btn
-                    color="red lighten--4 darken-1"
-                    text
-                    @click="CreateShop"
-                  >
-                    Create Shop
-                  </v-btn>
-                </v-card-actions>
-              </v-form>
-            </v-card>
-          </v-dialog>
-          <v-dialog v-model="dialogDelete" max-width="500px">
-            <v-card>
-              <v-card-title class="headline"
-                >Are you sure you want to delete this item?</v-card-title
-              >
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="closeDelete"
-                  >Cancel</v-btn
-                >
-                <v-btn color="blue darken-1" text @click="deleteItemConfirm"
-                  >OK</v-btn
-                >
-                <v-spacer></v-spacer>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-toolbar>
+      <template v-slot:item.coverImage="{ item }"> igm </template>
+      <template v-slot:item.shopName="{ item }">
+        {{ item.shopName.substr(0, 6) }}
       </template>
+      <template v-slot:item.description="{ item }">
+        {{ item.description.substr(0, 20) }}
+      </template>
+
       <template v-slot:item.actions="{ item }">
-        <v-icon
-          small
-          class="mr-2"
-          @click="editItem(item)"
-          color="red lighten--4"
-        >
-          mdi-pencil
-        </v-icon>
-        <v-icon small @click="deleteItem(item)" color="red lighten--4">
-          mdi-delete
-        </v-icon>
+        <v-btn icon fab x-small @click="editSelected(item)">
+          <v-icon small color="red lighten--4"> mdi-pencil </v-icon>
+        </v-btn>
+
+        <v-btn icon fab x-small @click="deleteSelected(item)">
+          <v-icon small color="red lighten--4"> mdi-delete </v-icon>
+        </v-btn>
       </template>
 
-      <template v-slot:item.name="{ item }">
-        <router-link
-          class="text-dark"
-          :to="{ name: 'shop', params: { id: '12' } }"
-        >
-          {{ item.name }}</router-link
-        >
-      </template>
       <template v-slot:no-data>
         No Current Shops
         <v-btn
           small
           color="red lighten-4"
           class="my-2 ml-3 red--text"
-          v-bind="attrs"
-          v-on="on"
+          @click="dialog = !dialog"
         >
           New Shop Request Form
         </v-btn>
@@ -182,29 +168,35 @@
 export default {
   data: () => ({
     dialog: false,
+    store: true,
     dialogDelete: false,
     selected: "",
     file: "",
     longtiude: "",
     latitude: "",
+    shopID:"",
     shopName: "",
     buildingName: "",
     categoryId: 1,
     locationName: "",
     description: "",
-    phoneRules: [(v) => (v && v.length == 10) || "invalid phone number"],
     phonenumber: "",
+    phoneRules: [(v) => (v && v.length == 10) || "invalid phone number"],
     headers: [
       {
-        text: "Dessert (100g serving)",
+        text: "Image",
         align: "start",
         sortable: false,
-        value: "name",
+        value: "coverImage",
       },
-      { text: "Product amount", value: "calories", sortable: false },
-      { text: "Category", value: "fat", sortable: false },
-      // { text: "Carbs (g)", value: "carbs" },
-      // { text: "Protein (g)", value: "protein" },
+      {
+        text: "Name",
+        align: "start",
+        sortable: true,
+        value: "shopName",
+      },
+      { text: "Description", value: "description", sortable: false },
+      // { text: "Category", value: "fat", sortable: false },
       { text: "Actions", value: "actions", sortable: false },
     ],
     rules: [
@@ -214,15 +206,9 @@ export default {
         "Avatar size should be less than 2 MB!",
     ],
     items: ["Electronics", "Cosmotics", "Furniture"],
-    desserts: [],
     editedIndex: -1,
-    editedItem: {
-      name: "",
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
-    },
+    editedItem: {},
+    selectedShop: {},
     defaultItem: {
       name: "",
       calories: 0,
@@ -246,136 +232,38 @@ export default {
         ? this.$store.state.category.categories.map((e) => e.categoryID)
         : [];
     },
+    shops() {
+      return this.$store.state.shops.shops;
+    },
   },
 
   watch: {
     dialog(val) {
-      val || this.close();
+      val || this.dialog;
     },
     dialogDelete(val) {
-      val || this.closeDelete();
+      val || this.dialogDelete;
     },
   },
 
   created() {
-    this.initialize();
     this.$store.dispatch("category/GetCategories");
+    this.$store.dispatch("shops/GetShops");
   },
 
   methods: {
     initialize() {
-      this.desserts = [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          rating: 3.5,
-        },
-        {
-          name: "Ice cream sandwich",
-          rating: 3.5,
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-        },
-        {
-          rating: 3.5,
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-        },
-        {
-          rating: 3.5,
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-        },
-        {
-          rating: 3.5,
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          rating: 3.5,
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          rating: 3.5,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-        },
-        {
-          name: "Honeycomb",
-          rating: 3.5,
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-        },
-        {
-          name: "Donut",
-          rating: 3.5,
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-        },
-        {
-          name: "KitKat",
-          rating: 3.5,
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-        },
-      ];
       // rating: 3.5,
     },
 
-    editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
-    },
-
-    deleteItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialogDelete = true;
-    },
 
     deleteItemConfirm() {
-      this.desserts.splice(this.editedIndex, 1);
-      this.closeDelete();
+      // this.$store.dispatch("shops/deteShop", this.shopId);
+      this.dialogDelete = false;
     },
 
     close() {
       this.dialog = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
-    },
-
-    closeDelete() {
-      this.dialogDelete = false;
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
@@ -401,7 +289,7 @@ export default {
         latitude: this.latitude,
         locationName: this.locationName,
       };
-      formData.append("shopLocationDto", JSON.stringify(location));
+      formData.append("shopLocationDto", JSON.string(location));
       formData.append("description", this.description);
       console.log(formData);
       this.$store.dispatch("shops/CreateShop", formData);
@@ -421,6 +309,55 @@ export default {
     fileMe(e) {
       this.file = e.target.files[0];
       console.log(e.target.files[0]);
+    },
+
+    editSelected(item) {
+      this.longtiude = item.longtiude;
+      this.latitude = item.latitude;
+      this.shopName = item.shopName;
+      this.buildingName = item.buildingName;
+      this.categoryId = item.categoryId;
+      this.locationName = item.locationName;
+      this.description = item.description;
+      this.phonenumber = item.phonenumber;
+      this.dialog = true;
+      this.store = false;
+    this.shopID = item.shopId;
+
+    },
+
+    storeOrUpdate(store) {
+      if (!store) {
+        this.$store.dispatch("shop/UpdateShop", {
+          longtiude: this.longtiude,
+          latitude: this.latitude,
+          shopName: this.shopName,
+          buildingName: this.buildingName,
+          categoryId: this.categoryId,
+          locationName: this.locationName,
+          description: this.description,
+          phonenumber: this.phonenumber,
+        });
+      } else {
+        // create a store in this method
+        // this.$store.dispatch("shops/CreateShop" , {})
+      }
+      this.dialog = false;
+      this.store = true;
+    },
+    deleteSelected(item) {
+      this.dialogDelete = true;
+      this.longtiude = item.longtiude;
+      this.latitude = item.latitude;
+      this.shopName = item.shopName;
+      this.buildingName = item.buildingName;
+      this.categoryId = item.categoryId;
+      this.locationName = item.locationName;
+      this.description = item.description;
+      this.phonenumber = item.phonenumber;
+      this.store = false;
+      // delete the shop in here
+      // this.$store.dispatch("shops/deleteShop", item.id);
     },
   },
 };

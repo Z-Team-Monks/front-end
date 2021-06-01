@@ -4,18 +4,20 @@ const users = {
     namespaced: true,
 
     state: {
-        users: []
+        users: [],
+        userDetails: {}
     },
     mutations: {
         SAVE_USERS(state, users) {
             state.users = users;
         },
+        SAVE_USER_DETAIL(state,detail) {
+            state.userDetails = detail;
+        },
     },
     actions: {
         async CreateShop({ commit }, formData) {
             const bodyFormData = new FormData();
-
-            // bodyFormData.append()
 
             await axios.post("/auth", JSON.stringify(credentials), options, { withCredentials: true })
                 .then((res) => {
@@ -29,8 +31,24 @@ const users = {
                 });
             commit('CREATE_LOADING', false);
         },
-    }
-},
+
+        async GetUserDetails({ commit },id) {
+            const options = {
+                headers: {
+                    "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjIiLCJuYmYiOjE2MjI0ODY3MjYsImV4cCI6MTYzMTEyNjcyNiwiaWF0IjoxNjIyNDg2NzI2fQ.fOp-k_QW98ms0T3HpsytgXdupCHx9-xsgWfA5tnCUT0`
+
+                }
+            }
+            await axios.get(`/users/${id}`, options)
+                .then(res => {
+                    commit("SAVE_USER_DETAIL" , res.data)
+                    console.log(res.data)
+                }).catch(e => {
+                    console.log(e)
+                })
+        }
+
+    },
     getters: {},
 }
 

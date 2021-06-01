@@ -1,8 +1,9 @@
 <template>
   <div class="mx-auto w-75">
     <v-card class="mx-auto">
-      <v-btn absolute bottom color="pink" right fab>
-        <v-icon dark> mdi-cloud-upload </v-icon>
+      <input type="file" name="file" class = "d-none" id="my-banner" />
+      <v-btn absolute @click = "upploadBanner" bottom color="pink" right fab>
+        <v-icon color="white"> mdi-cloud-upload </v-icon>
       </v-btn>
       <v-img
         height="200"
@@ -17,7 +18,9 @@
             />
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class="title" style="margin-top: 20px;font-size:3rem"
+            <v-list-item-title
+              class="title"
+              style="margin-top: 20px; font-size: 3rem"
               >Nabek Abebe (Niko)</v-list-item-title
             >
             <v-list-item-subtitle
@@ -38,14 +41,9 @@
       <v-tab class="text-left">
         <v-list-item> <v-icon left> mdi-star </v-icon> Cart </v-list-item>
       </v-tab>
-      <v-tab class="text-left">
-        <v-list-item>
-          <v-icon left> mdi-oil-lamp</v-icon> Whishlist
-        </v-list-item>
-      </v-tab>
-      <v-tab class="text-left">
+      <!-- <v-tab class="text-left">
         <v-list-item> <v-icon left>mdi-google-ads </v-icon> Ads </v-list-item>
-      </v-tab>
+      </v-tab> -->
       <v-tab class="text-left">
         <v-list-item>
           <v-icon left>mdi-cog-outline</v-icon> settings
@@ -57,12 +55,9 @@
       <v-tab-item>
         <UserCartTable />
       </v-tab-item>
-      <v-tab-item>
-        <UserWishListTable />
-      </v-tab-item>
-      <v-tab-item>
+      <!-- <v-tab-item>
         <UserAdsTable />
-      </v-tab-item>
+      </v-tab-item> -->
       <v-tab-item>
         <UserSettings />
       </v-tab-item>
@@ -111,7 +106,21 @@ export default {
   },
   created() {},
   computed: {},
-  methods: {},
+  methods: {
+    upploadBanner(e) {
+      const file = document.querySelector("#my-banner");
+
+      file.addEventListener("change" ,e => {
+        //send the file in here to update the file
+        console.log(e.target.files[0])
+
+        
+
+      })
+
+      file.click()
+    }
+  },
   props: {},
 };
 </script>

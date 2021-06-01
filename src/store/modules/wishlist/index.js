@@ -2,13 +2,25 @@ import axios from "axios";
 
 const wishlist = {
     namespaced: true,
-    state: {},
-    mutations: {},
+    state: {
+        userCarts: []
+    },
+    mutations: {
+        SAVE_USER_CART(state, cart) {
+            state.userCarts = cart
+        }
+    },
     actions: {
         async GetMyCart({ commit }) {
-            await axios.get("/cart")
+            const options = {
+                headers: {
+                    "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjIiLCJuYmYiOjE2MjI0ODY3MjYsImV4cCI6MTYzMTEyNjcyNiwiaWF0IjoxNjIyNDg2NzI2fQ.fOp-k_QW98ms0T3HpsytgXdupCHx9-xsgWfA5tnCUT0`
+
+                }
+            }
+            await axios.get("/cart", options)
                 .then(res => {
-                    console.log(res.data)
+                    commit("SAVE_USER_CART", res.data)
                 }).catch(e => {
                     console.log(e)
                 })

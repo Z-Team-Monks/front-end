@@ -40,8 +40,9 @@ const admin = {
         async GetAllProducts({ commit }) {
             await axios.get("/products")
                 .then(res => {
-                    commit("SAVE_ALL_SHOPS", res.data)
+                    commit("SAVE_ALL_PRODUCTS", res.data)
                     console.log(res.data)
+                    return res.data
                 }).catch(e => {
                     console.log(e)
                 })
