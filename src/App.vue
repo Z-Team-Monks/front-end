@@ -28,6 +28,7 @@ export default {
 @import url("assets/css/bootstrap.min.css");
 /* @import url("assets/css/owl.carousel.min.css"); */
 @import url("assets/css/animate.min.css");
+@import url("assets/css/auth.css");
 @import url("assets/css/magnific-popup.css");
 @import url("assets/css/fontawesome-all.min.css");
 @import url("assets/css/flaticon.css");

@@ -8,6 +8,7 @@ import './plugins/chartist'
 import './plugins/base'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import Vuelidate from 'vuelidate'
 
 
 
@@ -36,6 +37,7 @@ axios.defaults.baseURL = 'http://10.6.250.211:5522/api/v1';
 // axios.defaults.baseURL = 'http://localhost:51042/api/v1';
 
 Vue.use(require('vue-chartist'))
+Vue.use(Vuelidate)
 Vue.config.productionTip = false;
 
 // if (localStorage.getItem("AUTH_STATUS") != undefined) {
