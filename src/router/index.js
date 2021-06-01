@@ -7,6 +7,8 @@ import Shop from "../views/shop/index";
 import Cart from "../views/cart/index";
 import Product from "../views/products/detail";
 import User from "../views/user/index";
+import NotFound from "../views/NotFound/NotFound";
+
 
 Vue.use(VueRouter);
 
@@ -49,7 +51,11 @@ const routes = [
     name: "productDetail",
     component: Product
   },
-  
+  {
+    path: '*',
+    name: 'Not Found',
+    component: NotFound
+  },
 ];
 
 const router = new VueRouter({

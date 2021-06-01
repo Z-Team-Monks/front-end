@@ -37,6 +37,7 @@ export default {
 @import url("assets/css/default.css");
 @import url("assets/css/style.css");
 @import url("assets/css/responsive.css");
+@import url("assets/css/notfound.css");
 
 
 .v-list-item__title, .title {
