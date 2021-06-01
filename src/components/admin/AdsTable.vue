@@ -1,6 +1,5 @@
 <template>
   <v-col cols="12" class="mt-50">
-    =
     <base-material-card color="warning" class="px-5 py-3">
       <template v-slot:heading>
         <div class="display-2 font-weight-light">Ads</div>
@@ -13,7 +12,7 @@
         >
           <template v-slot:item.actions="{ item }">
             <v-btn
-              @click="DeactivateAd"
+              @click="DeactivateAd(item.adsId)"
               v-if="item.isActive"
               small
               elevation="0"
@@ -23,7 +22,7 @@
               Deactivate
             </v-btn>
             <v-btn
-              @click="ActivateAd"
+              @click="ActivateAd(item.adsId)"
               v-else
               small
               elevation="0"

@@ -7,25 +7,32 @@
       <v-card-text>
         <v-data-table :headers="headers" :items="shops">
           <template v-slot:item.actions="{ item }">
+            <v-btn
+              v-if="item.status != 'Approved'"
+              small
+              @click="Approve(item)"
+              elevation="0"
+              color="primary"
+            >
+              Approve
+            </v-btn>
 
-            <v-btn v-if= "item.status  != 'Approved' " small elevation="0" color="primary"> Approve </v-btn>
-
-            <v-btn v-if= "item.status  != 'Approved'" small elevation="0" class="ml-2" color="error">
+            <v-btn
+              v-if="item.status != 'Approved'"
+              small
+              elevation="0"
+              @click="reject(item)"
+              class="ml-2"
+              color="error"
+            >
               Reject
             </v-btn>
 
-            <v-chip small v-else>
-              Approved
-            </v-chip>
+            <v-chip small v-else> Approved </v-chip>
           </template>
           <template v-slot:item.coverImage="{ item }"> img </template>
           <template v-slot:item.link="{ item }">
-              <v-icon
-                @click="
-                 goToShopPage(item.shopId)
-                "
-                >mdi-link-variant</v-icon
-              >
+            <v-icon @click="goToShopPage(item.shopId)">mdi-link-variant</v-icon>
           </template>
         </v-data-table>
       </v-card-text>
@@ -68,8 +75,27 @@ export default {
   },
   methods: {
     goToShopPage(id) {
-       this.$router.push({ name: 'shop', params: { id: id } })
-    }
-  }
+      this.$router.push({ name: "shop", params: { id: id } });
+    },
+    reject(id) {
+      console.log("reject")
+      // const data = this.shops.filter((e) => {
+        //   return e.shopId == id;
+      // });
+      // data = data[0]
+      // data.status = "Rejected"
+      // this.$store.dispatch("admin/UpdateShopStatus" , data);
+    },
+
+    Approve(id) {
+      console.log("approve")
+      // const data = this.shops.filter((e) => {
+      //   return e.shopId == id;
+      // });
+      // data = data[0];
+      // data.status = "Approved";
+      // this.$store.dispatch("admin/UpdateShopStatus", data);
+    },
+  },
 };
 </script>

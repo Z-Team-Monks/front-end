@@ -10,7 +10,7 @@
             img
           </template>
           <template v-slot:item.actions="{ item }">
-            <v-btn small elevation="0" @click = "deleteProduct(item.id)" class="ml-2" color="error">
+            <v-btn small elevation="0" @click = "deleteProduct(item.id)"  class="ml-2" color="error">
               Delete Product
               <v-icon small right>mdi-delete</v-icon>
             </v-btn>
@@ -47,14 +47,14 @@ export default {
           value: "productName",
         },
         { text: "Price", value: "price", sortable: true },
-        { text: "Actions", value: "actions", sortable: false },
+        // { text: "Actions", value: "actions", sortable: false },
       ],
       // desserts:
     };
   },
   methods: {
     deleteProduct(id) {
-      this.$store.dispatch("products/DeleteProduct", id)
+      // this.$store.dispatch("products/DeleteProduct", id)
     }
   }
 };

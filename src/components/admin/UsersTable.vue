@@ -14,6 +14,9 @@
           <template v-slot:item.role="{ item }">
               {{item.role}}
           </template>
+          <template v-slot:item.dateAccountCreated="{ item }">
+              {{new Date(item.dateAccountCreated)}}
+          </template>
         </v-data-table>
       </v-card-text>
     </base-material-card>
@@ -36,7 +39,7 @@ export default {
         { text: "phone", value: "phone" },
         { text: "phone", value: "phone" },
         { text: "Date", value: "dateAccountCreated" },
-        { text: "actions", value: "actions" },
+        // { text: "actions", value: "actions" },
       ],
     };
   },
@@ -51,7 +54,7 @@ export default {
   methods: {
     deleteUser(id) {
       //delete your user in here
-      // this.$store.dispatch("users/deleteUser",id)
+      this.$store.dispatch("users/deleteUser",id)
     }
   }
 };
