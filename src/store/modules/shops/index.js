@@ -3,11 +3,15 @@ import axios from "axios";
 const shops = {
   namespaced: true,
   state: {
-    shops: []
+    shops: [],
+    allShops: [],
   },
   mutations: {
     SAVE_SHOPS(state, shops) {
       state.shops = shops;
+    },
+    SAVE_ALL_SHOPS(state, shops) {
+      state.allShops = shops;
     }
   },
   actions: {
@@ -20,6 +24,9 @@ const shops = {
       }
       await axios.get("/shops", options)
         .then(res => {
+          res.data.forEach(e => {
+            e.isVisible = true
+          });
           commit("SAVE_SHOPS", res.data)
           console.log(res.data)
         }).catch(e => {
@@ -95,6 +102,31 @@ const shops = {
     },
 
 
+    async GetAllShops({ commit }, q) {
+      await axios.get("/shops")
+        .then(res => {
+          res.data.forEach(e => {
+            e.isVisible = true
+          });
+          commit("SAVE_ALL_SHOPS", res.data)
+          console.log(res.data)
+        }).catch(e => {
+          console.log(e)
+        })
+    },
+
+    async SearchShop({ commit }, q) {
+      await axios.get("/search/shops", { params: { name: q.query } })
+        .then(res => {
+          res.data.forEach(e => {
+            e.isVisible = true
+          });
+          commit("SAVE_ALL_SHOPS", res.data)
+          console.log(res.data)
+        }).catch(e => {
+          console.log(e)
+        })
+    },
   },
   getters: {},
 };
