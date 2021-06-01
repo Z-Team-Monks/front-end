@@ -20,7 +20,13 @@ const admin = {
     },
     actions: {
         async GetAllUsers({ commit }) {
-            await axios.get("/users")
+            const options = {
+                headers: {
+                    "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjIiLCJuYmYiOjE2MjI0ODY3MjYsImV4cCI6MTYzMTEyNjcyNiwiaWF0IjoxNjIyNDg2NzI2fQ.fOp-k_QW98ms0T3HpsytgXdupCHx9-xsgWfA5tnCUT0`
+
+                }
+            }
+            await axios.get("/users", options)
                 .then(res => {
                     commit("SAVE_USERS", res.data)
                     console.log(res.data)

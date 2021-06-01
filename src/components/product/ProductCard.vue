@@ -29,7 +29,7 @@
           <a href="shop.html">furniture</a>
         </div>
         <h4>
-          <a href="product-details.html">Minimal Troma Furniture</a>
+          <a class="text-dark w-100" href="product-details.html">Minimal Troma Furniture</a>
         </h4>
         <div class="product-meta">
           <div class="pro-price">

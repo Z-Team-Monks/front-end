@@ -1,10 +1,5 @@
 import axios from 'axios'
-// axios.get("http://localhost:51042/api/v1/products")
-//   .then(res => {
-//     console.log(res.data)
-//   }).catch(e => {
-//     console.log(e)
-//   })
+
 const auth = {
   namespaced: true,
   state: {

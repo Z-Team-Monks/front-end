@@ -43,7 +43,10 @@ export default {
   data() {
     return {};
   },
-  created() {},
+  created() {
+    // fetch the shop details in here
+    this.$store.dispatch("shops/shops", this.$route.params.id)
+  },
   computed: {},
   methods: {},
   props: {},

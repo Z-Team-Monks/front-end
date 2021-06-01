@@ -38,7 +38,4 @@ export default {
 @import url("assets/css/responsive.css");
 
 
-.v-list-item__title, .title {
-  font-size: 3rem;
-}
 </style>
