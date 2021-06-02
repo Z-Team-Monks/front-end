@@ -73,33 +73,10 @@
         <div class="product-tab-content">
           <div class="tab-content" id="myTabContent">
             <carousel>
-              <slide>
+              <slide >
                 <div class="ml-2 row">
-                  <div class="col">
-                    <ProductCard @emitProductDetail="showDetailModal" />
-                  </div>
-                  <div class="col">
-                    <ProductCard @emitProductDetail="showDetailModal" />
-                  </div>
-                </div>
-              </slide>
-              <slide>
-                <div class="ml-2 row">
-                  <div class="col">
-                    <ProductCard @emitProductDetail="showDetailModal" />
-                  </div>
-                  <div class="col">
-                    <ProductCard @emitProductDetail="showDetailModal" />
-                  </div>
-                </div>
-              </slide>
-              <slide>
-                <div class="ml-2 row">
-                  <div class="col">
-                    <ProductCard @emitProductDetail="showDetailModal" />
-                  </div>
-                  <div class="col">
-                    <ProductCard @emitProductDetail="showDetailModal" />
+                  <div v-for="n in 6" :key="n" class="col" >
+                    <ProductCard :product = "products[(n - 1)]" @emitProductDetail="showDetailModal" />
                   </div>
                 </div>
               </slide>
@@ -109,7 +86,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-xl-12">
+      <!-- <div class="col-xl-12">
         <div class="product-tab-content">
           <div class="tab-content" id="myTabContent">
             <carousel>
@@ -136,7 +113,7 @@
             </carousel>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <!--  do not be lazy nati move it to its own component -->
@@ -233,11 +210,16 @@ export default {
       dialog: false,
     };
   },
-  created() {},
+  created() {
+    this.$store.dispatch("product/GetProductWithLimit")
+  },
   computed: {
     modalShow() {
       return this.dialog;
     },
+    products() {
+      return this.$store.state.product.products
+    }
   },
   methods: {
     showDetailModal(a) {

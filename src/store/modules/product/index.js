@@ -2,11 +2,12 @@ import axios from "axios";
 
 const product = {
   namespaced: true,
-  states: {
+  state: {
     products: [],
     AllProducts: [],
     product: []
   },
+
   mutations: {
     SAVE_PRODUCTS(state, product) {
       state.products = product;
@@ -91,6 +92,19 @@ const product = {
           console.log(e)
         })
     },
+
+
+    async GetProductWithLimit({ commit }, param) {
+      await axios.get("/products", { params: { limit: param } })
+      .then(res=> {
+        res.data.forEach(p => {
+          p.isVisible = true
+        })
+        commit("SAVE_PRODUCTS", res.data)
+      }).catch(e => {
+        console.log(e)
+      })
+    }
 
 
 
