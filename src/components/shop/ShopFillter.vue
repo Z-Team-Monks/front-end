@@ -40,36 +40,34 @@
       </v-col>
       <v-col cols="9">
         <v-row>
-          <v-col>
-            <ShopProductCard />
-          </v-col>
-          <v-col> 
-            <ShopProductCard />
-          </v-col>
-          <v-col>
-            <ShopProductCard />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <ShopProductCard />
-          </v-col>
-          <v-col> 
-            <ShopProductCard />
-          </v-col>
-          <v-col>
-            <ShopProductCard />
+          <v-col cols="4" v-for="(product, i) in products" :key="i">
+            <ShopProductCard
+              @showProductDetail="handleProductDetail(product.productId)"
+              :product="product"
+              @productReview="handleProductReview(product.productId)"
+            />
           </v-col>
         </v-row>
       </v-col>
     </v-row>
+    <Detail v-if="pass" @hideModal="hideModal" :dialog="pass" :prod="p" />
+    <ProductReviewModal
+      v-if="passReview"
+      @hideModal="hideModal"
+      :dialog="true"
+      :reviews="reviewsData"
+    />
   </div>
 </template>
 <script>
 import ShopProductCard from "@/components/shop/ShopProductCard";
+import Detail from "@/components/shop/DetailModal";
+import ProductReviewModal from "@/components/shop/ProductReviewModal";
 export default {
   components: {
     ShopProductCard,
+    Detail,
+    ProductReviewModal,
   },
   data() {
     return {
@@ -79,12 +77,65 @@ export default {
         { text: "Audience", icon: "mdi-account" },
         { text: "Conversions", icon: "mdi-flag" },
       ],
+      dialog: false,
+      description: "",
+      rating: 2,
+      length: 5,
+      passData: false,
+      p: "",
+      pd: false,
+      reviewsData: "",
     };
   },
-  created() {},
-  computed: {},
-  methods: {},
-  props: {},
+  created() {
+    this.length = this.$store.state.product.product;
+  },
+  computed: {
+    len() {
+      return this.length;
+    },
+    prod() {
+      return this.$store.state.product.product;
+    },
+    checkIf(pr) {
+      return pr == this.$store.state.product.product;
+    },
+    pass() {
+      return this.passData;
+    },
+    passReview() {
+      return this.pd
+    }
+  },   
+  methods: {
+    handleProductDetail(id) {
+      this.$store.dispatch("product/GetProductByID", id).then((e) => {
+        this.p = this.$store.state.product.product;
+      });
+      this.passData = true;
+    },
+
+    handleProductReview(id) {
+      if (this.$store.state.product.product) {
+        this.reviewsData = this.$store.state.product.product.productReviews;
+        this.pd = true;
+      } else {
+        console.log("handling it ")
+        this.$store.dispatch("product/GetProductByID", id).then((e) => {
+          this.reviewsData = this.$store.state.product.product.productReviews;
+          this.pd = true;
+        });
+      }
+    },
+    productReview(id) {
+      this.$store.dispatch("product/GetProductByID", id);
+    },
+    hideModal(e) {
+      this.passData = false;
+      this.pd = false;
+    },
+  },
+  props: ["products"],
 };
 </script>
 

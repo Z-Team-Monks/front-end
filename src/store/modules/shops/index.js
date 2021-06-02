@@ -5,7 +5,9 @@ const shops = {
   state: {
     shops: [],
     allShops: [],
-    AllProducts: []
+    AllProducts: [],
+    shop: {},
+    shopProducts :[]
   },
   mutations: {
     SAVE_SHOPS(state, shops) {
@@ -16,6 +18,13 @@ const shops = {
     },
     SAVE_ALL_PRODUCTS(state, AllProducts) {
       state.AllProducts = AllProducts;
+    },
+    SAVE_SHOP(state, shop) {
+      state.shop = shop;
+    },
+    SAVE_SHOP_PRODUCTS(state,shopProducts ) {
+      console.log("product is being mutated")
+      state.shopProducts = shopProducts;
     },
   },
   actions: {
@@ -38,10 +47,17 @@ const shops = {
         })
 
     },
+
+
     async GetShopProducts({ commit }, id) {
+      console.log("dispatching")
       await axios.get(`/shops/${id}/products`)
         .then(res => {
-          console.log(res.data)
+          res.data.forEach(e => {
+            e.isVisible = true;
+          })
+         
+          commit("SAVE_SHOP_PRODUCTS" , res.data)
         }).catch(e => {
           console.log(e)
         })
@@ -54,15 +70,6 @@ const shops = {
         }).catch(e => {
           console.log(e)
         })
-    },
-    async GetShopProducts({ commit }, id) {
-      await axios.get(`/shops/${id}/products`)
-        .then(res => {
-          console.log(res.data)
-        }).catch(e => {
-          console.log(e)
-        })
-
     },
     async GetShopDetail({ commit }, id) {
       await axios.get(`/shops/${id}`)
@@ -139,6 +146,20 @@ const shops = {
           console.log(e)
         })
     },
+
+
+
+    async GetShop({ commit } , id) {
+      await axios.get(`/shops/${id}`)
+      .then(res => {
+        res.data.forEach(e => {
+          e.isVisible = true
+        });
+        commit("SAVE_SHOP", res.data)
+      }).catch(e => {
+        console.log(e)
+      })
+    }
   },
   getters: {},
 };

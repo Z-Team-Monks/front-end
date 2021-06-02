@@ -1,5 +1,6 @@
 <template>
   <section class="shop-area">
+    {{products}}
     <div class="container">
       <div class="row">
         <div class="col-xl-8 col-lg-8">
@@ -24,7 +25,7 @@
               <div class="row"></div>
             </div>
               <div
-                v-if="products.length != 0"
+                v-if="products"
                 class="tab-pane fade show active"
                 id="profile"
                 role="tabpanel"
@@ -142,17 +143,19 @@ export default {
         } else s.isVisible = true;
       });
     },
+
+
   },
   computed: {
     categories() {
       return this.$store.state.category.categories;
     },
     products() {
-      return this.$store.state.product.AllProducts;
+      return this.$store.state.product.products;
     },
     hasPaggination() {
-      return this.$store.state.product.AllProducts
-        ? this.$store.state.product.AllProducts.length <= 8
+      return this.$store.state.product.products
+        ? this.$store.state.product.products.length <= 8
         : false;
     },
   },

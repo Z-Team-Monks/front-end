@@ -25,7 +25,7 @@
       </v-col>
     </v-row>
     <v-divider />
-    <ShopFillter />
+    <ShopFillter :products = "products" />
   </div>
 </template>
 
@@ -44,10 +44,14 @@ export default {
     return {};
   },
   created() {
-    // fetch the shop details in here
-    this.$store.dispatch("shops/shops", this.$route.params.id)
+    console.log("created in here")
+  this.$store.dispatch("shops/GetShopProducts", this.$route.params.id);
   },
-  computed: {},
+  computed: {
+    products() {
+      return this.$store.state.shops.shopProducts;
+    }
+  },
   methods: {},
   props: {},
 };
