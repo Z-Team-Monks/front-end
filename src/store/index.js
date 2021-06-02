@@ -11,6 +11,7 @@ import shops from "./modules/shops";
 import search from "./modules/search";
 import users from "./modules/users";
 import wishlist from './modules/wishlist'
+import message from "./modules/snackbar";
 
 
 
@@ -28,6 +29,7 @@ export default new Vuex.Store({
     category,
     notification,
     admin,
-    users
+    users,
+    message
   },
 });

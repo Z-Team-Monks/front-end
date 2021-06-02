@@ -7,11 +7,13 @@
             <div
               class="col-xl-2 col-lg-6 col-md-6 col-7 col-sm-5 d-flex align-items-center pos-relative"
             >
-              <div class="basic-bar cat-toggle">
-                <span class="bar1"></span>
-                <span class="bar2"></span>
-                <span class="bar3"></span>
-              </div>
+              <router-link :to="{ name: 'Home' }">
+                <div class="basic-bar cat-toggle">
+                  <span class="bar1"></span>
+                  <span class="bar2"></span>
+                  <span class="bar3"></span>
+                </div>
+              </router-link>
               <div class="logo">
                 <router-link :to="{ name: 'Home' }">
                   <!-- <img src="../../assets/img/logo/logo.png" alt=""/> -->

@@ -1,129 +1,233 @@
 <template>
- <div :class="[signUpDiv ? 'wrapper__area sign-up__Mode-active' : 'wrapper__area']" id="wrapper_Area">
-    <!-- Forms Area -->
-    <div class="forms__area">
-      <!-- Login Form -->
-      <form class="login__form" id="loginForm">
-        <!-- Form Title -->
-        <h1 class="form__title">Sign In!</h1>
-        <!-- inputs Groups -->
-        <div class="input__group">
-          <label class="field">
-            <input type="text" name="username" placeholder="Username" id="logInUsername" v-model.trim="$v.loginName.$model"/>
-          </label>
-          <span class="input__icon"><i class="bx bx-user"></i></span>
-          <small class="input__error_message" v-if="!$v.loginName.required">Username can't be empty</small>          
-        </div>
-        <div class="input__group">
-          <label class="field">
-            <input type="password" name="password" placeholder="Password" id="loginPassword" v-model.trim="$v.loginPassword.$model"/>
-          </label>
-          <span class="input__icon"><i class="bx bx-lock"></i></span>
-          <span class="showHide__Icon"><i class="bx bx-hide"></i></span>
-          <small class="input__error_message" v-if="!$v.loginPassword.required">Password can't be empty</small>          
-        </div>
-        <div class="form__actions">
-          <label for="checkboxInput" class="remeber_me" style="margin-left:10px;">
-            <input type="checkbox" id="checkboxInput">
-            <span class="checkmark"></span>
-            <span class="remember-me" style="margin-left:10px;">Remeber Me</span>
-          </label>
-          <!-- <div class="forgot_password">Forgot Password?</div> -->
-        </div>
-        <!-- Login Button -->
-        <button type="submit" class="submit-button" id="loginSubmitBtn" @click="signIn()">Sign in</button>
-        <!-- Alternate Login -->
-        <!-- <div class="alternate-login">
-          <div class="link">
-            <i class='bx bxl-google'></i>
-            <span>Google</span>
+  <div class="">
+    <div
+      :class="[
+        signUpDiv ? 'wrapper__area sign-up__Mode-active' : 'wrapper__area',
+      ]"
+      id="wrapper_Area"
+    >
+      <!-- Forms Area -->
+      <div class="forms__area">
+        <!-- Login Form -->
+        <form class="login__form" @submit.prevent="signIn" id="loginForm">
+          <!-- Form Title -->
+          <h1 class="form__title">Sign In!</h1>
+          <!-- inputs Groups -->
+          <div class="input__group">
+            <label class="field">
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                id="logInUsername"
+                v-model.trim="$v.loginName.$model"
+              />
+            </label>
+            <span class="input__icon"><i class="bx bx-user"></i></span>
+            <small class="input__error_message" v-if="!$v.loginName.required"
+              >Username can't be empty</small
+            >
           </div>
-          <div class="link">
-            <i class='bx bxl-facebook-circle'></i>
-            <span>Facebook</span>
+          <div class="input__group">
+            <label class="field">
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                id="loginPassword"
+                v-model.trim="$v.loginPassword.$model"
+              />
+            </label>
+            <span class="input__icon"><i class="bx bx-lock"></i></span>
+            <span class="showHide__Icon"><i class="bx bx-hide"></i></span>
+            <small
+              class="input__error_message"
+              v-if="!$v.loginPassword.required"
+              >Password can't be empty</small
+            >
           </div>
-        </div> -->
-      </form> <!-- End Login Form -->
-  
-      <!-- Sign Up Form -->
-      <form class="sign-up__form" id="signUpForm">
-        <!-- Form Title -->
-        <h1 class="form__title">Sign Up!</h1>
-        <!-- inputs Groups -->
-        <div class="input__group">
-          <label class="field">
-            <input type="text" name="username" placeholder="Username" id="signUpUsername" v-model.trim="$v.name.$model"/>
-          </label>
-          <span class="input__icon"><i class="bx bx-user"></i></span>
-          <small class="input__error_message" v-if="!$v.name.required">Username can't be empty</small>          
-        </div>
-        <div class="input__group">
-          <label class="field">
-            <input type="text" name="email" placeholder="Email@example.com" id="signUpEmail" v-model.trim="$v.email.$model"/>            
-          </label>
-          <span class="input__icon"><i class="bx bx-at"></i></span>
-          <small class="input__error_message" v-if="!$v.email.required">Email can't be empty</small>          
-          <small class="input__error_message" v-if="!$v.email.email">Invalid email</small>          
-        </div>
-        <div class="input__group">
-          <label class="field">
-            <input type="text" name="phone" placeholder="0911......" id="phone">
-          </label>
-          <span class="input__icon"><i class="bx bx-at"></i></span>
-          <small class="input__error_message"></small>
-        </div>
-        <div class="input__group">
-          <label class="field">
-            <input type="password" name="password" placeholder="Password" id="signUpPassword" v-model.trim="$v.password.$model"/>  
-          </label>
-          <span class="input__icon"><i class="bx bx-lock"></i></span>
-          <span class="showHide__Icon"><i class="bx bx-hide"></i></span>
-          <small class="input__error_message" v-if="!$v.password.required">Password is required.</small>
-          <small class="input__error_message" v-if="!$v.password.minLength">Password length should be greater than 5 characters.</small>
-          
-        </div>
-        <div class="input__group confirm__group">
-          <label class="field">
-            <input type="password" name="confirm_password" placeholder="Confirm Password" id="signUpConfirmPassword" v-model.trim="$v.repeatPassword.$model"/>
-          </label>
-          <span class="input__icon"><i class="bx bx-lock"></i></span>
-          <span class="showHide__Icon"><i class="bx bx-hide"></i></span>
-          <small class="input__error_message" v-if="!$v.repeatPassword.sameAsPassword">Passwords must be identical</small>
-        </div>        
-        <button type="submit" class="submit-button" id="signUpSubmitBtn" @click="signUp()">Sign Up</button>        
-      </form> <!-- End Sign Up Form -->
-    </div><!-- End Forms Area -->
-  
-    <!-- Aside Area -->
-    <div class="aside__area" id="aside_Area">
-      <div class="login__aside-info">
-        <h4>Hello</h4>
-        <img src="https://d.top4top.io/p_1945xjz2y1.png" alt="Image">
-        <p>Enter your personal details and start journey with us</p>
-        <button @click="toggleFormDiv()" class="side-btn" id="aside_signUp_Btn">Sign Up</button>
+          <div class="form__actions">
+            <label
+              for="checkboxInput"
+              class="remeber_me"
+              style="margin-left: 10px"
+            >
+              <input type="checkbox" id="checkboxInput" />
+              <span class="checkmark"></span>
+              <span class="remember-me" style="margin-left: 10px"
+                >Remeber Me</span
+              >
+            </label>
+            <!-- <div class="forgot_password">Forgot Password?</div> -->
+          </div>
+          <!-- Login Button -->
+          <button type="submit" class="submit-button" id="loginSubmitBtn">
+            Sign in
+          </button>
+        </form>
+        <!-- End Login Form -->
+
+        <!-- Sign Up Form -->
+        <form class="sign-up__form" id="signUpForm">
+          <!-- Form Title -->
+          <h1 class="form__title">Sign Up!</h1>
+          <!-- inputs Groups -->
+          <div class="input__group">
+            <label class="field">
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                id="signUpUsername"
+                v-model.trim="$v.name.$model"
+              />
+            </label>
+            <span class="input__icon"><i class="bx bx-user"></i></span>
+            <small class="input__error_message" v-if="!$v.name.required"
+              >Username can't be empty</small
+            >
+          </div>
+          <div class="input__group">
+            <label class="field">
+              <input
+                type="text"
+                name="email"
+                placeholder="Email@example.com"
+                id="signUpEmail"
+                v-model.trim="$v.email.$model"
+              />
+            </label>
+            <span class="input__icon"><i class="bx bx-at"></i></span>
+            <small class="input__error_message" v-if="!$v.email.required"
+              >Email can't be empty</small
+            >
+            <small class="input__error_message" v-if="!$v.email.email"
+              >Invalid email</small
+            >
+          </div>
+          <div class="input__group">
+            <label class="field">
+              <input
+                type="text"
+                name="phone"
+                placeholder="0911......"
+                id="phone"
+              />
+            </label>
+            <span class="input__icon"><i class="bx bx-at"></i></span>
+            <small class="input__error_message"></small>
+          </div>
+          <div class="input__group">
+            <label class="field">
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                id="signUpPassword"
+                v-model.trim="$v.password.$model"
+              />
+            </label>
+            <span class="input__icon"><i class="bx bx-lock"></i></span>
+            <span class="showHide__Icon"><i class="bx bx-hide"></i></span>
+            <small class="input__error_message" v-if="!$v.password.required"
+              >Password is required.</small
+            >
+            <small class="input__error_message" v-if="!$v.password.minLength"
+              >Password length should be greater than 5 characters.</small
+            >
+          </div>
+          <div class="input__group confirm__group">
+            <label class="field">
+              <input
+                type="password"
+                name="confirm_password"
+                placeholder="Confirm Password"
+                id="signUpConfirmPassword"
+                v-model.trim="$v.repeatPassword.$model"
+              />
+            </label>
+            <span class="input__icon"><i class="bx bx-lock"></i></span>
+            <span class="showHide__Icon"><i class="bx bx-hide"></i></span>
+            <small
+              class="input__error_message"
+              v-if="!$v.repeatPassword.sameAsPassword"
+              >Passwords must be identical</small
+            >
+          </div>
+          <button
+            type="submit"
+            class="submit-button"
+            id="signUpSubmitBtn"
+            @click="signUp()"
+          >
+            Sign Up
+          </button>
+        </form>
+        <!-- End Sign Up Form -->
       </div>
-      <div class="sign-up__aside-info">
-        <h4>Welcome</h4>
-        <img src="https://e.top4top.io/p_1945sidbp2.png" alt="Image">
-        <p>To Keep connected with us please login with your personal info</p>
-        <button @click="toggleFormDiv()" class="side-btn" id="aside_signIn_Btn">Sign In</button>
+      <!-- End Forms Area -->
+
+      <!-- Aside Area -->
+      <div class="aside__area" id="aside_Area">
+        <div class="login__aside-info">
+          <h4>Hello</h4>
+          <img src="https://d.top4top.io/p_1945xjz2y1.png" alt="Image" />
+          <p>Enter your personal details and start journey with us</p>
+          <button
+            @click="toggleFormDiv()"
+            class="side-btn"
+            id="aside_signUp_Btn"
+          >
+            Sign Up
+          </button>
+        </div>
+        <div class="sign-up__aside-info">
+          <h4>Welcome</h4>
+          <img src="https://e.top4top.io/p_1945sidbp2.png" alt="Image" />
+          <p>To Keep connected with us please login with your personal info</p>
+          <button
+            @click="toggleFormDiv()"
+            class="side-btn"
+            id="aside_signIn_Btn"
+          >
+            Sign In
+          </button>
+        </div>
       </div>
     </div>
+    <v-snackbar :value="snackbar" :multi-line="multiLine">
+      {{ text }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn color="red" text v-bind="attrs" @click="hideMessage">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
 <script>
-import { required, minLength, sameAs,email} from 'vuelidate/lib/validators';
+import { required, minLength, sameAs, email } from "vuelidate/lib/validators";
 
-export default {  
-  components: {},
+export default {
   computed: {
     passwordMatch() {
       return () => this.password === this.verify || "Password must match";
     },
+    snackbar() {
+      return this.$store.state.message.showSnack;
+    },
+
+    text() {
+      return this.$store.state.message.message;
+    },
   },
 
-  data: () => ({    
+  created() {
+    this.$store.dispatch("message/HideNotification");
+  },
+  data: () => ({
     dialog: true,
     tab: 0,
     tabs: [
@@ -133,14 +237,14 @@ export default {
     valid: true,
 
     name: "",
-    email: "",    
+    email: "",
     phoneNo: "",
     password: "",
     repeatPassword: "",
 
     phone: "",
     verify: "",
-    loginName : "",
+    loginName: "",
     loginPassword: "",
     loginEmail: "",
     loginEmailRules: [
@@ -149,7 +253,7 @@ export default {
     ],
     emailRules: [
       (v) => !!v || "Required",
-      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+      (v) => /.+@.+\..+/.testf(v) || "E-mail must be valid",
     ],
     phoneRules: [
       (v) => !!v || "Required",
@@ -163,33 +267,35 @@ export default {
       required: (value) => !!value || "Required.",
       min: (v) => (v && v.length >= 6) || "Min 8 characters",
     },
-    signUpDiv : true,
-    firstSignUpBtnTouch : true,
-    firstSignInBtnTouch : true,
+    signUpDiv: true,
+    firstSignUpBtnTouch: true,
+    firstSignInBtnTouch: true,
+
+    multiLine: true,
   }),
 
-  validations : {
-    name : {
+  validations: {
+    name: {
       required,
-      minLength: minLength(4)
+      minLength: minLength(4),
     },
     email: {
       email,
-      required
+      required,
     },
     password: {
       required,
-      minLength: minLength(6)
+      minLength: minLength(6),
     },
     repeatPassword: {
-      sameAsPassword: sameAs('password')
-    },    
-    loginName : {
+      sameAsPassword: sameAs("password"),
+    },
+    loginName: {
       required,
     },
-    loginPassword : {
+    loginPassword: {
       required,
-    }
+    },
   },
 
   methods: {
@@ -206,12 +312,12 @@ export default {
     },
 
     login(e) {
-      if (this.$refs.loginForm.validate()) {
-        this.$store.dispatch("auth/Login", {
-          username: "Niko",
-          password: "Niko123",
-        });
-      }
+      // if (this.$refs.loginForm.validate()) {
+      //   this.$store.dispatch("auth/Login", {
+      //     username: this.username,
+      //     password: this.password,
+      //   });
+      // }
     },
     register() {
       if (this.$refs.registerForm.validate()) {
@@ -224,17 +330,29 @@ export default {
         });
       }
     },
-    toggleFormDiv(){
+    toggleFormDiv() {
       this.signUpDiv = !this.signUpDiv;
     },
 
     //dummies
-    signUp(){
+    signUp() {
       this.firstSignUpBtnTouch = false;
     },
-    signIn(){
+    signIn(e) {
+      e.preventDefault();
+      console.log("this is me");
       this.firstSignInBtnTouch = false;
-    }
+      if (this.snackbar) {
+        this.$store.dispatch("message/HideNotification");
+        this.$store.dispatch("message/ShowNotification");
+      } else {
+        this.$store.dispatch("message/ShowNotification");
+      }
+    },
+    hideMessage() {
+        this.$store.dispatch("message/HideNotification");
+      
+    },
   },
 };
 </script>

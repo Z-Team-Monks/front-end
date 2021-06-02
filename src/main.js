@@ -11,7 +11,7 @@ import VueAxios from 'vue-axios'
 import Vuelidate from 'vuelidate'
 import VueMapbox from '@studiometa/vue-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-
+import messageComp from './views/global/snackBar'
 
 
 
@@ -42,7 +42,7 @@ Vue.use(require('vue-chartist'))
 Vue.use(Vuelidate)
 Vue.use(VueMapbox);
 Vue.config.productionTip = false;
-
+Vue.component("messageComp", messageComp)
 
 
 const app = new Vue({
