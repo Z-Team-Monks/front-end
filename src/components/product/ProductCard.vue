@@ -1,5 +1,5 @@
 <template>
-    <div class="pro-item" v-if="product != undefined && product.isVisible">
+    <div class="pro-item" v-if="product.isVisible">
       <div class="product-wrapper mb-50">
         <div class="product-img mb-25">
           <a @click="emitProductDetail" href="#">
@@ -67,6 +67,11 @@ export default {
       e.preventDefault();
     },
   },
-  props: ['product']
+  props:  {
+    product: {
+      type: Object,
+      required: false
+    }
+  }
 };
 </script>

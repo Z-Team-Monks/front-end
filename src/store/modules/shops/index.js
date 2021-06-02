@@ -7,7 +7,8 @@ const shops = {
     allShops: [],
     AllProducts: [],
     shop: {},
-    shopProducts :[]
+    shopProducts: [],
+    products: []
   },
   mutations: {
     SAVE_SHOPS(state, shops) {
@@ -22,10 +23,13 @@ const shops = {
     SAVE_SHOP(state, shop) {
       state.shop = shop;
     },
-    SAVE_SHOP_PRODUCTS(state,shopProducts ) {
+    SAVE_SHOP_PRODUCTS(state, shopProducts) {
       console.log("product is being mutated")
       state.shopProducts = shopProducts;
     },
+    SAVE_PRODUCTS(state, products) {
+      state.products = products
+    }
   },
   actions: {
     async GetShops({ commit }) {
@@ -56,8 +60,8 @@ const shops = {
           res.data.forEach(e => {
             e.isVisible = true;
           })
-         
-          commit("SAVE_SHOP_PRODUCTS" , res.data)
+
+          commit("SAVE_SHOP_PRODUCTS", res.data)
         }).catch(e => {
           console.log(e)
         })
@@ -120,7 +124,6 @@ const shops = {
 
     },
 
-
     async GetAllShops({ commit }, q) {
       await axios.get("/shops")
         .then(res => {
@@ -149,17 +152,47 @@ const shops = {
 
 
 
-    async GetShop({ commit } , id) {
+    async GetShop({ commit }, id) {
       await axios.get(`/shops/${id}`)
-      .then(res => {
-        res.data.forEach(e => {
-          e.isVisible = true
-        });
-        commit("SAVE_SHOP", res.data)
-      }).catch(e => {
-        console.log(e)
-      })
-    }
+        .then(res => {
+          res.data.forEach(e => {
+            e.isVisible = true
+          });
+          commit("SAVE_SHOP", res.data)
+        }).catch(e => {
+          console.log(e)
+        })
+    },
+
+
+    async GetAllProductsInDB({ commit }) {
+      await axios.get("/products")
+        .then(res => {
+          res.data.forEach(e => {
+            e.isVisible = true
+          });
+          console.log("--------------")
+          console.log(res.data)
+          console.log("--------------")
+          commit("SAVE_PRODUCTS", res.data)
+
+        }).catch(e => {
+          console.log(e)
+        })
+    },
+
+    async SearchProducts({ commit }, q) {
+      await axios.get("/search/products", { params: { name: q.query } })
+        .then(res => {
+          res.data.forEach(e => {
+            e.isVisible = true
+          });
+          commit("SAVE_PRODUCTS", res.data)
+          console.log(res.data)
+        }).catch(e => {
+          console.log(e)
+        })
+    },
   },
   getters: {},
 };

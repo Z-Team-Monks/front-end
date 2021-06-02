@@ -4,8 +4,8 @@ const product = {
   namespaced: true,
   states: {
     products: [],
-    AllProducts : [],
-    product:[]
+    AllProducts: [],
+    product: []
   },
   mutations: {
     SAVE_PRODUCTS(state, product) {
@@ -15,7 +15,7 @@ const product = {
       state.product = product;
     },
     SAVE_ALL_PRODUCTS(state, product) {
-      state.AllProducts  = product 
+      state.AllProducts = product
     }
   },
   actions: {
@@ -25,14 +25,18 @@ const product = {
           res.data.forEach(e => {
             e.isVisible = true
           });
+
+          console.log("_________________")
+          console.log(res.data)
+          console.log("_________________")
           commit("SAVE_PRODUCTS", res.data)
-          // commit("SAVE_ALL_PRODUCTS", res.data)
+
         }).catch(e => {
           console.log(e)
         })
     },
-    async SearchProducts({ commit },q) {
-      await axios.get("/products" , {params : { name: q.name }})
+    async SearchProducts({ commit }, q) {
+      await axios.get("/products", { params: { name: q.name } })
         .then(res => {
           res.data.forEach(e => {
             e.isVisible = true
@@ -54,7 +58,7 @@ const product = {
     async GetProductByID({ commit }, id) {
       await axios.get(`/products/${id}`)
         .then(res => {
-          commit("SAVE_PRODUCT" , res.data)
+          commit("SAVE_PRODUCT", res.data)
           console.log(res.data)
         }).catch(e => {
           console.log(e)
@@ -91,7 +95,11 @@ const product = {
 
 
   }
-  , getters: {},
+  , getters: {
+    products: state => {
+      return state.products
+    }
+  },
 }
 
 export default product;
