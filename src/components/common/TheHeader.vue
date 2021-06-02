@@ -4,7 +4,9 @@
       <div id="header-sticky" class="header-area box-90">
         <div class="container-fluid" style="z-index: 10000">
           <div class="row align-items-center" style="z-index: 10000">
-            <div class="col-xl-2 col-lg-6 col-md-6 col-7 col-sm-5 d-flex align-items-center pos-relative">
+            <div
+              class="col-xl-2 col-lg-6 col-md-6 col-7 col-sm-5 d-flex align-items-center pos-relative"
+            >
               <div class="basic-bar cat-toggle">
                 <span class="bar1"></span>
                 <span class="bar2"></span>
@@ -20,25 +22,39 @@
                 <h4>Category</h4>
                 <ul>
                   <li>
-                    <a href="shop.html"><i class="flaticon-shopping-cart-1"></i> Table lamp</a>
+                    <a href="shop.html"
+                      ><i class="flaticon-shopping-cart-1"></i> Table lamp</a
+                    >
                   </li>
                   <li>
-                    <a href="shop.html"><i class="flaticon-shopping-cart-1"></i> Furniture</a>
+                    <a href="shop.html"
+                      ><i class="flaticon-shopping-cart-1"></i> Furniture</a
+                    >
                   </li>
                   <li>
-                    <a href="shop.html"><i class="flaticon-shopping-cart-1"></i> Chair</a>
+                    <a href="shop.html"
+                      ><i class="flaticon-shopping-cart-1"></i> Chair</a
+                    >
                   </li>
                   <li>
-                    <a href="shop.html"><i class="flaticon-shopping-cart-1"></i> Men</a>
+                    <a href="shop.html"
+                      ><i class="flaticon-shopping-cart-1"></i> Men</a
+                    >
                   </li>
                   <li>
-                    <a href="shop.html"><i class="flaticon-shopping-cart-1"></i> Women</a>
+                    <a href="shop.html"
+                      ><i class="flaticon-shopping-cart-1"></i> Women</a
+                    >
                   </li>
                   <li>
-                    <a href="shop.html"><i class="flaticon-shopping-cart-1"></i> Cloth</a>
+                    <a href="shop.html"
+                      ><i class="flaticon-shopping-cart-1"></i> Cloth</a
+                    >
                   </li>
                   <li>
-                    <a href="shop.html"><i class="flaticon-shopping-cart-1"></i> Trend</a>
+                    <a href="shop.html"
+                      ><i class="flaticon-shopping-cart-1"></i> Trend</a
+                    >
                   </li>
                 </ul>
               </div>
@@ -47,19 +63,18 @@
               <div class="main-menu text-center">
                 <nav id="mobile-menu">
                   <ul>
-                    <li>
-                      <a href="index.html">Home</a>
-                    </li>
                     <li class="mega-menu">
-                      <a href="shop.html">Shop</a>
+                      <router-link :to="{ name: 'shops' }" href="shop.html"
+                        >Shop</router-link
+                      >
                     </li>
 
                     <li>
-                      <a href="shop-filter.html">Products </a>
-                    </li>
-
-                    <li>
-                      <a href="contact.html">Contact</a>
+                      <router-link
+                        :to="{ name: 'browse' }"
+                        href="shop-filter.html"
+                        >Products
+                      </router-link>
                     </li>
                   </ul>
                 </nav>
@@ -67,16 +82,17 @@
             </div>
             <div class="col-xl-2 col-lg-6 col-md-6 col-5 col-sm-7 pl-0">
               <div class="header-right f-right">
-                <ul>                  
-                  <li class="search-btn">
-                    <a class="search-btn nav-search search-trigger" href="#"><i class="fas fa-search"></i></a>
-                  </li>                  
+                <ul>
                   <li class="login-btn">
-                    <router-link :to="{ name: 'Auth' }"><i class="far fa-user"></i></router-link>
+                    <router-link :to="{ name: 'Auth' }"
+                      ><i class="far fa-user"></i
+                    ></router-link>
                   </li>
                   <li class="d-shop-cart">
-                    <a href="#"><i class="flaticon-shopping-cart"></i>
-                      <span class="cart-count">3</span></a>
+                    <router-link :to="{ name: 'shops' }" href="#"
+                      ><i class="flaticon-shopping-cart"></i>
+                      <span class="cart-count">3</span></router-link
+                    >
                     <ul class="minicart">
                       <li v-for="(item, i) in carts" :key="i">
                         <CartCard @deleteCart="deleteCart" />
@@ -94,19 +110,29 @@
                         </div>
                       </li>
                     </ul>
-                  </li> 
+                  </li>
                   <li class="notification-bell d-shop-cart">
-                    <a class="search-btn nav-search search-trigger" href="#"> <i class="fa fa-bell" aria-hidden="true"></i></a>
+                    <a class="search-btn nav-search search-trigger" href="#">
+                      <i class="fa fa-bell" aria-hidden="true"></i
+                    ></a>
                     <ul class="minicart">
                       <li>
-                        <h4>Notifications - <span>{{this.notifications.length}}</span></h4>
-                        <input @click="clearNotification()" class="button" type="button" value="Clear">
+                        <h4>
+                          Notifications -
+                          <span>{{ this.notifications.length }}</span>
+                        </h4>
+                        <input
+                          @click="clearNotification()"
+                          class="button"
+                          type="button"
+                          value="Clear"
+                        />
                       </li>
-                      <li v-for="(notification,i) in notifications" :key="i">
-                        <NotificationItem :notification="notification"/>
-                      </li>                                                                   
-                    </ul>                    
-                  </li>                 
+                      <li v-for="(notification, i) in notifications" :key="i">
+                        <NotificationItem :notification="notification" />
+                      </li>
+                    </ul>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -120,83 +146,83 @@
   </div>
 </template>
 <script>
-  import CartCard from "@/components/cart/CartCard";
-  import NotificationItem from "../notification/NotificationItem";
+import CartCard from "@/components/cart/CartCard";
+import NotificationItem from "../notification/NotificationItem";
 
-  export default {
-    // name: "TheHeader",
-    components: {
-      CartCard,
-      NotificationItem,
+export default {
+  // name: "TheHeader",
+  components: {
+    CartCard,
+    NotificationItem,
+  },
+  data() {
+    return {
+      carts: [1, 2, 5],
+      notifications: [
+        {
+          notificationId: 1,
+          notificationMessage: "Addis Gebeya added a new product diamond ring",
+          notificationType: "NewProduct",
+          seen: false,
+        },
+        {
+          notificationId: 2,
+          notificationMessage: "Kidus Yoseph reviewed Your product",
+          notificationType: "NewReview",
+          seen: false,
+        },
+        {
+          notificationId: 3,
+          notificationMessage: "Natneal Abay reviewed Your product",
+          notificationType: "NewReview",
+          seen: false,
+        },
+        {
+          notificationId: 4,
+          notificationMessage: "Addis Gebeya added a new product diamond ring",
+          notificationType: "NewProduct",
+          seen: false,
+        },
+      ],
+    };
+  },
+  created() {},
+  computed: {},
+  methods: {
+    deleteCart(id) {
+      // do your deletion in here
+      console.log(id);
     },
-    data() {
-      return {
-        carts: [1, 2, 5],
-        notifications:  [
-          {
-            notificationId : 1,
-            notificationMessage : "Addis Gebeya added a new product diamond ring",
-            notificationType : "NewProduct",
-            seen : false
-          },
-          {
-            notificationId : 2,
-            notificationMessage : "Kidus Yoseph reviewed Your product",
-            notificationType : "NewReview",
-            seen : false
-          },
-          {
-            notificationId : 3,
-            notificationMessage : "Natneal Abay reviewed Your product",
-            notificationType : "NewReview",
-            seen : false
-          },
-          {
-            notificationId : 4,
-            notificationMessage : "Addis Gebeya added a new product diamond ring",
-            notificationType : "NewProduct",
-            seen : false
-          },
-        ]                
-      };
+    clearNotification() {
+      this.notifications = [];
     },
-    created() {},
-    computed: {},
-    methods: {
-      deleteCart(id) {
-        // do your deletion in here
-        console.log(id);
-      },
-      clearNotification(){
-        this.notifications = [];
-      }
-    },
-    props: {},
-  };
+  },
+  props: {},
+};
 </script>
 
 
-<style scoped>    
-  .button {
-    display: inline-block;
-    margin: 5px 0px;
-    height: 30px;
-    min-width: 55px;
-    background: #FE5245;
-    border: none;
-    outline: none;
-    color: white;
-    font-family: inherit;
-    font-weight: 400;
-    font-size: 12px;
-    border-radius: 3px;
-    box-shadow: 0 5px 0px #d56862;
-    border-bottom: 2px solid #e47a72;
-  }
+<style scoped>
+.button {
+  display: inline-block;
+  margin: 5px 0px;
+  height: 30px;
+  min-width: 55px;
+  background: #fe5245;
+  border: none;
+  outline: none;
+  color: white;
+  font-family: inherit;
+  font-weight: 400;
+  font-size: 12px;
+  border-radius: 3px;
+  box-shadow: 0 5px 0px #d56862;
+  border-bottom: 2px solid #e47a72;
+}
 
-  .button:active {
-    transform: translateY(4px);
-    border-bottom-width: 2px;
-    box-shadow: none;
-  }
+.button:active {
+  transform: translateY(4px);
+  border-bottom-width: 2px;
+  box-shadow: none;
+}
 </style>

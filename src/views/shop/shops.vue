@@ -31,9 +31,7 @@
               aria-labelledby="profile-tab"
             >
               <div class="wrapper-shop" v-for="(shop, i) in shops" :key="i">
-              <v-divider />
                 <ShopsCard :shop="shop" />
-              <v-divider />
               </div>
             </div>
 
@@ -49,7 +47,7 @@
               <v-divider />
             </div>
           </div>
-          <div
+          <!-- <div
             v-if="shops.length != 0 && hasPaggination"
             class="basic-pagination basic-pagination-2 text-center mt-50"
           >
@@ -67,7 +65,7 @@
                 <a href="#"><i class="fas fa-angle-double-right"></i></a>
               </li>
             </ul>
-          </div>
+          </div> -->
         </div>
         <div class="col-xl-3 col-lg-4">
           <div class="sidebar-shop">

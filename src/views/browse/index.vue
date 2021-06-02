@@ -6,10 +6,12 @@
           <div class="shop-banner mb-50">
             <img src="../../assets/img/bg/shop-banner.jpg" alt="" />
           </div>
-          <div class="row" >
+          <div class="row">
             <div class="col-xl-5 col-lg-6 col-md-6 mb-0 pb-0">
               <div class="product-showing mb-40">
-                <p>Showing {{products.length}} of {{products.length}} results</p>
+                <p>
+                  Showing {{ products.length }} of {{ products.length }} results
+                </p>
               </div>
             </div>
           </div>
@@ -39,14 +41,14 @@
                   <ProductCard
                     @emitProductDetail="showProductDetail(product)"
                     :product="product"
-                    @emitAddToCart = "AddToCart(product)"
+                    @emitAddToCart="AddToCart(product)"
                   />
                 </div>
               </div>
             </div>
 
             <div
-              v-else
+              v-if="vissibleProducts !=products"
               class="tab-pane fade show active"
               id="profile"
               role="tabpanel"
@@ -223,13 +225,25 @@ export default {
       this.$store.state.shops.products.forEach((p) => {
         if (p.isVisible == true) {
           console.log("old that young");
-        count++;
+          count++;
         }
       });
       return count > 9;
     },
     currentProduct() {
       return this.selectedProduct;
+    },
+
+    vissibleProducts() {
+      let count = 0;
+      this.$store.state.shops.products.forEach((p) => {
+        if (p.isVisible == true) {
+          console.log("old that young");
+          count++;
+        }
+      });
+
+      return count;
     },
   },
   methods: {
