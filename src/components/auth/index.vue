@@ -1,149 +1,121 @@
 <template>
-  <div>
-    <v-card>
-      <v-tabs
-        v-model="tab"
-        show-arrows
-        background-color="red lighten--4"
-        icons-and-text
-        dark
-        grow
-      >
-        <v-tabs-slider color="purple darken-4"></v-tabs-slider>
-        <v-tab v-for="(i, c) in tabs" :key="c">
-          <v-icon medium>{{ i.icon }}</v-icon>
-          <div class="caption py-1">{{ i.name }}</div>
-        </v-tab>
-        <v-tab-item>
-          <v-card class="px-4">
-            <v-card-text>
-              <v-form ref="loginForm" v-model="valid" lazy-validation>
-                <v-row>
-                  <v-col cols="12">
-                    <v-text-field
-                      prepend-icon="mdi-account"
-                      v-model="loginEmail"
-                      :rules="loginEmailRules"
-                      label="E-mail"
-                      required
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12">
-                    <v-text-field
-                      prepend-icon="mdi-lock"
-                      v-model="loginPassword"
-                      :append-icon="show1 ? 'eye' : 'eye-off'"
-                      :rules="[rules.required, rules.min]"
-                      :type="show1 ? 'text' : 'password'"
-                      name="input-10-1"
-                      label="Password"
-                      hint="At least 8 characters"
-                      counter
-                      @click:append="show1 = !show1"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col class="d-flex" cols="12" sm="6" xsm="12"> </v-col>
-                  <v-spacer></v-spacer>
-                  <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
-                    <v-btn
-                      medium
-                      block
-                      dark
-                      color="red lighten--6"
-                      @click="login"
-                    >
-                      Login
-                    </v-btn>
-                  </v-col>
-                </v-row>
-              </v-form>
-            </v-card-text>
-          </v-card>
-        </v-tab-item>
-        <v-tab-item>
-          <v-card class="px-4">
-            <v-card-text>
-              <v-form ref="registerForm" v-model="valid" lazy-validation>
-                <v-row>
-                  <v-col cols="12">
-                    <v-text-field
-                      prepend-icon="mdi-account"
-                      v-model="username"
-                      :rules="[rules.required]"
-                      label="Username"
-                      maxlength="20"
-                      required
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12">
-                    <v-text-field
-                      prepend-icon="mdi-email"
-                      v-model="email"
-                      :rules="emailRules"
-                      label="E-mail"
-                      required
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12">
-                    <v-text-field
-                      prepend-icon="mdi-email"
-                      v-model="phone"
-                      :rules="phoneRules"
-                      label="E-mail"
-                      required
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12">
-                    <v-text-field
-                      prepend-icon="mdi-lock"
-                      v-model="password"
-                      :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                      :rules="[rules.required, rules.min]"
-                      :type="show1 ? 'text' : 'password'"
-                      name="input-10-1"
-                      label="Password"
-                      hint="At least 8 characters"
-                      counter
-                      @click:append="show1 = !show1"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12">
-                    <v-text-field
-                      prepend-icon="mdi-lock"
-                      block
-                      v-model="verify"
-                      :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                      :rules="[rules.required, passwordMatch]"
-                      :type="show1 ? 'text' : 'password'"
-                      name="input-10-1"
-                      label="Confirm Password"
-                      counter
-                      @click:append="show1 = !show1"
-                    ></v-text-field>
-                  </v-col>
-                  <v-spacer></v-spacer>
-                  <v-col class="d-flex ml-auto" cols="12" sm="3" xsm="12">
-                    <v-btn
-                      medium
-                      block
-                      dark
-                      color="red lighten--4"
-                      @click="register"
-                      >Register</v-btn
-                    >
-                  </v-col>
-                </v-row>
-              </v-form>
-            </v-card-text>
-          </v-card>
-        </v-tab-item>
-      </v-tabs>
-    </v-card>
+ <div :class="[signUpDiv ? 'wrapper__area sign-up__Mode-active' : 'wrapper__area']" id="wrapper_Area">
+    <!-- Forms Area -->
+    <div class="forms__area">
+      <!-- Login Form -->
+      <form class="login__form" id="loginForm">
+        <!-- Form Title -->
+        <h1 class="form__title">Sign In!</h1>
+        <!-- inputs Groups -->
+        <div class="input__group">
+          <label class="field">
+            <input type="text" name="username" placeholder="Username" id="logInUsername" v-model.trim="$v.loginName.$model"/>
+          </label>
+          <span class="input__icon"><i class="bx bx-user"></i></span>
+          <small class="input__error_message" v-if="!$v.loginName.required">Username can't be empty</small>          
+        </div>
+        <div class="input__group">
+          <label class="field">
+            <input type="password" name="password" placeholder="Password" id="loginPassword" v-model.trim="$v.loginPassword.$model"/>
+          </label>
+          <span class="input__icon"><i class="bx bx-lock"></i></span>
+          <span class="showHide__Icon"><i class="bx bx-hide"></i></span>
+          <small class="input__error_message" v-if="!$v.loginPassword.required">Password can't be empty</small>          
+        </div>
+        <div class="form__actions">
+          <label for="checkboxInput" class="remeber_me" style="margin-left:10px;">
+            <input type="checkbox" id="checkboxInput">
+            <span class="checkmark"></span>
+            <span class="remember-me" style="margin-left:10px;">Remeber Me</span>
+          </label>
+          <!-- <div class="forgot_password">Forgot Password?</div> -->
+        </div>
+        <!-- Login Button -->
+        <button type="submit" class="submit-button" id="loginSubmitBtn" @click="signIn()">Sign in</button>
+        <!-- Alternate Login -->
+        <!-- <div class="alternate-login">
+          <div class="link">
+            <i class='bx bxl-google'></i>
+            <span>Google</span>
+          </div>
+          <div class="link">
+            <i class='bx bxl-facebook-circle'></i>
+            <span>Facebook</span>
+          </div>
+        </div> -->
+      </form> <!-- End Login Form -->
+  
+      <!-- Sign Up Form -->
+      <form class="sign-up__form" id="signUpForm">
+        <!-- Form Title -->
+        <h1 class="form__title">Sign Up!</h1>
+        <!-- inputs Groups -->
+        <div class="input__group">
+          <label class="field">
+            <input type="text" name="username" placeholder="Username" id="signUpUsername" v-model.trim="$v.name.$model"/>
+          </label>
+          <span class="input__icon"><i class="bx bx-user"></i></span>
+          <small class="input__error_message" v-if="!$v.name.required">Username can't be empty</small>          
+        </div>
+        <div class="input__group">
+          <label class="field">
+            <input type="text" name="email" placeholder="Email@example.com" id="signUpEmail" v-model.trim="$v.email.$model"/>            
+          </label>
+          <span class="input__icon"><i class="bx bx-at"></i></span>
+          <small class="input__error_message" v-if="!$v.email.required">Email can't be empty</small>          
+          <small class="input__error_message" v-if="!$v.email.email">Invalid email</small>          
+        </div>
+        <div class="input__group">
+          <label class="field">
+            <input type="text" name="phone" placeholder="0911......" id="phone">
+          </label>
+          <span class="input__icon"><i class="bx bx-at"></i></span>
+          <small class="input__error_message"></small>
+        </div>
+        <div class="input__group">
+          <label class="field">
+            <input type="password" name="password" placeholder="Password" id="signUpPassword" v-model.trim="$v.password.$model"/>  
+          </label>
+          <span class="input__icon"><i class="bx bx-lock"></i></span>
+          <span class="showHide__Icon"><i class="bx bx-hide"></i></span>
+          <small class="input__error_message" v-if="!$v.password.required">Password is required.</small>
+          <small class="input__error_message" v-if="!$v.password.minLength">Password length should be greater than 5 characters.</small>
+          
+        </div>
+        <div class="input__group confirm__group">
+          <label class="field">
+            <input type="password" name="confirm_password" placeholder="Confirm Password" id="signUpConfirmPassword" v-model.trim="$v.repeatPassword.$model"/>
+          </label>
+          <span class="input__icon"><i class="bx bx-lock"></i></span>
+          <span class="showHide__Icon"><i class="bx bx-hide"></i></span>
+          <small class="input__error_message" v-if="!$v.repeatPassword.sameAsPassword">Passwords must be identical</small>
+        </div>        
+        <button type="submit" class="submit-button" id="signUpSubmitBtn" @click="signUp()">Sign Up</button>        
+      </form> <!-- End Sign Up Form -->
+    </div><!-- End Forms Area -->
+  
+    <!-- Aside Area -->
+    <div class="aside__area" id="aside_Area">
+      <div class="login__aside-info">
+        <h4>Hello</h4>
+        <img src="https://d.top4top.io/p_1945xjz2y1.png" alt="Image">
+        <p>Enter your personal details and start journey with us</p>
+        <button @click="toggleFormDiv()" class="side-btn" id="aside_signUp_Btn">Sign Up</button>
+      </div>
+      <div class="sign-up__aside-info">
+        <h4>Welcome</h4>
+        <img src="https://e.top4top.io/p_1945sidbp2.png" alt="Image">
+        <p>To Keep connected with us please login with your personal info</p>
+        <button @click="toggleFormDiv()" class="side-btn" id="aside_signIn_Btn">Sign In</button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-export default {
+import { required, minLength, sameAs,email} from 'vuelidate/lib/validators';
+
+export default {  
   components: {},
   computed: {
     passwordMatch() {
@@ -151,7 +123,7 @@ export default {
     },
   },
 
-  data: () => ({
+  data: () => ({    
     dialog: true,
     tab: 0,
     tabs: [
@@ -160,12 +132,15 @@ export default {
     ],
     valid: true,
 
-    firstName: "",
-    email: "",
-    username: "",
+    name: "",
+    email: "",    
+    phoneNo: "",
     password: "",
+    repeatPassword: "",
+
     phone: "",
     verify: "",
+    loginName : "",
     loginPassword: "",
     loginEmail: "",
     loginEmailRules: [
@@ -188,7 +163,34 @@ export default {
       required: (value) => !!value || "Required.",
       min: (v) => (v && v.length >= 6) || "Min 8 characters",
     },
+    signUpDiv : true,
+    firstSignUpBtnTouch : true,
+    firstSignInBtnTouch : true,
   }),
+
+  validations : {
+    name : {
+      required,
+      minLength: minLength(4)
+    },
+    email: {
+      email,
+      required
+    },
+    password: {
+      required,
+      minLength: minLength(6)
+    },
+    repeatPassword: {
+      sameAsPassword: sameAs('password')
+    },    
+    loginName : {
+      required,
+    },
+    loginPassword : {
+      required,
+    }
+  },
 
   methods: {
     validate() {
@@ -222,6 +224,20 @@ export default {
         });
       }
     },
+    toggleFormDiv(){
+      this.signUpDiv = !this.signUpDiv;
+    },
+
+    //dummies
+    signUp(){
+      this.firstSignUpBtnTouch = false;
+    },
+    signIn(){
+      this.firstSignInBtnTouch = false;
+    }
   },
 };
 </script>
+
+<style scoped>
+</style>

@@ -8,6 +8,9 @@ import Shops from "../views/shop/shops";
 import Cart from "../views/cart/index";
 import Product from "../views/products/detail";
 import User from "../views/user/index";
+import Map from "../views/map/index";
+import NotFound from "../views/NotFound/NotFound";
+
 import Browse from "../views/browse";
 
 Vue.use(VueRouter);
@@ -52,6 +55,11 @@ const routes = [
     component: Shop,
   },
   {
+    path : "/map",
+    name : "map",
+    component : Map,
+  },  
+  {
     path: "/cart",
     name: "cart",
     component: Cart,
@@ -60,6 +68,11 @@ const routes = [
     path: "/product/:id",
     name: "productDetail",
     component: Product
+  },
+  {
+    path: '*',
+    name: 'Not Found',
+    component: NotFound
   },
 
 ];

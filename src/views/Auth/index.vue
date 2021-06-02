@@ -10,7 +10,8 @@ export default {
     AuthForm,
   },
   data() {
-    return {};
+    return {      
+    };
   },
   created() {},
   computed: {},
