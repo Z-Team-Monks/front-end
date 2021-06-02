@@ -20,7 +20,13 @@ const admin = {
     },
     actions: {
         async GetAllUsers({ commit }) {
-            await axios.get("/users")
+            const options = {
+                headers: {
+                    "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjIiLCJuYmYiOjE2MjI1ODY4ODUsImV4cCI6MTYzMTIyNjg4NSwiaWF0IjoxNjIyNTg2ODg1fQ.En4rTJmezNk1YJwYTUoBIZUueL4WQI0fxXGELHdoxGs`
+
+                }
+            }
+            await axios.get("/users", options)
                 .then(res => {
                     commit("SAVE_USERS", res.data)
                     console.log(res.data)
@@ -47,6 +53,24 @@ const admin = {
                     console.log(e)
                 })
         },
+
+        async UpdateShopStatus({ commit }, data) {
+            const options = {
+                headers: {
+                    "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjQiLCJuYmYiOjE2MjI1ODU4NTMsImV4cCI6MTYzMTIyNTg1MywiaWF0IjoxNjIyNTg1ODUzfQ.GOR6tB5py2y2OjOQNI67DaPt-uZsqH420PvhtoXY-mM`
+                    ,
+                    "Content-Type": "application/json",
+                }
+            }
+            await axios.get(`/shops/${data.shopId}`, JSON.stringify(data), options)
+                .then(res => {
+
+
+
+                }).catch(e => {
+                    console.log(e)
+                })
+        }
 
     },
     getters: {},

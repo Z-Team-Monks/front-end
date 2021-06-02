@@ -3,12 +3,29 @@ import axios from "axios";
 const shops = {
   namespaced: true,
   state: {
-    shops: []
+    shops: [],
+    allShops: [],
+    AllProducts: [],
+    shop: {},
+    shopProducts :[]
   },
   mutations: {
     SAVE_SHOPS(state, shops) {
       state.shops = shops;
-    }
+    },
+    SAVE_ALL_SHOPS(state, shops) {
+      state.allShops = shops;
+    },
+    SAVE_ALL_PRODUCTS(state, AllProducts) {
+      state.AllProducts = AllProducts;
+    },
+    SAVE_SHOP(state, shop) {
+      state.shop = shop;
+    },
+    SAVE_SHOP_PRODUCTS(state,shopProducts ) {
+      console.log("product is being mutated")
+      state.shopProducts = shopProducts;
+    },
   },
   actions: {
     async GetShops({ commit }) {
@@ -20,6 +37,9 @@ const shops = {
       }
       await axios.get("/shops", options)
         .then(res => {
+          res.data.forEach(e => {
+            e.isVisible = true
+          });
           commit("SAVE_SHOPS", res.data)
           console.log(res.data)
         }).catch(e => {
@@ -27,23 +47,29 @@ const shops = {
         })
 
     },
+
+
     async GetShopProducts({ commit }, id) {
+      console.log("dispatching")
       await axios.get(`/shops/${id}/products`)
         .then(res => {
-          console.log(res.data)
+          res.data.forEach(e => {
+            e.isVisible = true;
+          })
+         
+          commit("SAVE_SHOP_PRODUCTS" , res.data)
         }).catch(e => {
           console.log(e)
         })
-
     },
-    async GetShopProducts({ commit }, id) {
+    async GetAllProducts({ commit }, id) {
       await axios.get(`/shops/${id}/products`)
         .then(res => {
+          commit("SAVE_ALL_PRODUCTS", res.data.forEach(e => e.isVisible = true))
           console.log(res.data)
         }).catch(e => {
           console.log(e)
         })
-
     },
     async GetShopDetail({ commit }, id) {
       await axios.get(`/shops/${id}`)
@@ -95,6 +121,45 @@ const shops = {
     },
 
 
+    async GetAllShops({ commit }, q) {
+      await axios.get("/shops")
+        .then(res => {
+          res.data.forEach(e => {
+            e.isVisible = true
+          });
+          commit("SAVE_ALL_SHOPS", res.data)
+          console.log(res.data)
+        }).catch(e => {
+          console.log(e)
+        })
+    },
+
+    async SearchShop({ commit }, q) {
+      await axios.get("/search/shops", { params: { name: q.query } })
+        .then(res => {
+          res.data.forEach(e => {
+            e.isVisible = true
+          });
+          commit("SAVE_ALL_SHOPS", res.data)
+          console.log(res.data)
+        }).catch(e => {
+          console.log(e)
+        })
+    },
+
+
+
+    async GetShop({ commit } , id) {
+      await axios.get(`/shops/${id}`)
+      .then(res => {
+        res.data.forEach(e => {
+          e.isVisible = true
+        });
+        commit("SAVE_SHOP", res.data)
+      }).catch(e => {
+        console.log(e)
+      })
+    }
   },
   getters: {},
 };

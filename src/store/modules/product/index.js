@@ -3,18 +3,41 @@ import axios from "axios";
 const product = {
   namespaced: true,
   states: {
-    products: []
+    products: [],
+    AllProducts : [],
+    product:[]
   },
   mutations: {
     SAVE_PRODUCTS(state, product) {
       state.products = product;
+    },
+    SAVE_PRODUCT(state, product) {
+      state.product = product;
+    },
+    SAVE_ALL_PRODUCTS(state, product) {
+      state.AllProducts  = product 
     }
   },
   actions: {
     async GetProducts({ commit }) {
       await axios.get("/products")
         .then(res => {
-          commit("SAVE_PRODUCTS" , res.data)
+          res.data.forEach(e => {
+            e.isVisible = true
+          });
+          commit("SAVE_PRODUCTS", res.data)
+          // commit("SAVE_ALL_PRODUCTS", res.data)
+        }).catch(e => {
+          console.log(e)
+        })
+    },
+    async SearchProducts({ commit },q) {
+      await axios.get("/products" , {params : { name: q.name }})
+        .then(res => {
+          res.data.forEach(e => {
+            e.isVisible = true
+          });
+          commit("SAVE_PRODUCTS", res.data)
           console.log(res.data)
         }).catch(e => {
           console.log(e)
@@ -31,6 +54,7 @@ const product = {
     async GetProductByID({ commit }, id) {
       await axios.get(`/products/${id}`)
         .then(res => {
+          commit("SAVE_PRODUCT" , res.data)
           console.log(res.data)
         }).catch(e => {
           console.log(e)

@@ -12,7 +12,10 @@ export default {
   data() {
     return {};
   },
-  created() {},
+  created() {
+    // getting shop detail error
+    // this.$store.dispatch("shops/GetShop", this.$route.params.id);
+  },
   computed: {},
   methods: {},
   props: {},

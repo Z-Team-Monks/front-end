@@ -51,7 +51,6 @@
     <v-toolbar>
       <v-tabs v-model="tab" background-color="red lighten-4" grow>
         <v-tab href="#ads"> Ads </v-tab>
-        <v-tab href="#admin"> Admins </v-tab>
         <v-tab href="#users"> Users </v-tab>
         <v-tab href="#products"> Products </v-tab>
         <v-tab href="#shopTable"> Shop Admission Request </v-tab>
@@ -60,9 +59,6 @@
     <v-tabs-items v-model="tab">
       <v-tab-item :key="1" value="ads">
         <Ads />
-      </v-tab-item>
-      <v-tab-item :key="2" value="admin">
-        <AdminTable />
       </v-tab-item>
       <v-tab-item :key="3" value="users">
         <UsersTable />

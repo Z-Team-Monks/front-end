@@ -4,11 +4,13 @@ import AuthLogin from "../views/Auth/index";
 import Home from "../views/Home.vue";
 import Admin from "../views/admin/index";
 import Shop from "../views/shop/index";
+import Shops from "../views/shop/shops";
 import Cart from "../views/cart/index";
 import Product from "../views/products/detail";
 import User from "../views/user/index";
 import NotFound from "../views/NotFound/NotFound";
 
+import Browse from "../views/browse";
 
 Vue.use(VueRouter);
 
@@ -17,6 +19,11 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+  },
+  {
+    path: "/browse",
+    name: "browse",
+    component: Browse,
   },
   {
     path: "/auth",
@@ -28,13 +35,18 @@ const routes = [
     name: "Admin",
     component: Admin,
     children: [
-      
+
     ]
   },
   {
     path: "/user",
     name: "user",
     component: User,
+  },
+  {
+    path: "/shops",
+    name: "shops",
+    component: Shops,
   },
   {
     path: "/shop/:id",
@@ -56,6 +68,7 @@ const routes = [
     name: 'Not Found',
     component: NotFound
   },
+
 ];
 
 const router = new VueRouter({

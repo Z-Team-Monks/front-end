@@ -3,17 +3,19 @@
     <base-material-card color="warning" class="px-5 py-3">
       <template v-slot:heading>
         <div class="display-2 font-weight-light">All Users</div>
-
-        <!-- <div class="subtitle-1 font-weight-light">
-          New employees on 15th September, 2016
-        </div> -->
       </template>
       <v-card-text>
-        <v-data-table :headers="headers" :items="desserts">
-          <template v-slot:item.glutenfree="{ item }">
-            <v-btn small elevation="0" class="ml-2" color="error">
-              Deactivate <v-icon right>mdi-account</v-icon>
+        <v-data-table :headers="headers" :items="users">
+          <template v-slot:item.actions="{ item }">
+            <v-btn small elevation="0" class="ml-2" @click = "deleteUser" color="error">
+              Delete <v-icon right>mdi-delete</v-icon>
             </v-btn>
+          </template>
+          <template v-slot:item.role="{ item }">
+              {{item.role}}
+          </template>
+          <template v-slot:item.dateAccountCreated="{ item }">
+              {{new Date(item.dateAccountCreated)}}
           </template>
         </v-data-table>
       </v-card-text>
@@ -25,60 +27,35 @@ export default {
   components: {},
   data() {
     return {
-      desserts: [
-        {
-          name: "Shemsu tele center",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          iron: "7%",
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-        },
-      ],
       headers: [
         {
-          text: "Dessert (100g serving)",
+          text: "user name",
           align: "start",
           sortable: false,
-          value: "name",
+          value: "username",
         },
-        { text: "Calories", value: "calories" },
-        { text: "Carbs (g)", value: "carbs" },
-        { text: "Gluten-Free", value: "glutenfree" },
+        { text: "email", value: "email" },
+        { text: "role", value: "role" },
+        { text: "phone", value: "phone" },
+        { text: "phone", value: "phone" },
+        { text: "Date", value: "dateAccountCreated" },
+        // { text: "actions", value: "actions" },
       ],
     };
   },
-
+  computed: {
+    users() {
+      return this.$store.state.admin.AUsers;
+    },
+  },
   created() {
-    this.$store.dispatch("admin/GetAllUsers")
+    this.$store.dispatch("admin/GetAllUsers");
+  },
+  methods: {
+    deleteUser(id) {
+      //delete your user in here
+      this.$store.dispatch("users/deleteUser",id)
+    }
   }
 };
-</script>
+</script> 

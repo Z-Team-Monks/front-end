@@ -6,7 +6,7 @@
         src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
       ></v-img>
 
-      <v-card-title>Cafe Badilico</v-card-title>
+      <v-card-title>{{ product.productName }}</v-card-title>
 
       <v-card-text>
         <v-row align="center" class="mx-0">
@@ -20,19 +20,40 @@
           ></v-rating>
 
           <div class="grey--text ms-4">4.5 (413)</div>
+          <v-btn
+            small
+            elevation="0"
+            color="transparent"
+            @click="SubmitReview"
+            fab
+          >
+            <v-icon class=""> mdi-message-draw </v-icon>
+          </v-btn>
         </v-row>
 
-        <div class="my-4 subtitle-1">$45 • <span class="text-decoration-line-through text--disabledtext text-caption  ">$110</span> </div>
+        <div class="my-4 subtitle-1">
+          $45 •
+          <span
+            class="text-decoration-line-through text--disabledtext text-caption"
+            >$110</span
+          >
+        </div>
 
-        <div style="height:60px;">
-          Small plates, salads & sandwiches - an intimate setting with 12 indoor
-          seats plus patio seating.
+        <div style="height: 60px">
+          {{ product.description }}
         </div>
       </v-card-text>
-
-
-      <v-btn class="ml-5" color="red lighten--4" dark fab absolute right botto>
-        <v-icon>mdi-cart</v-icon>
+      <v-btn
+        @click="emitProductDetail"
+        class="ml-5"
+        color="red lighten--4"
+        dark
+        fab
+        absolute
+        right
+        botto
+      >
+        <v-icon>mdi-eye</v-icon>
       </v-btn>
 
       <v-divider class="mx-4"></v-divider>
@@ -46,13 +67,22 @@ export default {
   },
   created() {},
   computed: {},
-  methods: {},
-  props: {},
+  methods: {
+    emitProductDetail(e) {
+      console.log("emitted product detail");
+      this.$emit("showProductDetail");
+    },
+    SubmitReview(e) {
+      console.log("emitted");
+      this.$emit("productReview");
+    },
+  },
+  props: ["product"],
 };
 </script>
 
 <style scoped>
 .sm__price_text {
-  font-size: .1rem;
+  font-size: 0.1rem;
 }
 </style>
