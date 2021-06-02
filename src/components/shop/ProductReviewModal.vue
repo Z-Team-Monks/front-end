@@ -1,19 +1,70 @@
 <template>
   <div class="n">
-    <v-row>
-      <v-col cols="6">
-        <v-dialog @click:outside="hideMe" width="500" v-model="cc">
-          <v-card tile>
-            <v-list-item two-line v-for="(r, i) in reviews" :key="i">
-              <v-list-item-content>
-                <v-list-item-title>{{ r.reviewString }}</v-list-item-title>
-                <v-list-item-subtitle>{{ r.userName }}</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card>
-        </v-dialog>
-      </v-col>
-    </v-row>
+    <v-dialog
+      @click:outside="hideMe"
+      :scrollable="false"
+      max-width="800"
+      v-model="cc"
+    >
+      <v-card>
+        <v-container>
+          <v-row>
+            <v-col cols="12" sm="6" md="6">
+              <v-textarea
+                v-model="reviewString"
+                rows="2"
+                counter
+                label="Review"
+              ></v-textarea>
+              <v-rating medium v-model="rating" color="orange"></v-rating>
+              <v-btn
+                @click="submitReview"
+                color="primary"
+                class="mt-3"
+                outlined
+                block
+              >
+                <v-icon left>mdi-pen</v-icon> Submit Review</v-btn
+              >
+            </v-col>
+            <v-col cols="6" v-if="reviews.length != 0" sm="6" md="6">
+              <h6>Reviews</h6>
+              <v-list-item
+                two-line
+                v-for="(r, i) in reviews"
+                :key="i"
+                class="border-bottom border-top"
+              >
+                <v-list-item-content>
+                  <v-list-item-title>{{ r.reviewString }}</v-list-item-title>
+                  <v-list-item-subtitle> </v-list-item-subtitle>
+                  <v-row>
+                    <v-col>
+                      <v-list-item-subtitle>{{
+                        r.userName
+                      }}</v-list-item-subtitle>
+                    </v-col>
+                    <v-col>
+                      <v-rating
+                        x-small
+                        :value="r.rating"
+                        class="display-inline pl-0"
+                        readonly
+                        color="orange"
+                      ></v-rating>
+                    </v-col>
+                  </v-row>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+
+            <v-col v-else cols="6" sm="6" md="6">
+              <h6>No reviews yet</h6>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -21,6 +72,8 @@ export default {
   data() {
     return {
       show: false,
+      rating: 1,
+      reviewString: "",
     };
   },
   created() {
@@ -39,6 +92,13 @@ export default {
     hideMe() {
       console.log("hiding");
       this.show = false;
+      this.$emit("hideMe")
+    },
+    submitReview() {
+      this.$emit("submitReview", {
+        rating: this.rating,
+        reviewString: this.reviewString,
+      });
     },
   },
 

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="product.isVisible">
     <v-card class="mx-auto mb-12" max-width="300">
       <v-img
         height="150"
@@ -27,15 +27,15 @@
             @click="SubmitReview"
             fab
           >
-            <v-icon class=""> mdi-message-draw </v-icon>
+            <v-icon class=""> mdi-pen </v-icon>
           </v-btn>
         </v-row>
 
         <div class="my-4 subtitle-1">
-          $45 •
+          {{product.price}} ETB •
           <span
             class="text-decoration-line-through text--disabledtext text-caption"
-            >$110</span
+            >110 ETB</span
           >
         </div>
 
@@ -66,7 +66,9 @@ export default {
     return {};
   },
   created() {},
-  computed: {},
+  computed: {
+    
+  },
   methods: {
     emitProductDetail(e) {
       console.log("emitted product detail");

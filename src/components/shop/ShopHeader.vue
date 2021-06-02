@@ -8,7 +8,7 @@
       <v-img
         height="200"
         aspect-ratio="16/9"
-        src="hDeactivateAdttps://images.unsplash.com/photo-1472851294608-062f824d29cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
+        src="https://images.unsplash.com/photo-1472851294608-062f824d29cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
       ></v-img>
       <v-row style="margin: 2.5%; position: absolute; top: 130px">
         <v-list-item>
@@ -20,8 +20,9 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="title pt-1" style="margin-top: 20px">
-              Versace House (Eth)
-              {{ shop }}
+              <h6 class="d-inline-block pt-2">
+                {{ shop.shopName }}
+              </h6>
               <v-icon color="primary">mdi-check-decagram</v-icon>
             </v-list-item-title>
             <v-list-item-subtitle>

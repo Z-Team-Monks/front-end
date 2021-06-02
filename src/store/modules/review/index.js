@@ -5,13 +5,13 @@ const review = {
     state: {},
     mutations: {},
     actions: {
-        async SubmitProductReview({ commit }, review) {
+        async SubmitProductReview({ commit, dispatch }, review) {
             const options = {
                 headers: {
                     "Content-Type": "application/json",
                 },
             };
-            await axios.post(`products/${id}/reviews`, JSON.stringify(review), options)
+            await axios.post(`products/${review.id}/reviews`, JSON.stringify({ rating: review.rating, reviewString: review.reviewString }), options)
                 .then(res => {
                     console.log(res.data)
                 }).catch(e => {

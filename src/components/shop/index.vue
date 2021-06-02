@@ -1,31 +1,13 @@
 <template>
   <div class="w-75 mx-auto">
+    <br />
     <ShopHeader />
     <br />
     <br />
     <br />
     <br />
     <v-divider />
-    <div class="display-1">Trending Shop Products</div>
-    <v-divider />
-    <br />
-    <br />
-    <v-row>
-      <v-col>
-        <ShopProducts />
-      </v-col>
-      <v-col>
-        <ShopProducts />
-      </v-col>
-      <v-col>
-        <ShopProducts />
-      </v-col>
-      <v-col>
-        <ShopProducts />
-      </v-col>
-    </v-row>
-    <v-divider />
-    <ShopFillter :products = "products" />
+    <ShopFillter :products="products" />
   </div>
 </template>
 
@@ -44,13 +26,14 @@ export default {
     return {};
   },
   created() {
-    console.log("created in here")
-  this.$store.dispatch("shops/GetShopProducts", this.$route.params.id);
+    console.log("created in here");
+    this.$store.dispatch("shops/GetShop" , this.$route.params.id)
+    this.$store.dispatch("shops/GetShopProducts", this.$route.params.id);
   },
   computed: {
     products() {
       return this.$store.state.shops.shopProducts;
-    }
+    },
   },
   methods: {},
   props: {},

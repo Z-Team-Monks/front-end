@@ -155,9 +155,7 @@ const shops = {
     async GetShop({ commit }, id) {
       await axios.get(`/shops/${id}`)
         .then(res => {
-          res.data.forEach(e => {
-            e.isVisible = true
-          });
+         
           commit("SAVE_SHOP", res.data)
         }).catch(e => {
           console.log(e)

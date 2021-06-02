@@ -5,38 +5,85 @@
         <v-card class="mx-auto p-4" max-width="300" tile>
           <v-list>
             <div class="overline">Fillter Products</div>
-            <v-divider />
             <v-list-item-group color="primary">
               <v-list-item-title>
                 <v-list-item-content>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="defaultCheck1"
-                    />
-                    <label class="form-check-label" for="defaultCheck1">
-                      Default checkbox
-                    </label>
-                  </div>
-                </v-list-item-content>
-              </v-list-item-title>
-              <v-list-item-title>
-                <v-list-item-content>
                   <v-subheader>Price Rage</v-subheader>
-                  <v-range-slider max="50" min="-50"></v-range-slider>
+                  <v-range-slider
+                    v-model="range"
+                    :max="max"
+                    step="100"
+                    :min="min"
+                    hide-details
+                    class="align-center"
+                  >
+                    <template v-slot:prepend>
+                      <v-text-field
+                        :value="range[0]"
+                        class="mt-0 pt-0"
+                        hide-details
+                        single-line
+                        type="number"
+                        style="width: 60px"
+                        @change="$set(range, 0, $event)"
+                      ></v-text-field>
+                    </template>
+                    <template v-slot:append>
+                      <v-text-field
+                        :value="range[1]"
+                        class="mt-0 pt-0"
+                        hide-details
+                        single-line
+                        type="number"
+                        style="width: 60px"
+                        @change="$set(range, 1, $event)"
+                      ></v-text-field>
+                    </template>
+                  </v-range-slider>
                 </v-list-item-content>
               </v-list-item-title>
               <v-list-item-title>
                 <v-list-item-content>
                   <v-subheader>Rating Rage</v-subheader>
-                  <v-range-slider max="50" min="-50"></v-range-slider>
+                  <v-range-slider
+                    v-model="ratingRange"
+                    :max="maxRating"
+                    :min="minRating"
+                    step="1"
+                    hide-details
+                    class="align-center"
+                  >
+                    <template v-slot:prepend>
+                      <v-text-field
+                        :value="ratingRange[0]"
+                        class="mt-0 pt-0"
+                        hide-details
+                        single-line
+                        type="number"
+                        style="width: 30px"
+                        @change="$set(range, 0, $event)"
+                      ></v-text-field>
+                    </template>
+                    <template v-slot:append>
+                      <v-text-field
+                        :value="ratingRange[1]"
+                        class="mt-0 pt-0"
+                        hide-details
+                        single-line
+                        type="numbeshopr"
+                        style="width: 30px"
+                        @change="$set(range, 1, $event)"
+                      ></v-text-field>
+                    </template>
+                  </v-range-slider>
                 </v-list-item-content>
               </v-list-item-title>
             </v-list-item-group>
           </v-list>
         </v-card>
+      </v-col>
+      <v-col v-if="fillterCount == 0" cols="6">
+        <h6>No Products </h6>
       </v-col>
       <v-col cols="9">
         <v-row>
@@ -53,9 +100,11 @@
     <Detail v-if="pass" @hideModal="hideModal" :dialog="pass" :prod="p" />
     <ProductReviewModal
       v-if="passReview"
+      @submitReview="submitReview"
       @hideModal="hideModal"
-      :dialog="true"
+      :dialog="pd"
       :reviews="reviewsData"
+      :hideDetailModal = "hideDetailModal"
     />
   </div>
 </template>
@@ -69,6 +118,7 @@ export default {
     Detail,
     ProductReviewModal,
   },
+
   data() {
     return {
       selectedItem: 1,
@@ -79,6 +129,12 @@ export default {
       ],
       dialog: false,
       description: "",
+      min: 0,
+      maxRating: 5,
+      minRating: 1,
+      ratingRange: [1, 5],
+      max: 800,
+      range: [0, 800],
       rating: 2,
       length: 5,
       passData: false,
@@ -87,10 +143,37 @@ export default {
       reviewsData: "",
     };
   },
+
+  watch: {
+    range(newVal, old) {
+      console.log(newVal);
+      this.products.forEach((s) => {
+        if ((s.price >= newVal[0]) & (s.price <= newVal[1])) {
+          s.isVisible = true;
+        } else s.isVisible = false;
+      });
+    },
+    ratingRange(newVal, old) {
+      // this.products.forEach((s) => {
+      //   if ((s.rating >= newVal[0]) & (s.rating <= newVal[1])) {
+      //     s.isVisible = true;
+      //   } else s.isVisible = false;
+      // });
+    },
+  },
   created() {
     this.length = this.$store.state.product.product;
   },
   computed: {
+    fillterCount() {
+      let count = 0;
+      this.products.forEach((s) => {
+        if (s.isVisible == true) {
+          count++;
+        }
+      });
+      return count;
+    },
     len() {
       return this.length;
     },
@@ -104,9 +187,12 @@ export default {
       return this.passData;
     },
     passReview() {
-      return this.pd
-    }
-  },   
+      return this.pd;
+    },
+    ShopProducts() {
+      return this.$store.state.shops.shopProducts;
+    },
+  },
   methods: {
     handleProductDetail(id) {
       this.$store.dispatch("product/GetProductByID", id).then((e) => {
@@ -120,7 +206,7 @@ export default {
         this.reviewsData = this.$store.state.product.product.productReviews;
         this.pd = true;
       } else {
-        console.log("handling it ")
+        console.log("handling it ");
         this.$store.dispatch("product/GetProductByID", id).then((e) => {
           this.reviewsData = this.$store.state.product.product.productReviews;
           this.pd = true;
@@ -134,6 +220,16 @@ export default {
       this.passData = false;
       this.pd = false;
     },
+    submitReview(review) {
+      this.$store.dispatch("review/SubmitProductReview", {
+        rating: review.rating,
+        reviewString: review.reviewString,
+        id: this.reviewsData.productId,
+      });
+    },
+    hideDetailModal(e) {
+      
+    }
   },
   props: ["products"],
 };
