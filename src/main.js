@@ -9,6 +9,8 @@ import './plugins/base'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import Vuelidate from 'vuelidate'
+import VueMapbox from '@studiometa/vue-mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 
 
@@ -38,6 +40,7 @@ axios.defaults.baseURL = 'http://localhost:51042/api/v1';
 
 Vue.use(require('vue-chartist'))
 Vue.use(Vuelidate)
+Vue.use(VueMapbox);
 Vue.config.productionTip = false;
 
 

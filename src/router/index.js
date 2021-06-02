@@ -8,6 +8,7 @@ import Shops from "../views/shop/shops";
 import Cart from "../views/cart/index";
 import Product from "../views/products/detail";
 import User from "../views/user/index";
+import Map from "../views/map/index";
 import NotFound from "../views/NotFound/NotFound";
 
 import Browse from "../views/browse";
@@ -53,6 +54,11 @@ const routes = [
     name: "shop",
     component: Shop,
   },
+  {
+    path : "/map",
+    name : "map",
+    component : Map,
+  },  
   {
     path: "/cart",
     name: "cart",
