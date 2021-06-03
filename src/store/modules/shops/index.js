@@ -8,7 +8,8 @@ const shops = {
     AllProducts: [],
     shop: {},
     shopProducts: [],
-    products: []
+    products: [],
+    cart: []
   },
   mutations: {
     SAVE_SHOPS(state, shops) {
@@ -29,17 +30,33 @@ const shops = {
     },
     SAVE_PRODUCTS(state, products) {
       state.products = products
+    },
+    SAVE_TO_CART(state, cart) {
+      state.cart = cart
     }
   },
   actions: {
     async GetShops({ commit }) {
+      await axios.get("/shops")
+        .then(res => {
+          res.data.forEach(e => {
+            e.isVisible = true
+          });
+          commit("SAVE_SHOPS", res.data)
+          console.log(res.data)
+        }).catch(e => {
+          console.log(e)
+        })
+
+    },
+    async GetUserShops({ commit }) {
       const options = {
         headers: {
-          "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjIiLCJuYmYiOjE2MjI0ODY3MjYsImV4cCI6MTYzMTEyNjcyNiwiaWF0IjoxNjIyNDg2NzI2fQ.fOp-k_QW98ms0T3HpsytgXdupCHx9-xsgWfA5tnCUT0`
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
 
         }
       }
-      await axios.get("/shops", options)
+      await axios.get("/user/shops", options)
         .then(res => {
           res.data.forEach(e => {
             e.isVisible = true
@@ -53,6 +70,9 @@ const shops = {
     },
 
 
+    async AddShopProduct({commit}) {
+      await axios.post("/products", )
+    },
     async GetShopProducts({ commit }, id) {
       console.log("dispatching")
       await axios.get(`/shops/${id}/products`)
@@ -84,15 +104,30 @@ const shops = {
         })
 
     },
-    async CreateShop({ commit }, data) {
+    async CreateShop({ commit,dispatch }, data) {
       const options = {
         headers: {
-          "Content-Type": "multipart/form-data",
-          "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjMiLCJuYmYiOjE2MjI0NzczOTQsImV4cCI6MTYzMTExNzM5NCwiaWF0IjoxNjIyNDc3Mzk0fQ.BcSbNle3lakMDknwTMJR5Sm_TMScMG0uaostMNmt_ac`
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
         },
       };
-      await axios.post("/shops", data, options)
+      await axios.post("/shops", data.shop, options)
         .then(res => {
+          console.log("shop created")
+          const options2 = {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              "Authorization": `Bearer ${localStorage.getItem("token")}`
+            },
+          };
+          axios.post(`/shops/${res.data.shopId}/uploads`, data.formData, options2)
+            .then(res => {
+              console.log("sent file ")
+
+            }).catch(e => {
+              console.log(e)
+            })
+
           console.log(res.data)
         }).catch(e => {
           console.log(e)
@@ -114,9 +149,10 @@ const shops = {
         })
     },
 
-    async DeleteShop({ commit }, id) {
-      await axios.get(`/shops/${id}`)
+    async DeleteShop({ commit,dispatch }, id) {
+      await axios.delete(`/shops/${id}`)
         .then(res => {
+          dispatch("GetUserShops")
           console.log(res.data)
         }).catch(e => {
           console.log(e)
@@ -155,8 +191,9 @@ const shops = {
     async GetShop({ commit }, id) {
       await axios.get(`/shops/${id}`)
         .then(res => {
-         
+          console.log("get shop")
           commit("SAVE_SHOP", res.data)
+          return res.data
         }).catch(e => {
           console.log(e)
         })
@@ -191,6 +228,26 @@ const shops = {
           console.log(e)
         })
     },
+
+
+    async AddToCart({commit} , id) {
+      const options = {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },
+      };
+      await axios.post("/cart" , JSON.stringify({ productId: id}) )
+      .then(res => {
+
+        commit("SAVE_TO_CART", res.data)
+      }).catch(e => {
+        console.log(e)
+      } )
+    
+    }
+
+
   },
   getters: {},
 };

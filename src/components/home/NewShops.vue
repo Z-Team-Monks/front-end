@@ -33,26 +33,37 @@
         </div>
       </div>
     </div>
-
+    <v-divider></v-divider>
     <VueSlickCarousel :dots="true" v-bind="settings" v-if="shops.length">
       <div v-for="(shop, n) in shops" class="mr-5" :key="n">
         <div v-if="shop.isVisible">
-          <HopShopCard :shop="shop" />
+          <HopShopCard @NearByModal="showModal(shop.shopId)" :shop="shop" />
         </div>
       </div>
     </VueSlickCarousel>
+    <v-divider></v-divider>
+    <div v-if="showModalWatch && singleShopWatch">
+      <NearByModal
+        v-if="showModalWatch && singleShopWatch"
+        :show="showDialogWatch"
+        :whereTo="singleShopWatch"
+        @emitHideModal="emitHideModal"
+      />
+    </div>
 
     <!-- end -->
   </section>
 </template>
 <script>
 import ProductCard from "@/components/product/ProductCard";
+import NearByModal from "@/views/map/NearByModal";
 import HopShopCard from "@/components/home/HopShopCard";
 import { Carousel, Slide } from "vue-carousel";
 import VueSlickCarousel from "vue-slick-carousel";
 import "vue-slick-carousel/dist/vue-slick-carousel.css";
-// optional style for arrows & dots
 import "vue-slick-carousel/dist/vue-slick-carousel-theme.css";
+import axios from "axios";
+
 export default {
   components: {
     ProductCard,
@@ -60,6 +71,7 @@ export default {
     Slide,
     VueSlickCarousel,
     HopShopCard,
+    NearByModal,
     // ProductDetailModal,
   },
   data() {
@@ -84,6 +96,9 @@ export default {
         "Creative Writing",
       ],
       currentProduct: {},
+      passProp: false,
+      showDialog: false,
+      SingleShop: {},
     };
   },
   created() {
@@ -111,6 +126,19 @@ export default {
 
     categories() {
       return this.$store.state.category.categories;
+    },
+    shop() {
+      return this.$store.state.shops.shop;
+    },
+    showModalWatch() {
+      return this.passProp;
+    },
+    showDialogWatch() {
+      return this.showDialog;
+    },
+    singleShopWatch() {
+      console.log("update me please");
+      return this.SingleShop;
     },
   },
 
@@ -146,6 +174,36 @@ export default {
       this.$store.dispatch("message/ShowNotification");
 
       this.dialog = false;
+    },
+
+    showModal(id) {
+      console.log("id is emitted");
+      console.log(id);
+
+      console.log("dispatching");
+      this.getShop(id);
+      console.log("dispatching");
+    },
+    emitHideModal() {
+      this.showDialog = false;
+      this.passProp = false;
+    },
+
+     getShop(id) {
+       axios
+        .get(`/shops/${id}`)
+        .then((res) => {
+          this.showDialog = true;
+          this.passProp = true;
+          console.log("--------==========");
+          console.log(res.data);
+          console.log("--------==========");
+          this.SingleShop = res.data;
+          return res.data;
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     },
   },
   props: {},

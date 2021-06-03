@@ -1,10 +1,10 @@
 <template>
-  <div class="mx-auto w-75">
+  <div class="mx-auto mt-3 w-75">
     <v-card class="mx-auto">
       <input type="file" name="file" class = "d-none" id="my-banner" />
-      <v-btn absolute @click = "upploadBanner" bottom color="pink" right fab>
+      <!-- <v-btn absolute @click = "upploadBanner" bottom color="pink" right fab>
         <v-icon color="white"> mdi-cloud-upload </v-icon>
-      </v-btn>
+      </v-btn> -->
       <v-img
         height="200"
         src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
@@ -20,12 +20,16 @@
           <v-list-item-content>
             <v-list-item-title
               class="title"
-              style="margin-top: 20px; font-size: 3rem"
-              >Nabek Abebe (Niko)</v-list-item-title
+              style="margin-top: 20px; font-size: 4rem"
+              > 
+              <h4> {{user.username}} </h4>
+              
+               </v-list-item-title
             >
-            <v-list-item-subtitle
-              >Software Engineer | Dancer</v-list-item-subtitle
-            >
+            <!-- <v-list-item-subtitle
+              color="transparent"
+            >Software Engineer | Dancer</v-list-item-subtitle
+            > -->
           </v-list-item-content>
         </v-list-item>
       </v-row>
@@ -44,11 +48,7 @@
       <!-- <v-tab class="text-left">
         <v-list-item> <v-icon left>mdi-google-ads </v-icon> Ads </v-list-item>
       </v-tab> -->
-      <v-tab class="text-left">
-        <v-list-item>
-          <v-icon left>mdi-cog-outline</v-icon> settings
-        </v-list-item>
-      </v-tab>
+    
       <v-tab-item>
         <ShopTable />
       </v-tab-item>
@@ -58,9 +58,6 @@
       <!-- <v-tab-item>
         <UserAdsTable />
       </v-tab-item> -->
-      <v-tab-item>
-        <UserSettings />
-      </v-tab-item>
     </v-tabs>
   </div>
 </template>
@@ -104,8 +101,14 @@ export default {
       model: 1,
     };
   },
-  created() {},
-  computed: {},
+  created() {
+    this.$store.dispatch("auth/GetMe");
+  },
+  computed: {
+    user() {
+      return this.$store.state.auth.user
+    }
+  },
   methods: {
     upploadBanner(e) {
       const file = document.querySelector("#my-banner");

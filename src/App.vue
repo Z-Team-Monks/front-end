@@ -21,6 +21,15 @@ export default {
   data: () => ({
     //
   }),
+  created() {
+    if (localStorage.getItem("isAuthenticated") == "true") {
+      this.$store.dispatch("auth/ChangeStatus", false);
+      this.$store.dispatch("auth/ChangeStatus", true);
+    } else {
+      this.$store.dispatch("auth/ChangeStatus", true);
+      this.$store.dispatch("auth/ChangeStatus", false);
+    }
+  },
 };
 </script>
 
@@ -38,6 +47,4 @@ export default {
 @import url("assets/css/style.css");
 @import url("assets/css/responsive.css");
 @import url("assets/css/notfound.css");
-
-
 </style>

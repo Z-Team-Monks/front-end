@@ -68,7 +68,11 @@
         <!-- End Login Form -->
 
         <!-- Sign Up Form -->
-        <form class="sign-up__form" id="signUpForm">
+        <form
+          @submit.prevent="AttemptSignUp"
+          class="sign-up__form"
+          id="signUpForm"
+        >
           <!-- Form Title -->
           <h1 class="form__title">Sign Up!</h1>
           <!-- inputs Groups -->
@@ -262,7 +266,7 @@ export default {
       // (v) => /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/.test(v) || "phone number must be valid",
     ],
 
-    show1: false,
+    show1: true,
     rules: {
       required: (value) => !!value || "Required.",
       min: (v) => (v && v.length >= 6) || "Min 8 characters",
@@ -313,10 +317,6 @@ export default {
 
     login(e) {
       // if (this.$refs.loginForm.validate()) {
-      //   this.$store.dispatch("auth/Login", {
-      //     username: this.username,
-      //     password: this.password,
-      //   });
       // }
     },
     register() {
@@ -334,24 +334,66 @@ export default {
       this.signUpDiv = !this.signUpDiv;
     },
 
+    AttemptSignUp() {
+      this.firstSignUpBtnTouch = false;
+
+      // if (this.$refs.registerForm.validate()) {
+      this.$store
+        .dispatch("auth/Register", {
+          username: this.username,
+          email: this.email,
+          role: "user",
+          phone: this.phone,
+          password: this.password,
+        })
+        .then((r) => {
+          this.username = "";
+          this.email = "";
+          this.phone = "";
+          this.password = "";
+        });
+      // }
+    },
     //dummies
     signUp() {
-      this.firstSignUpBtnTouch = false;
+      // this.firstSignUpBtnTouch = false;
     },
     signIn(e) {
       e.preventDefault();
       console.log("this is me");
       this.firstSignInBtnTouch = false;
-      if (this.snackbar) {
-        this.$store.dispatch("message/HideNotification");
-        this.$store.dispatch("message/ShowNotification");
-      } else {
-        this.$store.dispatch("message/ShowNotification");
-      }
+      this.$store
+        .dispatch("auth/Login", {
+          username: this.loginName,
+          password: this.loginPassword,
+        })
+        .then((e) => {
+          // this.snackbar = this.$store.state.message.showSnack;
+          if (this.snackbar) {
+            if (this.$store.state.auth.message == "successfully logged in") {
+              this.$router.push({ name: "user" });
+            }
+            console.log("success");
+            this.$store.dispatch(
+              "message/SaveMessage",
+              this.$store.state.auth.message
+            );
+            this.$store.dispatch("message/HideNotification");
+            this.$store.dispatch("message/ShowNotification");
+          } else {
+            this.$store.dispatch(
+              "message/SaveMessage",
+              this.$store.state.auth.message
+            );
+            this.$store.dispatch("message/ShowNotification");
+            if (this.$store.state.auth.message == "successfully logged in") {
+              this.$router.push({ name: "user" });
+            }
+          }
+        });
     },
     hideMessage() {
-        this.$store.dispatch("message/HideNotification");
-      
+      this.$store.dispatch("message/HideNotification");
     },
   },
 };

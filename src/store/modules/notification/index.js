@@ -18,7 +18,7 @@ const notification = {
         async getNotifications({ commit }){            
             const options = {
                 headers: {
-                    "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjEiLCJuYmYiOjE2MjI3MzIwNDcsImV4cCI6MTYzMTM3MjA0NywiaWF0IjoxNjIyNzMyMDQ3fQ.V2ipvwiRQKlmr0LiKEcm_YihU_nWLleLRB9PzMzt4Xw`
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
             }
             await axios.get("/users/notification", options)
@@ -31,7 +31,7 @@ const notification = {
         async clearNotifications({ commit }){
             const options = {
                 headers: {
-                    "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjEiLCJuYmYiOjE2MjI3MzIwNDcsImV4cCI6MTYzMTM3MjA0NywiaWF0IjoxNjIyNzMyMDQ3fQ.V2ipvwiRQKlmr0LiKEcm_YihU_nWLleLRB9PzMzt4Xw`
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
             }
             await axios.delete("/users/notification", options)

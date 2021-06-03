@@ -11,16 +11,20 @@
           />
         </a>
         <div class="product-action text-center">
-          <router-link :to="{ name: 'shop' ,params: {id: shop.shopId} }">
+          <router-link :to="{ name: 'shop', params: { id: shop.shopId } }">
             <i class="fas fa-link"></i>
           </router-link>
-          <p> {{shop.brand}} </p>
+          <a href ="#" @click="EmitME">
+            <v-icon> mdi-google-maps </v-icon>
+          </a>
+          <p>{{ shop.brand }}</p>
         </div>
       </div>
       <div class="product-content">
         <h6>
           {{ shop.shopName }}
         </h6>
+        <p>{{ shop.buildingName }}</p>
       </div>
     </div>
   </div>
@@ -48,6 +52,11 @@ export default {
     preventMe(e) {
       e.preventDefault();
     },
+    EmitME(e) {
+      e.preventDefault();
+      this.$emit("NearByModal")
+      console.log("NearByModal")
+    }
   },
   props: {
     shop: {

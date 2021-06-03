@@ -123,6 +123,7 @@ export default {
     categories() {
       return this.$store.state.category.categories;
     },
+
     shops() {
       return this.$store.state.shops.allShops;
     },

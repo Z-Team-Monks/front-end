@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div>
     <h3 style="margin: 2rem">Near By Shops</h3>
     <div class="full" mx-3>
@@ -49,6 +50,25 @@
           map-style="mapbox://styles/mapbox/streets-v11"
           :center="[38.7578, 8.9806]"
           :zoom="11"
+=======
+  <div class="full" mx-3>
+    <div class="shop mx-2">
+      <h3>Near By Shops</h3>
+    </div>
+
+    <div class="map-view">
+      <mapbox-map
+        style="height: 600px"
+        access-token="pk.eyJ1IjoicGFyMHMiLCJhIjoiY2s4YWxxa3Y0MDNnNjNqcXRjbHAwcGtucyJ9.P53jjAPr1iSjtfa2dSjJkA"
+        map-style="mapbox://styles/mapbox/streets-v11"
+        :center="[38.7578, 8.9806]"
+        :zoom="11"
+      >
+        <mapbox-marker
+          v-for="(shop, i) in shops"
+          :key="i"
+          :lng-lat="[shop.lng, shop.lat]"
+>>>>>>> 8235a5f18cd7767b631287f18b667dd315fc908d
         >
           <mapbox-marker
             v-for="(shop, i) in shops"
@@ -66,9 +86,16 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import axios from "axios";
 
+=======
+import MyModal from "@/views/map/NearByModal";
+>>>>>>> 8235a5f18cd7767b631287f18b667dd315fc908d
 export default {
+  components: {
+    MyModal,
+  },
   data() {
     return {
       shops: [],

@@ -30,10 +30,10 @@ Vue.prototype.$http = axios;
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 // axios.defaults.xsrfCookieName = undefined;
-// axios.defaults.baseURL = 'http://10.6.250.211:5522/api/v1';
-// axios.defaults.baseURL = 'http://10.6.250.211:51042/api/v1';
-axios.defaults.baseURL = "http://localhost:51043/api/v1";
 
+// axios.defaults.baseURL = 'http://10.6.250.73:5522/api/v1';
+axios.defaults.baseURL = "http://10.6.154.213:5522/api/v1";
+localStorage.setItem("url", "http://10.6.154.213:5522");
 Vue.use(require("vue-chartist"));
 Vue.use(Vuelidate);
 Vue.use(VueMapbox);
@@ -41,18 +41,30 @@ Vue.config.productionTip = false;
 Vue.component("messageComp", messageComp);
 
 router.beforeEach((to, from, next) => {
+  const a = JSON.parse(localStorage.getItem("user"));
+  console.log(a);
+  console.log(localStorage.getItem("isAuthenticated"));
   if (to.path == "/user") {
-    if (localStorage.getItem("isAuthenticated") === true) {
+    if (localStorage.getItem("isAuthenticated") == "true") {
       next();
-    } else router.push({ name: "Home" });
+    } else {
+      router.push({ name: "Home" }).catch(() => {});
+    }
   } else if (to.path == "/admin") {
-    if (localStorage.getItem("isAuthenticated") === true) {
+    if (
+      localStorage.getItem("isAuthenticated") == "true" &&
+      a.role == "admin"
+    ) {
       next();
-    } else router.push({ name: "Home" });
-  } else if (to.path == "/AUTH") {
-    if (localStorage.getItem("isAuthenticated") === true) {
-      router.push({ name: "Home" });
-    } else next();
+    } else {
+      router.push({ name: "Home" }).catch(() => {});
+    }
+  } else if (to.path == "/auth") {
+    if (localStorage.getItem("isAuthenticated") == "true") {
+      router.push({ name: "Home" }).catch(() => {});
+    } else {
+      next();
+    }
   } else {
     next();
   }
