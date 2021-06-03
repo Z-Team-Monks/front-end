@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-xl-5 col-lg-12">
           <div class="area-title mb-50">
-            <h2>Brand New Products</h2>
+            <h2>Brand New Shops</h2>
             <p>Browse the huge variety of our products</p>
           </div>
         </div>
@@ -34,101 +34,20 @@
       </div>
     </div>
 
-    <VueSlickCarousel :dots="true" v-bind="settings" v-if="products.length">
-      <div v-for="(product, n) in products" class="mr-5" :key="n">
-        <div v-if="product.isVisible">
-          <ProductCard
-            :product="product"
-            @emitAddToCart="AddToCart(product)"
-            @emitProductDetail="showDetailModal(product)"
-          />
+    <VueSlickCarousel :dots="true" v-bind="settings" v-if="shops.length">
+      <div v-for="(shop, n) in shops" class="mr-5" :key="n">
+        <div v-if="shop.isVisible">
+          <HopShopCard :shop="shop" />
         </div>
       </div>
     </VueSlickCarousel>
-
-    <!--  do not be lazy nati move it to its own component -->
-    <v-row justify="center">
-      <v-dialog v-model="dialog" max-width="850">
-        <v-card class="p-3">
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              icon
-              x-small
-              color="green darken-1"
-              text
-              @click="dialog = !dialog"
-            >
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-          </v-card-actions>
-          <v-container>
-            <v-row>
-              <v-col cols="5">
-                <v-img
-                  contain
-                  lazy-src="https://picsum.photos/id/11/10/6"
-                  max-height="300"
-                  max-width="300"
-                  src="https://picsum.photos/id/11/500/300"
-                ></v-img>
-              </v-col>
-              <!-- <v-col cols="1" /> -->
-              <v-col cols="6" v-if="selectedProduct">
-                <div class="details-cat mb-20">
-                  {{ selectedProduct.brandName }}
-                </div>
-                <h2 class="pro-details-title">
-                  {{ selectedProduct.productName }}
-                </h2>
-                <div class="details-price mb-20">
-                  <span>{{ selectedProduct.price }}ETB</span>
-                  <span class="old-price">45.00 ETB</span>
-                </div>
-
-                <div class="product-desc variant-item">
-                  <p>
-                    {{ selectedProduct.description }}
-                  </p>
-                </div>
-                <v-row>
-                  <v-col>
-                    <v-btn
-                      @click="AddToCart(selectedProduct)"
-                      class="ml-2"
-                      outlined
-                      color="red lighten--4"
-                      dark
-                      tile
-                      block
-                    >
-                      <v-icon left>mdi-cart</v-icon>
-                      Add To Cart
-                    </v-btn>
-                  </v-col>
-                </v-row>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card>
-      </v-dialog>
-    </v-row>
-
-    <v-snackbar :value="snackbar" :multi-line="multiLine">
-      {{ text }}
-
-      <template v-slot:action="{ attrs }">
-        <v-btn color="red" text v-bind="attrs" @click="hideMessage">
-          Close
-        </v-btn>
-      </template>
-    </v-snackbar>
 
     <!-- end -->
   </section>
 </template>
 <script>
 import ProductCard from "@/components/product/ProductCard";
+import HopShopCard from "@/components/home/HopShopCard";
 import { Carousel, Slide } from "vue-carousel";
 import VueSlickCarousel from "vue-slick-carousel";
 import "vue-slick-carousel/dist/vue-slick-carousel.css";
@@ -140,6 +59,7 @@ export default {
     Carousel,
     Slide,
     VueSlickCarousel,
+    HopShopCard,
     // ProductDetailModal,
   },
   data() {
@@ -167,7 +87,7 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch("product/GetProductWithLimit");
+    this.$store.dispatch("shops/GetAllShops");
     this.$store.dispatch("category/GetCategories");
     this.$store.dispatch("message/HideNotification");
   },
@@ -182,8 +102,8 @@ export default {
     modalShow() {
       return this.dialog;
     },
-    products() {
-      return this.$store.state.product.products;
+    shops() {
+      return this.$store.state.shops.allShops;
     },
     selectedProduct() {
       return this.currentProduct;
@@ -196,8 +116,7 @@ export default {
 
   watch: {
     category(newVal, oldVal) {
-      console.log("this");
-      this.products.forEach((s) => {
+      this.shops.forEach((s) => {
         if (newVal.length != 0) {
           if (newVal.includes(s.categoryId)) {
             s.isVisible = true;

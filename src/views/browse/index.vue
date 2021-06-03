@@ -82,7 +82,7 @@
         <div class="col-xl-3 col-lg-4">
           <div class="sidebar-shop">
             <div class="shop-widget">
-              <h3 class="shop-title">Search for Shops</h3>
+              <h3 class="shop-title">Search for Products</h3>
               <form @submit.prevent="searchShop" class="shop-search">
                 <input
                   type="text"
@@ -197,6 +197,7 @@ export default {
       dialog: false,
       selectedProduct: {},
       pagging: false,
+      currentProduct: {}
     };
   },
   watch: {
@@ -204,6 +205,7 @@ export default {
       this.products.forEach((s) => {
         if (newVal.length != 0) {
           if (newVal.includes(s.categoryId)) {
+            
             s.isVisible = true;
           } else {
             s.isVisible = false;
@@ -252,6 +254,7 @@ export default {
       this.$store.dispatch("shops/SearchProducts", { query: this.searchQuery });
     },
     showProductDetail(product) {
+      this.currentProduct = product;
       console.log("emited show product detail");
       this.dialog = true;
       this.selectedProduct = product;

@@ -3,7 +3,7 @@
     <!-- <TheSlider /> -->
     <Ads :ad="[1, 2, 3]" />
     <NewProducts />
-    <NewProducts />
+    <NewShops />
     <NewsFeed />
     <NewsLetter />
   </div>
@@ -13,6 +13,7 @@
 import TheSlider from "@/components/home/TheSlider";
 import Ads from "@/components/home/Ads";
 import NewProducts from "@/components/home/NewProducts";
+import NewShops from "@/components/home/NewShops";
 import NewsFeed from "@/components/home/NewsFeed";
 import NewsLetter from "@/components/home/NewsLetter";
 export default {
@@ -24,6 +25,7 @@ export default {
     NewProducts,
     NewsFeed,
     NewsLetter,
+    NewShops
   },
 };
 </script>

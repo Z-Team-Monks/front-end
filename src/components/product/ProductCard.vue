@@ -1,5 +1,5 @@
 <template>
-    <div class="pro-item" v-if="product.isVisible">
+    <div class="pro-item mr-2" v-if="product.isVisible">
       <div class="product-wrapper mb-50">
         <div class="product-img mb-25">
           <a @click="emitProductDetail" href="#">
