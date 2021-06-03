@@ -155,8 +155,9 @@ const shops = {
     async GetShop({ commit }, id) {
       await axios.get(`/shops/${id}`)
         .then(res => {
-         
+          console.log("get shop")
           commit("SAVE_SHOP", res.data)
+          return res.data
         }).catch(e => {
           console.log(e)
         })

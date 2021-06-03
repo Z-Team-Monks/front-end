@@ -2,8 +2,8 @@
   <div class="full" mx-3>
     <div class="shop mx-2">
       <h3>Near By Shops</h3>
-    
     </div>
+
     <div class="map-view">
       <mapbox-map
         style="height: 600px"
@@ -27,7 +27,11 @@
 </template>
 
 <script>
+import MyModal from "@/views/map/NearByModal";
 export default {
+  components: {
+    MyModal,
+  },
   data() {
     return {
       shop: {

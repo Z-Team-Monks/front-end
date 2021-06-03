@@ -148,7 +148,7 @@ export default {
       dialog: false,
       settings: {
         infinite: true,
-        slidesToShow: 6,
+        slidesToShow: 5,
         rows: 1,
       },
       category: [],
