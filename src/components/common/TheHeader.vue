@@ -108,9 +108,11 @@
     </header>
   </div>
 </template>
+
 <script>
 import CartCard from "@/components/cart/CartCard";
 import NotificationItem from "../notification/NotificationItem";
+
 
 export default {
   // name: "TheHeader",
@@ -120,48 +122,29 @@ export default {
   },
   data() {
     return {
-      carts: [1, 2, 5],
-      notifications: [
-        {
-          notificationId: 1,
-          notificationMessage: "Addis Gebeya added a new product diamond ring",
-          notificationType: "NewProduct",
-          seen: false,
-        },
-        {
-          notificationId: 2,
-          notificationMessage: "Kidus Yoseph reviewed Your product",
-          notificationType: "NewReview",
-          seen: false,
-        },
-        {
-          notificationId: 3,
-          notificationMessage: "Natneal Abay reviewed Your product",
-          notificationType: "NewReview",
-          seen: false,
-        },
-        {
-          notificationId: 4,
-          notificationMessage: "Addis Gebeya added a new product diamond ring",
-          notificationType: "NewProduct",
-          seen: false,
-        },
-      ],
+      carts: [1, 2, 5],          
     };
   },
   created() {},
-  computed: {},
-  methods: {
+  computed: {
+    notifications() {
+      return this.$store.state.notification.notifications;
+    },
+  },
+  created() {    
+    this.$store.dispatch("notification/getNotifications");    
+  },
+  methods: {    
     deleteCart(id) {
       // do your deletion in here
       console.log(id);
     },
     clearNotification() {
-      this.notifications = [];
+      this.$store.dispatch("notification/clearNotifications");    
     },
     clearCart(e) {
       e.preventDefault();
-    },
+    },    
   },
   props: {},
 };

@@ -35,8 +35,8 @@ Vue.prototype.$http = axios;
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 // axios.defaults.xsrfCookieName = undefined;
-axios.defaults.baseURL = 'http://10.6.154.213:5522/api/v1';
-// axios.defaults.baseURL = 'http://localhost:51042/api/v1';
+// axios.defaults.baseURL = 'http://10.6.154.213:5522/api/v1';
+axios.defaults.baseURL = 'http://localhost:51042/api/v1';
 
 Vue.use(require('vue-chartist'))
 Vue.use(Vuelidate)
