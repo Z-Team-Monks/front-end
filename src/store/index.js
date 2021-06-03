@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import admin from "./modules/admin";
 import auth from "./modules/auth";
-import ads from "./modules/ads";
+import ads from "./modules/Ads";
 import category from "./modules/category";
 import notification from "./modules/notification";
 import product from "./modules/product";
