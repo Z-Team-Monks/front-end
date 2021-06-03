@@ -11,7 +11,8 @@ const auth = {
   },
   mutations: {
     CHANGE_AUTH_STATUS(state, status) {
-      state.isAuthenticated = status
+      state.isAuthenticated = status;
+      localStorage.setItem("isAuthenticated" , true)
     },
     CREATE_LOADING(state, status) {
       state.isLoading = status

@@ -45,12 +45,40 @@ Vue.config.productionTip = false;
 Vue.component("messageComp", messageComp)
 
 
+router.beforeEach((to, from, next) => {
+
+  if (to.path == "/user") {
+    if (localStorage.getItem("isAuthenticated") === true) {
+      next()
+    } else
+      router.push({ name: "Home" })
+  }
+  else if (to.path == "/admin") {
+    if (localStorage.getItem("isAuthenticated") === true) {
+      next()
+    } else
+      router.push({ name: "Home" })
+  }
+  else if (to.path == "/AUTH") {
+    if (localStorage.getItem("isAuthenticated") === true) {
+      router.push({ name: "Home" })
+    } else
+      next()
+  }
+  else {
+    next()
+  }
+
+})
+
+
 const app = new Vue({
   router,
   store,
   vuetify,
   render: (h) => h(App),
 }).$mount("#app");
+
 
 // router.beforeEach((to, from, next) => {
 //   if (to.meta.isAUTHENTICATED) {

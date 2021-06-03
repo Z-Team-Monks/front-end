@@ -225,7 +225,6 @@ export default {
       console.log("added to cart");
       this.$store.dispatch("message/SaveMessage", "Added to cart!");
       this.$store.dispatch("message/ShowNotification");
-
       this.dialog = false;
     },
   },

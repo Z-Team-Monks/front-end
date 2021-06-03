@@ -19,56 +19,16 @@
                   <!-- <img src="../../assets/img/logo/logo.png" alt=""/> -->
                 </router-link>
               </div>
-
-              <div class="category-menu">
-                <h4>Category</h4>
-                <ul>
-                  <li>
-                    <a href="shop.html"
-                      ><i class="flaticon-shopping-cart-1"></i> Table lamp</a
-                    >
-                  </li>
-                  <li>
-                    <a href="shop.html"
-                      ><i class="flaticon-shopping-cart-1"></i> Furniture</a
-                    >
-                  </li>
-                  <li>
-                    <a href="shop.html"
-                      ><i class="flaticon-shopping-cart-1"></i> Chair</a
-                    >
-                  </li>
-                  <li>
-                    <a href="shop.html"
-                      ><i class="flaticon-shopping-cart-1"></i> Men</a
-                    >
-                  </li>
-                  <li>
-                    <a href="shop.html"
-                      ><i class="flaticon-shopping-cart-1"></i> Women</a
-                    >
-                  </li>
-                  <li>
-                    <a href="shop.html"
-                      ><i class="flaticon-shopping-cart-1"></i> Cloth</a
-                    >
-                  </li>
-                  <li>
-                    <a href="shop.html"
-                      ><i class="flaticon-shopping-cart-1"></i> Trend</a
-                    >
-                  </li>
-                </ul>
-              </div>
             </div>
             <div class="col-xl-8 col-lg-6 col-md-8 col-8 d-none d-xl-block">
               <div class="main-menu text-center">
                 <nav id="mobile-menu">
                   <ul>
                     <li class="mega-menu">
-                      <router-link :to="{ name: 'shops' }" href="shop.html"
-                        >Shop</router-link
-                      >
+                      <router-link :to="{ name: 'map' }">Near by</router-link>
+                    </li>
+                    <li class="mega-menu">
+                      <router-link :to="{ name: 'shops' }">Shop</router-link>
                     </li>
 
                     <li>
@@ -107,8 +67,9 @@
                       </li>
                       <li>
                         <div class="checkout-link">
-                          <a href="cart.html">Shopping Cart</a>
-                          <a class="red-color" href="checkout.html">Checkout</a>
+                          <a @click="clearCart" class="red-color" href="#"
+                            >Clear Cart</a
+                          >
                         </div>
                       </li>
                     </ul>
@@ -197,6 +158,9 @@ export default {
     },
     clearNotification() {
       this.notifications = [];
+    },
+    clearCart(e) {
+      e.preventDefault();
     },
   },
   props: {},

@@ -28,6 +28,7 @@ const message = {
         },
 
         SaveMessage({ commit }, message) {
+            commit("SHOW_NOTIFICATION", true)
             commit("SAVE_MESSAGE", message)
         }
 

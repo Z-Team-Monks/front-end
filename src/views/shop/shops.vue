@@ -47,25 +47,6 @@
               <v-divider />
             </div>
           </div>
-          <!-- <div
-            v-if="shops.length != 0 && hasPaggination"
-            class="basic-pagination basic-pagination-2 text-center mt-50"
-          >
-            <ul>
-              <li>
-                <a href="#"><i class="fas fa-angle-double-left"></i></a>
-              </li>
-              <li><a href="#">01</a></li>
-              <li class="active"><a href="#">02</a></li>
-              <li><a href="#">03</a></li>
-              <li>
-                <a href="#"><i class="fas fa-ellipsis-h"></i></a>
-              </li>
-              <li>
-                <a href="#"><i class="fas fa-angle-double-right"></i></a>
-              </li>
-            </ul>
-          </div> -->
         </div>
         <div class="col-xl-3 col-lg-4">
           <div class="sidebar-shop">

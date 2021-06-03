@@ -4,7 +4,20 @@
       <v-col cols="3">
         <v-card class="mx-auto p-4" max-width="300" tile>
           <v-list>
-            <div class="overline">Fillter Products</div>
+            <v-list-item>
+              <v-btn
+                small
+                block
+                @click="addModal = !addModal"
+                outlined
+                color="indigo"
+              >
+                Add Product
+              </v-btn>
+            </v-list-item>
+            <v-list-item>
+              <div class="overline mr-5">Fillter Products</div>
+            </v-list-item>
             <v-list-item-group color="primary">
               <v-list-item-title>
                 <v-list-item-content>
@@ -83,7 +96,7 @@
         </v-card>
       </v-col>
       <v-col v-if="fillterCount == 0" cols="6">
-        <h6>No Products </h6>
+        <h6>No Products</h6>
       </v-col>
       <v-col cols="9">
         <v-row>
@@ -97,6 +110,63 @@
         </v-row>
       </v-col>
     </v-row>
+    <v-dialog v-model="addModal" max-width="500px">
+      <v-card>
+        <v-card-title class="border-bottom">
+          <span class="headline">Add Product</span>
+        </v-card-title>
+        <v-form>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="12">
+                  <v-file-input
+                    accept="image/png, image/jpeg, image/bmp"
+                    placeholder="Pick an avatar"
+                    prepend-icon="mdi-camera"
+                    label="Imgage 1"
+                  ></v-file-input>
+                </v-col>
+                <v-col cols="12">
+                  <v-file-input
+                    accept="image/png, image/jpeg, image/bmp"
+                    placeholder="Pick an avatar"
+                    prepend-icon="mdi-camera"
+                    label="Image 2"
+                  ></v-file-input>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    placeholder="Product Name"
+                    prepend-icon="mdi-store-24-hour "
+                  />
+                </v-col>
+
+                <v-col>
+                  <v-textarea
+                    rows="1"
+                    prepend-icon="mdi-semantic-web"
+                    placeholder="Description"
+                  ></v-textarea>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="red lighten--4 darken-1"
+              text
+              @click="addModal = !addModal"
+            >
+              Cancel
+            </v-btn>
+            <v-btn color="red lighten--4 darken-1"   @click="addModal = !addModal" text> Add Product </v-btn>
+          </v-card-actions>
+        </v-form>
+      </v-card>
+    </v-dialog>
     <Detail v-if="pass" @hideModal="hideModal" :dialog="pass" :prod="p" />
     <ProductReviewModal
       v-if="passReview"
@@ -104,7 +174,7 @@
       @hideModal="hideModal"
       :dialog="pd"
       :reviews="reviewsData"
-      :hideDetailModal = "hideDetailModal"
+      :hideDetailModal="hideDetailModal"
     />
   </div>
 </template>
@@ -128,6 +198,7 @@ export default {
         { text: "Conversions", icon: "mdi-flag" },
       ],
       dialog: false,
+      addModal: false,
       description: "",
       min: 0,
       maxRating: 5,
@@ -227,9 +298,7 @@ export default {
         id: this.reviewsData.productId,
       });
     },
-    hideDetailModal(e) {
-      
-    }
+    hideDetailModal(e) {},
   },
   props: ["products"],
 };

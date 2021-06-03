@@ -1,5 +1,5 @@
 <template>
-  <section class="latest-blog-area pt-95 pb-60 box-90">
+  <section class="latest-blog-area pt-95 pb-60 box-90 text-dark">
     <div class="container-fluid">
       <div class="row">
         <div class="col-xl-12">
@@ -16,13 +16,13 @@
               <img src="../../assets/img/blog/latest/lb1.jpg" alt="" />
             </div>
             <div class="news__caption white-bg">
-              <h2>
-                <a href="blog-details.html"
+              <h2> 
+                <a class="text-dark" href="blog-details.html"
                   >Inspiration Is Under Construction Business & Fashion 2019. In
                   this situation we do that..</a
                 >
               </h2>
-              <p>
+              <p >
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                 enim ad minim veniam, quis nostrud exercitation ullamco laboris
@@ -38,7 +38,7 @@
             </div>
             <div class="news__caption white-bg">
               <h2>
-                <a href="blog-details.html"
+                <a class="text-dark" href="blog-details.html"
                   >Inspiration Is Under Construction Business & Fashion 2019. In
                   this situation we do that..</a
                 >
@@ -59,7 +59,7 @@
             </div>
             <div class="news__caption white-bg">
               <h2>
-                <a href="blog-details.html"
+                <a class="text-dark" href="blog-details.html"
                   >Inspiration Is Under Construction Business & Fashion 2019. In
                   this situation we do that..</a
                 >
