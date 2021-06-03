@@ -51,13 +51,15 @@
                   </v-col>
 
                   <v-col cols="12">
-                    <v-combobox
-                      :value="values"
-                      :items="categories"
+                    <v-select
+                      :item-value="values"
                       v-model="selected"
+                      :items="categories"
                       placeholder="Category"
+                      :return-object="false"
                       prepend-icon="mdi-shape"
-                    />
+                    >
+                    </v-select>
                   </v-col>
                   <v-col>
                     <v-textarea
@@ -95,7 +97,11 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="red lighten--4 darken-1" text @click="dialog = !dialog">
+              <v-btn
+                color="red lighten--4 darken-1"
+                text
+                @click="dialog = !dialog"
+              >
                 Cancel
               </v-btn>
               <v-btn color="red lighten--4 darken-1" text @click="CreateShop">
@@ -105,14 +111,19 @@
           </v-form>
         </v-card>
       </v-dialog>
+
+      
       <v-dialog v-model="dialogDelete" max-width="500px">
         <v-card>
           <v-card-title class="headline"
-            >Are you sure you want to delete this item?</v-card-title
+            >Are you sure you want to delete this shop?</v-card-title
           >
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="dialogDelete = !dialogDelete"
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="dialogDelete = !dialogDelete"
               >Cancel</v-btn
             >
             <v-btn color="blue darken-1" text @click="deleteItemConfirm"
@@ -130,19 +141,35 @@
       class="elevation-1"
       :items-per-page="5"
     >
-      <template v-slot:item.coverImage="{ item }"> igm </template>
+      <template v-slot:item.coverImage="{ item }">
+        <v-img
+          v-if="item.coverImage"
+          class="my-3"
+          :aspect-ratio="16 / 9"
+          :width="200"
+          lazy-src="https://picsum.photos/id/11/10/6"
+          :src="GetImageUrl(item.coverImage)"
+        ></v-img>
+        <v-img
+          v-else
+          class="my-3"
+          :aspect-ratio="16 / 9"
+          :width="200"
+          src="https://images.unsplash.com/photo-1515706886582-54c73c5eaf41?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
+        ></v-img>
+      </template>
       <template v-slot:item.shopName="{ item }">
+
+        <router-link :to = "{name: 'shop' , params: {id: item.shopId}}">
+
         {{ item.shopName.substr(0, 6) }}
+        </router-link>
       </template>
       <template v-slot:item.description="{ item }">
         {{ item.description.substr(0, 20) }}
       </template>
 
       <template v-slot:item.actions="{ item }">
-        <v-btn icon fab x-small @click="editSelected(item)">
-          <v-icon small color="red lighten--4"> mdi-pencil </v-icon>
-        </v-btn>
-
         <v-btn icon fab x-small @click="deleteSelected(item)">
           <v-icon small color="red lighten--4"> mdi-delete </v-icon>
         </v-btn>
@@ -174,13 +201,14 @@ export default {
     file: "",
     longtiude: "",
     latitude: "",
-    shopID:"",
+    shopID: "",
     shopName: "",
     buildingName: "",
     categoryId: 1,
     locationName: "",
     description: "",
     phonenumber: "",
+    shopLocationId: "",
     phoneRules: [(v) => (v && v.length == 10) || "invalid phone number"],
     headers: [
       {
@@ -235,6 +263,9 @@ export default {
     shops() {
       return this.$store.state.shops.shops;
     },
+    url() {
+      return localStorage.getItem("url");
+    },
   },
 
   watch: {
@@ -244,11 +275,14 @@ export default {
     dialogDelete(val) {
       val || this.dialogDelete;
     },
+    selected(val) {
+      console.log(val);
+    },
   },
 
   created() {
     this.$store.dispatch("category/GetCategories");
-    this.$store.dispatch("shops/GetShops");
+    this.$store.dispatch("shops/GetUserShops");
   },
 
   methods: {
@@ -256,9 +290,9 @@ export default {
       // rating: 3.5,
     },
 
-
     deleteItemConfirm() {
-      // this.$store.dispatch("shops/deteShop", this.shopId);
+      console.log("deleted")
+      this.$store.dispatch("shops/DeleteShop", this.shopID);
       this.dialogDelete = false;
     },
 
@@ -271,28 +305,30 @@ export default {
     },
 
     CreateShop() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
-      } else {
-        this.desserts.push(this.editedItem);
-      }
       this.close();
 
       const formData = new FormData();
       formData.append("file", this.file);
-      formData.append("shopName", this.shopName);
-      formData.append("buildingName", this.phoneNumber);
-      // formData.append("coverImage", this.phoneNumber);
-      formData.append("categoryId", this.phoneNumber);
       const location = {
         longitude: this.longtiude,
         latitude: this.latitude,
         locationName: this.locationName,
       };
-      formData.append("shopLocationDto", JSON.string(location));
-      formData.append("description", this.description);
-      console.log(formData);
-      this.$store.dispatch("shops/CreateShop", formData);
+
+      const data = {
+        shopName: this.shopName,
+        buildingName: this.buildingName,
+        categoryId: 1,
+        coverImage: "",
+        phoneNumber: this.phonenumber,
+        shopLocationDto: location,
+        description: this.description,
+      };
+
+      this.$store.dispatch("shops/CreateShop", {
+        shop: data,
+        formData,
+      });
     },
     getLocation() {
       if (navigator.geolocation) {
@@ -302,9 +338,8 @@ export default {
       }
     },
     showPosition(position) {
-      console.log(position);
-      this.latitude = position.latitude;
-      this.longtiude = position.longitude;
+      this.latitude = position.coords.latitude;
+      this.longtiude = position.coords.longitude;
     },
     fileMe(e) {
       this.file = e.target.files[0];
@@ -322,8 +357,8 @@ export default {
       this.phonenumber = item.phonenumber;
       this.dialog = true;
       this.store = false;
-    this.shopID = item.shopId;
-
+      this.shopID = item.shopId;
+      console.log(item.shopId)
     },
 
     storeOrUpdate(store) {
@@ -356,8 +391,18 @@ export default {
       this.description = item.description;
       this.phonenumber = item.phonenumber;
       this.store = false;
-      // delete the shop in here
+      this.shopID = item.shopId;
+      this.shopLocationId = item.shopLocationId;
+      console.log(item.shopId)      // delete the shop in here
       // this.$store.dispatch("shops/deleteShop", item.id);
+    },
+
+    GetImageUrl(img) {
+      if (img.startsWith("/")) {
+        console.log(this.url + img);
+        return this.url + img;
+      }
+      return img;
     },
   },
 };

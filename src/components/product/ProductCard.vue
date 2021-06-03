@@ -1,44 +1,47 @@
 <template>
-    <div class="pro-item mr-2" v-if="product.isVisible">
-      <div class="product-wrapper mb-50">
-        <div class="product-img mb-25">
-          <a @click="emitProductDetail" href="#">
-            <img src="../../assets/img/product/pro3.jpg" alt="" />
-            <img
-              class="secondary-img"
-              src="../../assets/img/product/pro6.jpg"
-              alt=""
-            />
+  <div class="pro-item mr-2" v-if="product.isVisible">
+    <div class="product-wrapper mb-50">
+      <div class="product-img mb-25">
+        <a @click="emitProductDetail" href="#">
+          <img src="../../assets/img/product/pro3.jpg" alt="" />
+          <img class="secondary-img" :src="GetImageUrl(product.imageUrl)" alt="" />
+        </a>
+        <div class="product-action text-center">
+          <a @click="emitAddToCart" href="" title="Shoppingb Cart">
+            <i class="flaticon-shopping-cart"></i>
           </a>
-          <div class="product-action text-center">
-            <a @click="emitAddToCart" href="" title="Shoppingb Cart">
-              <i class="flaticon-shopping-cart"></i>
-            </a>
-            <a @click="emitProductDetail" href="" title="Quick View">
-              <i class="flaticon-eye"></i>
-            </a>
-          </div>
-          <div class="sale-tag">
-            <span v-if = "new String(product.condition).valueOf() == new String('New').valueOf()" class="new">new</span>
-          </div>
+          <a @click="emitProductDetail" href="" title="Quick View">
+            <i class="flaticon-eye"></i>
+          </a>
         </div>
-        <div class="product-content">
-          <div class="pro-cat mb-10">
-            <a @click="preventMe"> {{ product.brand }} </a>
-          </div>
-          <h4>
-            <a class="text-dark w-100" href="product-details.html">{{
-              product.productName
-            }}</a>
-          </h4>
-          <div class="product-meta">
-            <div class="pro-price">
-              <span>{{ product.price }} ETB</span>
-              <span class="old-price">150 ETB</span>
-            </div>
+        <div class="sale-tag">
+          <span
+            v-if="
+              new String(product.condition).valueOf() ==
+              new String('New').valueOf()
+            "
+            class="new"
+            >new</span
+          >
+        </div>
+      </div>
+      <div class="product-content">
+        <div class="pro-cat mb-10">
+          <a @click="preventMe"> {{ product.brand }} </a>
+        </div>
+        <h4>
+          <a class="text-dark w-100" href="product-details.html">{{
+            product.productName
+          }}</a>
+        </h4>
+        <div class="product-meta">
+          <div class="pro-price">
+            <span>{{ product.price }} ETB</span>
+            <span class="old-price">150 ETB</span>
           </div>
         </div>
       </div>
+    </div>
   </div>
 </template>
 <script>
@@ -47,7 +50,11 @@ export default {
     return {};
   },
   created() {},
-  computed: {},
+  computed: {
+    isAuthenticated() {
+      // return this.$store.state.auth
+    }
+  },
   methods: {
     emitProductLike() {
       console.log("emitproductlike");
@@ -66,12 +73,22 @@ export default {
     preventMe(e) {
       e.preventDefault();
     },
+
+
+    GetImageUrl(img) {
+      console.log(img);
+      if (img.startsWith("/")) {
+        console.log(this.url + img);
+        return this.url + img;
+      }
+      return img;
+    },
   },
-  props:  {
+  props: {
     product: {
       type: Object,
-      required: false
-    }
-  }
+      required: false,
+    },
+  },
 };
 </script>

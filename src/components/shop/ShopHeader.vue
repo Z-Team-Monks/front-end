@@ -31,6 +31,7 @@
                 <span class="light-text">200</span>
                 <v-btn
                   x-small
+                  v-if="isAuthenticated"
                   elevation="0"
                   :hidden="followingC"
                   @click="following = !following"
@@ -76,6 +77,13 @@ export default {
 
     shop() {
       return this.$store.state.shops.shop;
+    },
+
+    isAuthenticated() {
+      return this.shop && localStorage.getItem("user")
+        ? this.shop.ownerId ===
+            JSON.parse(localStorage.getItem("user")).userId
+        : false;
     },
   },
   methods: {

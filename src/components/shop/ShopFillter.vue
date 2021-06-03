@@ -4,7 +4,7 @@
       <v-col cols="3">
         <v-card class="mx-auto p-4" max-width="300" tile>
           <v-list>
-            <v-list-item>
+            <v-list-item v-if="isAuthenticated">
               <v-btn
                 small
                 block
@@ -121,30 +121,40 @@
               <v-row>
                 <v-col cols="12">
                   <v-file-input
+                    v-model="imageUrl"
                     accept="image/png, image/jpeg, image/bmp"
                     placeholder="Pick an avatar"
                     prepend-icon="mdi-camera"
-                    label="Imgage 1"
-                  ></v-file-input>
-                </v-col>
-                <v-col cols="12">
-                  <v-file-input
-                    accept="image/png, image/jpeg, image/bmp"
-                    placeholder="Pick an avatar"
-                    prepend-icon="mdi-camera"
-                    label="Image 2"
+                    label="product Image"
                   ></v-file-input>
                 </v-col>
                 <v-col cols="12">
                   <v-text-field
+                    v-model="productName"
                     placeholder="Product Name"
                     prepend-icon="mdi-store-24-hour "
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    v-model="brand"
+                    placeholder="Brand"
+                    prepend-icon="mdi-watermark"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    v-model="price"
+                    type="number"
+                    placeholder="Price"
+                    prepend-icon="mdi-currency-usd"
                   />
                 </v-col>
 
                 <v-col>
                   <v-textarea
                     rows="1"
+                    v-model="description"
                     prepend-icon="mdi-semantic-web"
                     placeholder="Description"
                   ></v-textarea>
@@ -162,7 +172,9 @@
             >
               Cancel
             </v-btn>
-            <v-btn color="red lighten--4 darken-1"   @click="addModal = !addModal" text> Add Product </v-btn>
+            <v-btn color="red lighten--4 darken-1" @click="AddProduct" text>
+              Add Product
+            </v-btn>
           </v-card-actions>
         </v-form>
       </v-card>
@@ -197,6 +209,18 @@ export default {
         { text: "Audience", icon: "mdi-account" },
         { text: "Conversions", icon: "mdi-flag" },
       ],
+
+      productName: "",
+      dateInserted: "",
+      brand: "",
+      description: "",
+      categoryId: 0,
+      price: 0,
+      condition: "",
+      imageUrl: "",
+      deliveryAvailable: true,
+      productCount: 0,
+
       dialog: false,
       addModal: false,
       description: "",
@@ -263,6 +287,13 @@ export default {
     ShopProducts() {
       return this.$store.state.shops.shopProducts;
     },
+
+    isAuthenticated() {
+      return this.$store.state.shops.shop && localStorage.getItem("user")
+        ? this.$store.state.shops.shop.ownerId ===
+            JSON.parse(localStorage.getItem("user")).userId
+        : false;
+    },
   },
   methods: {
     handleProductDetail(id) {
@@ -283,6 +314,22 @@ export default {
           this.pd = true;
         });
       }
+    },
+    AddProduct() {
+      // let product = {
+      //   ownerId: this.$store.state.shops.shop.ownerId,
+      //   productName: this.productName,
+      //   dateInserted: this.dateInserted,
+      //   brand: this.brand,
+      //   description: this.description,
+      //   categoryId: 3,
+      //   price: this.price,
+      //   condition: "New",
+      //   imageUrl: "",
+      //   deliveryAvailable: this.deliveryAvailable,
+      //   productCount: this.productCount,
+      // };
+      // this.$store.dispatch("product/AddProduct", product);
     },
     productReview(id) {
       this.$store.dispatch("product/GetProductByID", id);

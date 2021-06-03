@@ -222,6 +222,8 @@ export default {
       this.$store.dispatch("message/HideNotification");
     },
     AddToCart(product) {
+      console.log(product.productId);
+      this.$store.dispatch("shops/AddToCart" , product.productId)
       console.log("added to cart");
       this.$store.dispatch("message/SaveMessage", "Added to cart!");
       this.$store.dispatch("message/ShowNotification");

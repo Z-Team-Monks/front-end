@@ -43,7 +43,6 @@
     </VueSlickCarousel>
     <v-divider></v-divider>
     <div v-if="showModalWatch && singleShopWatch">
-      <h2>single {{ singleShopWatch }}</h2>
       <NearByModal
         v-if="showModalWatch && singleShopWatch"
         :show="showDialogWatch"

@@ -45,12 +45,34 @@
             <div class="col-xl-2 col-lg-6 col-md-6 col-5 col-sm-7 pl-0">
               <div class="header-right f-right">
                 <ul>
-                  <li class="login-btn">
+                  <li v-if="!showLogout" class="login-btn">
                     <router-link :to="{ name: 'Auth' }"
                       ><i class="far fa-user"></i
                     ></router-link>
                   </li>
-                  <li class="d-shop-cart">
+                  <li class="notification-bell d-shop-cart" v-if="showLogout">
+                    <a class="search-btn nav-search search-trigger" href="#">
+                      <i class="fa fa-bell" aria-hidden="true"></i
+                    ></a>
+                    <ul class="minicart">
+                      <li>
+                        <h4>
+                          Notifications -
+                          <span>{{ this.notifications.length }}</span>
+                        </h4>
+                        <input
+                          @click="clearNotification()"
+                          class="button"
+                          type="button"
+                          value="Clear"
+                        />
+                      </li>
+                      <li v-for="(notification, i) in notifications" :key="i">
+                        <NotificationItem :notification="notification" />
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="d-shop-cart" v-if="showLogout">
                     <router-link :to="{ name: 'shops' }" href="#"
                       ><i class="flaticon-shopping-cart"></i>
                       <span class="cart-count">3</span></router-link
@@ -74,27 +96,11 @@
                       </li>
                     </ul>
                   </li>
-                  <li class="notification-bell d-shop-cart">
-                    <a class="search-btn nav-search search-trigger" href="#">
-                      <i class="fa fa-bell" aria-hidden="true"></i
+
+                  <li class="login-btn" v-if="showLogout">
+                    <a href="#" @click="logMeTheHellOut"
+                      ><i class="fas fa-sign-out-alt"></i
                     ></a>
-                    <ul class="minicart">
-                      <li>
-                        <h4>
-                          Notifications -
-                          <span>{{ this.notifications.length }}</span>
-                        </h4>
-                        <input
-                          @click="clearNotification()"
-                          class="button"
-                          type="button"
-                          value="Clear"
-                        />
-                      </li>
-                      <li v-for="(notification, i) in notifications" :key="i">
-                        <NotificationItem :notification="notification" />
-                      </li>
-                    </ul>
                   </li>
                 </ul>
               </div>
@@ -122,19 +128,22 @@ export default {
   },
   data() {
     return {
-      carts: [1, 2, 5],          
+      carts: [1, 2, 5],
+
     };
   },
-  created() {},
+  created() {
+        this.$store.dispatch("notification/getNotifications");
+  },
   computed: {
-    notifications() {
-      return this.$store.state.notification.notifications;
+    showLogout() {
+      return this.$store.state.auth.isAuthenticated;
     },
+    notifications() {
+      return this.$store.state.notification.notifications
+    }
   },
-  created() {    
-    this.$store.dispatch("notification/getNotifications");    
-  },
-  methods: {    
+  methods: {
     deleteCart(id) {
       // do your deletion in here
       console.log(id);
@@ -144,7 +153,15 @@ export default {
     },
     clearCart(e) {
       e.preventDefault();
-    },    
+    },
+    logMeTheHellOut() {
+      localStorage.clear();
+      this.$store.dispatch("auth/ChangeStatus", false);
+      this.$router.push({ name: "Home" }).catch(() => {});
+    },
+    clearNotification() {
+      this.$store.dispatch("notification/clearNotifications");    
+    },
   },
   props: {},
 };

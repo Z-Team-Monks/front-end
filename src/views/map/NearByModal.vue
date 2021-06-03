@@ -1,11 +1,6 @@
 <template>
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600">
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" dark v-bind="attrs" v-on="on">
-          Open Dialog
-        </v-btn>
-      </template>
       <v-card class="w-100 h-100">
         <v-card-title class="text-h5"> Where to? </v-card-title>
         <v-card-text>
