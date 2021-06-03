@@ -4,17 +4,14 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
-import './plugins/chartist'
-import './plugins/base'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-import Vuelidate from 'vuelidate'
-import VueMapbox from '@studiometa/vue-mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import messageComp from './views/global/snackBar'
-
-
-
+import "./plugins/chartist";
+import "./plugins/base";
+import axios from "axios";
+import VueAxios from "vue-axios";
+import Vuelidate from "vuelidate";
+import VueMapbox from "@studiometa/vue-mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import messageComp from "./views/global/snackBar";
 
 // Vue.prototype.$http = axios;
 /*
@@ -29,49 +26,37 @@ this is where you added any headers that are global to all the requests to the a
 // axios.defaults.baseURL = "http://127.0.0.1:51042/api/v1";
 // axios.defaults.baseURL = "http://localhost:51042/api/v1";
 
-
-
 Vue.prototype.$http = axios;
 axios.defaults.withCredentials = true;
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 // axios.defaults.xsrfCookieName = undefined;
 // axios.defaults.baseURL = 'http://10.6.250.211:5522/api/v1';
 // axios.defaults.baseURL = 'http://10.6.250.211:51042/api/v1';
-axios.defaults.baseURL = 'http://localhost:51043/api/v1';
+axios.defaults.baseURL = "http://localhost:51043/api/v1";
 
-Vue.use(require('vue-chartist'))
-Vue.use(Vuelidate)
+Vue.use(require("vue-chartist"));
+Vue.use(Vuelidate);
 Vue.use(VueMapbox);
 Vue.config.productionTip = false;
-Vue.component("messageComp", messageComp)
-
+Vue.component("messageComp", messageComp);
 
 router.beforeEach((to, from, next) => {
-
   if (to.path == "/user") {
     if (localStorage.getItem("isAuthenticated") === true) {
-      next()
-    } else
-      router.push({ name: "Home" })
-  }
-  else if (to.path == "/admin") {
+      next();
+    } else router.push({ name: "Home" });
+  } else if (to.path == "/admin") {
     if (localStorage.getItem("isAuthenticated") === true) {
-      next()
-    } else
-      router.push({ name: "Home" })
-  }
-  else if (to.path == "/AUTH") {
+      next();
+    } else router.push({ name: "Home" });
+  } else if (to.path == "/AUTH") {
     if (localStorage.getItem("isAuthenticated") === true) {
-      router.push({ name: "Home" })
-    } else
-      next()
+      router.push({ name: "Home" });
+    } else next();
+  } else {
+    next();
   }
-  else {
-    next()
-  }
-
-})
-
+});
 
 const app = new Vue({
   router,
@@ -79,7 +64,6 @@ const app = new Vue({
   vuetify,
   render: (h) => h(App),
 }).$mount("#app");
-
 
 // router.beforeEach((to, from, next) => {
 //   if (to.meta.isAUTHENTICATED) {
