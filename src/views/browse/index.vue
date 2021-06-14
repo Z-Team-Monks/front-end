@@ -47,7 +47,7 @@
               </div>
             </div>
 
-            <div
+            <!-- <div
               v-if="vissibleProducts !=products"
               class="tab-pane fade show active"
               id="profile"
@@ -57,7 +57,7 @@
               <v-divider />
               <h2>No Shops!</h2>
               <v-divider />
-            </div>
+            </div> -->
           </div>
           <div
             v-if="hasPaggination"
@@ -146,23 +146,23 @@
             </v-col>
             <!-- <v-col cols="1" /> -->
 
-            <v-col v-if="currentProduct" cols="6">
-              <div class="details-cat mb-20">{{ currentProduct.brand }}</div>
+            <v-col v-if="currentProductWatch" cols="6">
+              <div class="details-cat mb-20">{{ currentProductWatch.brand }}</div>
               <h2 class="pro-details-title">
-                {{ currentProduct.productName }}
+                {{ currentProductWatch.productName }}
               </h2>
               <div class="details-price mb-20">
-                <span>{{ currentProduct.price }}</span>
+                <span>{{ currentProductWatch.price }}</span>
                 <span class="old-price">$246.00</span>
               </div>
 
               <div class="product-desc variant-item pb-0">
-                <p>{{ currentProduct.description }}</p>
+                <p>{{ currentProductWatch.description }}</p>
               </div>
 
               <v-col>
                 <v-btn
-                  @click="AddToCart(currentProduct)"
+                  @click="AddToCart(currentProductWatch)"
                   outlined
                   color="red lighten--4"
                   dark
@@ -232,7 +232,7 @@ export default {
       });
       return count > 9;
     },
-    currentProduct() {
+    currentProductWatch() {
       return this.selectedProduct;
     },
 
@@ -261,6 +261,8 @@ export default {
     },
     AddToCart(product) {
       console.log("add to cart");
+      this.$store.dispatch("shops/AddToCart" , product.productId)
+
     },
   },
   props: {},

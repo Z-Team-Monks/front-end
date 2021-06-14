@@ -9,7 +9,10 @@ const shops = {
     shop: {},
     shopProducts: [],
     products: [],
-    cart: []
+    cart: [],
+    carts: [],
+    stats: {},
+    ads: []
   },
   mutations: {
     SAVE_SHOPS(state, shops) {
@@ -25,7 +28,6 @@ const shops = {
       state.shop = shop;
     },
     SAVE_SHOP_PRODUCTS(state, shopProducts) {
-      console.log("product is being mutated")
       state.shopProducts = shopProducts;
     },
     SAVE_PRODUCTS(state, products) {
@@ -33,6 +35,15 @@ const shops = {
     },
     SAVE_TO_CART(state, cart) {
       state.cart = cart
+    },
+    SAVE_CART(state, carts) {
+      state.carts = carts
+    },
+    STAT(state, stats) {
+      state.stats = stats
+    },
+    SAVE_ADS(state,ads) {
+      state.ads = ads
     }
   },
   actions: {
@@ -70,8 +81,8 @@ const shops = {
     },
 
 
-    async AddShopProduct({commit}) {
-      await axios.post("/products", )
+    async AddShopProduct({ commit }) {
+      await axios.post("/products",)
     },
     async GetShopProducts({ commit }, id) {
       console.log("dispatching")
@@ -104,7 +115,7 @@ const shops = {
         })
 
     },
-    async CreateShop({ commit,dispatch }, data) {
+    async CreateShop({ commit, dispatch }, data) {
       const options = {
         headers: {
           "Content-Type": "application/json",
@@ -149,7 +160,7 @@ const shops = {
         })
     },
 
-    async DeleteShop({ commit,dispatch }, id) {
+    async DeleteShop({ commit, dispatch }, id) {
       await axios.delete(`/shops/${id}`)
         .then(res => {
           dispatch("GetUserShops")
@@ -230,21 +241,97 @@ const shops = {
     },
 
 
-    async AddToCart({commit} , id) {
+    async AddToCart({ commit, dispatch }, id) {
       const options = {
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${localStorage.getItem("token")}`
         },
       };
-      await axios.post("/cart" , JSON.stringify({ productId: id}) )
-      .then(res => {
+      await axios.post("/cart", JSON.stringify({ productId: id }), options)
+        .then(res => {
+          dispatch("GetUserCart")
+          commit("SAVE_TO_CART", res.data)
+        }).catch(e => {
+          console.log(e)
+        })
 
-        commit("SAVE_TO_CART", res.data)
-      }).catch(e => {
+    },
+    async GetUserCart({ commit }) {
+      const options = {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },
+      };
+
+      await axios.get("/cart", options)
+        .then(res => {
+
+          commit("SAVE_CART", res.data)
+        }).catch(e => {
+          console.log(e)
+        })
+
+
+    },
+    async DeleteCartItem({ commit, dispatch }, id) {
+      const options = {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },
+      };
+
+      await axios.delete(`/cart/${id}`, options)
+        .then(res => {
+          console.log("deleting")
+          dispatch("GetUserCart")
+        }).catch(e => {
+          console.log(e)
+        })
+
+
+    },
+    async FollowShop({ commit, dispatch }, id) {
+      const options = {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+      }
+
+      await axios.post(`/shops/${id}/follow`, options)
+        .then(e => {
+          dispatch("GetAllShops")
+        }).catch(e => {
+
+        })
+    },
+
+
+
+    async getStats({ commit }) {
+      const options = {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },
+      };
+      await axios.get("/admin/status", options)
+        .the(res => {
+          commit("STAT", res.data)
+        }).catch(e => {
+
+        })
+
+    },
+
+    async Ads({commit} ) {
+      await axios.get("/ads")
+      .then(res => {
+        commit("SAVE_ADS" ,res.data)
+      })
+      .catch(e => {
         console.log(e)
-      } )
-    
+      })
     }
 
 

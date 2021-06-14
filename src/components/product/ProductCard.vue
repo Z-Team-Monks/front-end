@@ -3,11 +3,28 @@
     <div class="product-wrapper mb-50">
       <div class="product-img mb-25">
         <a @click="emitProductDetail" href="#">
-          <img src="../../assets/img/product/pro3.jpg" alt="" />
-          <img class="secondary-img" :src="GetImageUrl(product.imageUrl)" alt="" />
+          <img
+            style="object-fit: cover"
+            :src="
+              product.imageUrl
+                ? product.imageUrl
+                : 'https://images.unsplash.com/photo-1473187983305-f615310e7daa?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80'
+            "
+            alt=""
+          />
+          <!-- <img
+            class="secondary-img"
+            :src="GetImageUrl(product.imageUrl)"
+            alt=""
+          /> -->
         </a>
         <div class="product-action text-center">
-          <a @click="emitAddToCart" href="" title="Shoppingb Cart">
+          <a
+            v-if="isAuthenticated"
+            @click="emitAddToCart"
+            href=""
+            title="Shoppingb Cart"
+          >
             <i class="flaticon-shopping-cart"></i>
           </a>
           <a @click="emitProductDetail" href="" title="Quick View">
@@ -52,8 +69,11 @@ export default {
   created() {},
   computed: {
     isAuthenticated() {
-      // return this.$store.state.auth
-    }
+      return this.$store.state.auth.isAuthenticated;
+    },
+    url() {
+      return localStorage.getItem("url");
+    },
   },
   methods: {
     emitProductLike() {
@@ -74,14 +94,17 @@ export default {
       e.preventDefault();
     },
 
-
     GetImageUrl(img) {
-      console.log(img);
-      if (img.startsWith("/")) {
-        console.log(this.url + img);
-        return this.url + img;
-      }
-      return img;
+      const da = "../../assets/img/product/pro3.jpg";
+      console.log(this.url + img);
+      // if(img){
+      // if (img.startsWith("/")) {
+      //   return this.url + img;
+      // }
+      // return img;
+      // } else {
+      return da;
+      // }
     },
   },
   props: {

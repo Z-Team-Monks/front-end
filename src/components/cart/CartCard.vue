@@ -8,15 +8,19 @@
           </a>
         </div>
       </v-col>
+
       <v-col cols="6">
         <div class="cart-content">
           <h3>
-            <a href="product-details.html">Black & White Shoes</a>
+            <a href="product-details.html">{{
+              cartItem.product.productName
+            }}</a>
           </h3>
           <div class="cart-price">
-            <span class="new">$ 229.9</span>
+            <span class="new"> {{
+              cartItem.product.price
+            }} ETB</span>
             <span>
-              <del>$239.9</del>
             </span>
           </div>
         </div>
@@ -44,13 +48,13 @@ export default {
       this.$emit("deleteCart", 1);
     },
   },
-  props: {},
+  props: ["cartItem"],
 };
 </script>
 
 
 <style scoped>
 a {
-  font-size: 1.2rem;;
+  font-size: 1.2rem;
 }
 </style>

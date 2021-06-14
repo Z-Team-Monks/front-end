@@ -75,25 +75,31 @@
                   <li class="d-shop-cart" v-if="showLogout">
                     <router-link :to="{ name: 'shops' }" href="#"
                       ><i class="flaticon-shopping-cart"></i>
-                      <span class="cart-count">3</span></router-link
+                      <span class="cart-count">{{ carts.length }}</span></router-link
                     >
                     <ul class="minicart">
                       <li v-for="(item, i) in carts" :key="i">
-                        <CartCard @deleteCart="deleteCart" />
+                        <CartCard :cartItem="item" @deleteCart="deleteCart(item.wishListItemId)" />
                       </li>
-                      <li>
+
+                      <li v-if="carts.length == 0">
+                        <div class="total-price">
+                          <span class="">No Items in cart!</span>
+                        </div>
+                      </li>
+                      <!-- <li>
                         <div class="total-price">
                           <span class="f-left">Total:</span>
                           <span class="f-right">$300.0</span>
                         </div>
-                      </li>
-                      <li>
+                      </li> -->
+                      <!-- <li>
                         <div class="checkout-link">
                           <a @click="clearCart" class="red-color" href="#"
                             >Clear Cart</a
                           >
                         </div>
-                      </li>
+                      </li> -->
                     </ul>
                   </li>
 
@@ -119,7 +125,6 @@
 import CartCard from "@/components/cart/CartCard";
 import NotificationItem from "../notification/NotificationItem";
 
-
 export default {
   // name: "TheHeader",
   components: {
@@ -127,29 +132,34 @@ export default {
     NotificationItem,
   },
   data() {
-    return {
-      carts: [1, 2, 5],
-
-    };
+    return {};
   },
   created() {
-        this.$store.dispatch("notification/getNotifications");
+    this.$store.dispatch("notification/getNotifications");
+    if (this.showLogout) {
+      this.$store.dispatch("shops/GetUserCart");
+    }
   },
   computed: {
     showLogout() {
       return this.$store.state.auth.isAuthenticated;
     },
     notifications() {
-      return this.$store.state.notification.notifications
-    }
+      return this.$store.state.notification.notifications;
+    },
+    isAuthenticated() {
+      return this.$store.state.auth.isAuthenticated;
+    },
+    carts() {
+      return this.$store.state.shops.carts;
+    },
   },
   methods: {
     deleteCart(id) {
-      // do your deletion in here
-      console.log(id);
+      this.$store.dispatch("shops/DeleteCartItem", id);
     },
     clearNotification() {
-      this.$store.dispatch("notification/clearNotifications");    
+      this.$store.dispatch("notification/clearNotifications");
     },
     clearCart(e) {
       e.preventDefault();
@@ -160,7 +170,7 @@ export default {
       this.$router.push({ name: "Home" }).catch(() => {});
     },
     clearNotification() {
-      this.$store.dispatch("notification/clearNotifications");    
+      this.$store.dispatch("notification/clearNotifications");
     },
   },
   props: {},

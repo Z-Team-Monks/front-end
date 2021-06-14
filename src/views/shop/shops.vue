@@ -31,7 +31,7 @@
               aria-labelledby="profile-tab"
             >
               <div class="wrapper-shop" v-for="(shop, i) in shops" :key="i">
-                <ShopsCard :shop="shop" />
+                <ShopsCard :shop="shop" @followShop="followShop(shop.shopId)" />
               </div>
             </div>
 
@@ -134,6 +134,9 @@ export default {
   methods: {
     searchShop() {
       this.$store.dispatch("shops/SearchShop", { query: this.searchQuery });
+    },
+    followShop(id) {
+      this.$store.dispatch("shops/FollowShop", id);
     },
   },
   props: {},

@@ -266,12 +266,12 @@ export default {
       // (v) => /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/.test(v) || "phone number must be valid",
     ],
 
-    show1: true,
+    show1: false,
     rules: {
       required: (value) => !!value || "Required.",
       min: (v) => (v && v.length >= 6) || "Min 8 characters",
     },
-    signUpDiv: true,
+    signUpDiv: false,
     firstSignUpBtnTouch: true,
     firstSignInBtnTouch: true,
 

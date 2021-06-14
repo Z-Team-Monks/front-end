@@ -30,7 +30,6 @@
 
             <v-chip small v-else> Approved </v-chip>
           </template>
-          <template v-slot:item.coverImage="{ item }"> img </template>
           <template v-slot:item.link="{ item }">
             <v-icon @click="goToShopPage(item.shopId)">mdi-link-variant</v-icon>
           </template>
@@ -48,12 +47,6 @@ export default {
   data() {
     return {
       headers: [
-        {
-          text: "cover image",
-          align: "start",
-          sortable: false,
-          value: "coverImage",
-        },
         {
           text: "shop name",
           align: "start",

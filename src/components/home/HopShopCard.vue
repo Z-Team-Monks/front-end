@@ -4,11 +4,11 @@
       <div class="product-img mb-25">
         <a @click="emitProductDetail">
           <img src="../../assets/img/product/pro3.jpg" alt="" />
-          <img
+          <!-- <img
             class="secondary-img"
             src="../../assets/img/product/pro6.jpg"
             alt=""
-          />
+          /> -->
         </a>
         <div class="product-action text-center">
           <router-link :to="{ name: 'shop', params: { id: shop.shopId } }">

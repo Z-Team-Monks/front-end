@@ -179,7 +179,7 @@
         </v-form>
       </v-card>
     </v-dialog>
-    <Detail v-if="pass" @hideModal="hideModal" :dialog="pass" :prod="p" />
+    <Detail @addToCart = "addToCart" v-if="pass" @hideModal="hideModal" :dialog="pass" :prod="p" />
     <ProductReviewModal
       v-if="passReview"
       @submitReview="submitReview"
@@ -191,6 +191,7 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 import ShopProductCard from "@/components/shop/ShopProductCard";
 import Detail from "@/components/shop/DetailModal";
 import ProductReviewModal from "@/components/shop/ProductReviewModal";
@@ -226,16 +227,17 @@ export default {
       description: "",
       min: 0,
       maxRating: 5,
-      minRating: 1,
-      ratingRange: [1, 5],
-      max: 800,
-      range: [0, 800],
+      minRating: 0,
+      ratingRange: [0, 5],
+      max: 50000,
+      range: [0, 50000],
       rating: 2,
       length: 5,
       passData: false,
       p: "",
       pd: false,
       reviewsData: "",
+      pid: "",
     };
   },
 
@@ -249,11 +251,11 @@ export default {
       });
     },
     ratingRange(newVal, old) {
-      // this.products.forEach((s) => {
-      //   if ((s.rating >= newVal[0]) & (s.rating <= newVal[1])) {
-      //     s.isVisible = true;
-      //   } else s.isVisible = false;
-      // });
+      this.products.forEach((s) => {
+        if ((s.rating >= newVal[0]) & (s.rating <= newVal[1])) {
+          s.isVisible = true;
+        } else s.isVisible = false;
+      });
     },
   },
   created() {
@@ -301,19 +303,37 @@ export default {
         this.p = this.$store.state.product.product;
       });
       this.passData = true;
+
+      this.pid = id;
     },
 
-    handleProductReview(id) {
+   async handleProductReview(id) {
+      this.pid = id;
       if (this.$store.state.product.product) {
-        this.reviewsData = this.$store.state.product.product.productReviews;
-        this.pd = true;
+        await axios
+          .get(`/products/${id}/reviews`)
+          .then((res) => {
+            console.log(res.data)
+            this.reviewsData = res.data;
+            this.pd = false;
+            this.pd = true;
+          })
+          .catch((e) => console.log(e));
       } else {
         console.log("handling it ");
-        this.$store.dispatch("product/GetProductByID", id).then((e) => {
-          this.reviewsData = this.$store.state.product.product.productReviews;
-          this.pd = true;
-        });
+        await axios
+          .get(`/products/${id}/reviews`)
+          .then((res) => {
+            this.reviewsData = res.data;
+            this.pd = false;
+            this.pd = true;
+          })
+          .catch((e) => console.log(e));
       }
+    },
+
+    addToCart() {
+      this.$store.dispatch("shops/AddToCart" , this.pid)
     },
     AddProduct() {
       // let product = {
@@ -339,10 +359,11 @@ export default {
       this.pd = false;
     },
     submitReview(review) {
-      this.$store.dispatch("review/SubmitProductReview", {
+      console.log(this.pid);
+      this.$store.dispatch("product/PostReview", {
         rating: review.rating,
         reviewString: review.reviewString,
-        id: this.reviewsData.productId,
+        id: this.pid,
       });
     },
     hideDetailModal(e) {},

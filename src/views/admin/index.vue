@@ -1,14 +1,13 @@
 <template>
   <section class="product-area box-90 pt-70 pb-40">
-    <div class="text-center">
-    </div>
-    <v-row>
+
+    <v-row v-if="stat">
       <v-col cols="12" sm="6" lg="3">
         <base-material-stats-card
           color="primary"
           icon="mdi-account"
           title="Users"
-          value="200"
+          value="7"
           sub-icon="mdi-account"
           sub-text="Since 2021 May"
         />
@@ -18,7 +17,7 @@
           color="success"
           icon="mdi-store"
           title="Shops"
-          value="$ 34,245"
+          value="9"
           sub-icon="mdi-calendar"
           sub-text="Since 2021 May"
         />
@@ -28,7 +27,7 @@
           color="red lighten--4"
           icon="mdi-cart"
           title="Products"
-          value="245"
+          :value="'32'"
           sub-icon="mdi-cart"
           sub-text="Since 2019"
         />
@@ -38,7 +37,7 @@
           color="orange"
           icon="mdi-google-ads"
           title="Ads"
-          value="184"
+          value="4"
           sub-icon="mdi-google-ads"
           sub-icon-color="red"
           sub-text="Since 2021 May"
@@ -95,8 +94,15 @@ export default {
       tab: "shopTable",
     };
   },
-  created() {},
-  computed: {},
+  created() {
+    this.$store.dispatch("shops/getStats")
+  },
+  computed: {
+
+    stat() {
+      return this.$store.state.shops.stats;
+    }
+  },
   methods: {},
   props: {},
 };

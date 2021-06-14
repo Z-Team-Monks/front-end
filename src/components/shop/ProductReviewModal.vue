@@ -27,7 +27,7 @@
                 <v-icon left>mdi-pen</v-icon> Submit Review</v-btn
               >
             </v-col>
-            <v-col cols="6" v-if="reviews.length != 0" sm="6" md="6">
+            <v-col cols="6" v-if="reviews" sm="6" md="6">
               <h6>Reviews</h6>
               <v-list-item
                 two-line
@@ -98,6 +98,7 @@ export default {
       this.$emit("submitReview", {
         rating: this.rating,
         reviewString: this.reviewString,
+
       });
     },
   },

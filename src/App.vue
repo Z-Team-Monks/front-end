@@ -3,6 +3,7 @@
   <div>
     <v-app>
       <TheHeader />
+      <!-- <TheSlider /> -->
       <router-view />
       <TheFooter />
     </v-app>
@@ -11,12 +12,14 @@
 
 <script>
 import TheHeader from "@/components/common/TheHeader";
+import TheSlider from "@/components/home/TheSlider";
 import TheFooter from "@/components/common/TheFooter";
 export default {
   name: "App",
   components: {
     TheHeader,
     TheFooter,
+    TheSlider
   },
   data: () => ({
     //

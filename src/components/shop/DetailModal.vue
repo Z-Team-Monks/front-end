@@ -69,6 +69,7 @@ export default {
       this.$emit("hideModal");
     },
     AddToCart() {
+      this.$emit("addToCart")
       console.log("added to cart");
     },
   },

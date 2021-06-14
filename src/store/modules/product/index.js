@@ -96,15 +96,45 @@ const product = {
 
     async GetProductWithLimit({ commit }, param) {
       await axios.get("/products", { params: { limit: param } })
-      .then(res=> {
-        res.data.forEach(p => {
-          p.isVisible = true
+        .then(res => {
+          res.data.forEach(p => {
+            p.isVisible = true
+          })
+          commit("SAVE_PRODUCTS", res.data)
+        }).catch(e => {
+          console.log(e)
         })
-        commit("SAVE_PRODUCTS", res.data)
-      }).catch(e => {
-        console.log(e)
-      })
-    }
+    },
+
+    async PostReview({ commit }, data) {
+      const options = {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+      }
+      await axios.post(`/products/${data.id}/reviews`, { comment: data.review, rating: data.rating }, options)
+        .then(res => {
+          console.log("reviewed")
+          // commit("SAVE_PRODUCTS", res.data)
+        }).catch(e => {
+          console.log(e)
+        })
+    },
+    async GetReview({ commit }, data) {
+      const options = {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+      }
+      await axios.get(`/products/${data.id}/reviews`, { comment: data.review, rating: data.rating }, options)
+        .then(res => {
+          console.log("reviewed")
+          // commit("SAVE_PRODUCTS", res.data)
+        }).catch(e => {
+          console.log(e)
+        })
+    },
 
 
 
