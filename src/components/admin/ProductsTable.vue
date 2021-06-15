@@ -6,9 +6,6 @@
       </template>
       <v-card-text>
         <v-data-table :headers="headers" :items="products">
-          <template v-slot:item.image="{ item }">
-            img
-          </template>
           <template v-slot:item.actions="{ item }">
             <v-btn small elevation="0" @click = "deleteProduct(item.id)"  class="ml-2" color="error">
               Delete Product
@@ -34,12 +31,6 @@ export default {
   data() {
     return {
       headers: [
-        {
-          text: "Img",
-          align: "start",
-          sortable: false,
-          value: "image",
-        },
         {
           text: "Product Name",
           align: "start",

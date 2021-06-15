@@ -4,7 +4,10 @@
       <div class="product-top">
         <div class="product-img rounded">
           <router-link :to="{ name: 'shop', params: { id: shop.shopId } }">
-            <img src="../../assets/img/product/pro13.jpg" alt="" />
+            <img
+              :src="(shop.coverImage) ? shop.coverImage : 'https://images.unsplash.com/photo-1541535650810-10d26f5c2ab3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1055&q=80' "
+              alt=""
+            />
             <img
               class="secondary-img"
               src="../../assets/img/product/pro14.jpg"
@@ -23,16 +26,20 @@
         </h4>
         <p>
           Follower: 102
-          <br>
+          <br />
           {{ shop.description }}
         </p>
         <div class="product-action">
           <!-- <a @click="showShopDetails" title="Quick View">
             <i class="flaticon-eye"></i>
           </a> -->
-          <a @click="followShop" title="Wishlist"
-            ><i class="flaticon-like"></i
-          ></a>
+
+          <span v-if="isAuthenticated">
+            <a v-if="!shop.isFollowing" @click="followShop" title="Wishlist"
+              ><i class="flaticon-like"></i
+            ></a>
+            <span v-else>Following</span>
+          </span>
         </div>
       </div>
     </div>
@@ -44,7 +51,11 @@ export default {
     return {};
   },
   created() {},
-  computed: {},
+  computed: {
+    isAuthenticated() {
+      return this.$store.state.auth.isAuthenticated;
+    },
+  },
   methods: {
     showShopDetails(e) {
       e.preventDefault();
@@ -52,6 +63,7 @@ export default {
     },
 
     followShop(e) {
+      // this.$emit("followShop");
       e.preventDefault();
       console.log("show details");
     },

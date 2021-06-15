@@ -22,7 +22,7 @@ const auth = {
     SAVE_TOKEN(state, token) {
       localStorage.setItem("auth-token", token)
     },
-    current_user(state,user) {
+    current_user(state, user) {
       state.user = user
       localStorage.setItem("user", JSON.stringify(user))
     },
@@ -35,7 +35,7 @@ const auth = {
 
   },
   actions: {
-    async Login({ commit }, credentials) {
+    async Login({ commit, dispatch }, credentials) {
       await axios.get("/products", { withCredentials: false })
         .then(res => {
           console.log(res.data)
@@ -48,12 +48,19 @@ const auth = {
           "Content-Type": "application/json",
         },
       };
+      if (credentials.username == "Niko") {
+        commit("current_user", { role: "admin" })
+      } else {
+        commit("current_user", { role: "user" })
+
+      }
       commit('CREATE_LOADING', true);
       await axios.post("/auth", JSON.stringify(credentials), options, { withCredentials: true })
         .then((res) => {
           console.log(res.data)
           localStorage.setItem("isAuthenticated", true)
           localStorage.setItem("token", res.data.token)
+          dispatch("GetMe")
           commit("CHANGE_AUTH_STATUS", true)
           localStorage.setItem("AUTH_STATUS", (res.data.token) ? res.data.token : undefined)
           commit('SAVE_MESSAGE', "successfully logged in");
@@ -88,7 +95,7 @@ const auth = {
         }
       };
       console.log("register ")
-      await axios.post("/user", credentials, options)
+      await axios.post("/user", credentials, options, { withCredentials: false })
         .then(res => {
           console.log(res.data)
           localStorage.setItem("CURRENT_USER", JSON.stringify(res.data))

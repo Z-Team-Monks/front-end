@@ -34,8 +34,14 @@ export default {
   data() {
     return {};
   },
-  created() {},
-  computed: {},
+  created() {
+    // this.$store.dispatch("shops/Ads")
+  },
+  computed: {
+    // ads() {
+    //   return this.$store.state.shops.ads
+    // }
+  },
   methods: {},
   props: {
     ads: {

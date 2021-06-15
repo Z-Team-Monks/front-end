@@ -5,7 +5,8 @@ const admin = {
     state: {
         AUsers: [],
         AShops: [],
-        AProducts: []
+        AProducts: [],
+        stat: {}
     },
     mutations: {
         SAVE_USERS(state, users) {
@@ -17,15 +18,17 @@ const admin = {
         SAVE_ALL_PRODUCTS(state, products) {
             state.AProducts = products
         },
+        stats(state, stat) {
+            state.stat = stat
+        }
     },
     actions: {
         async GetAllUsers({ commit }) {
             const options = {
                 headers: {
-                    "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjIiLCJuYmYiOjE2MjI1ODY4ODUsImV4cCI6MTYzMTIyNjg4NSwiaWF0IjoxNjIyNTg2ODg1fQ.En4rTJmezNk1YJwYTUoBIZUueL4WQI0fxXGELHdoxGs`
-
-                }
-            }
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
+            };
             await axios.get("/users", options)
                 .then(res => {
                     commit("SAVE_USERS", res.data)
@@ -57,11 +60,10 @@ const admin = {
         async UpdateShopStatus({ commit }, data) {
             const options = {
                 headers: {
-                    "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjQiLCJuYmYiOjE2MjI1ODU4NTMsImV4cCI6MTYzMTIyNTg1MywiaWF0IjoxNjIyNTg1ODUzfQ.GOR6tB5py2y2OjOQNI67DaPt-uZsqH420PvhtoXY-mM`
-                    ,
                     "Content-Type": "application/json",
-                }
-            }
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
+            };
             await axios.get(`/shops/${data.shopId}`, JSON.stringify(data), options)
                 .then(res => {
 
@@ -70,7 +72,9 @@ const admin = {
                 }).catch(e => {
                     console.log(e)
                 })
-        }
+        },
+
+
 
     },
     getters: {},

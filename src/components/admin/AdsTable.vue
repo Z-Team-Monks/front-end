@@ -43,28 +43,23 @@ export default {
   data() {
     return {
       headers: [
-        {
-          text: "Image",
-          align: "start",
-          sortable: false,
-          value: "imgUrl",
-        },
-        { text: "Product Name", value: "name" },
+        
+        // { text: "Product Name", value: "name" },
         { text: "Description", value: "description" },
-        { text: "Discount", value: "discount" },
+        // { text: "Discount", value: "discount" },
         { text: "Actions", value: "actions", sortable: false },
       ],
     };
   },
 
   created() {
-    this.$store.dispatch("ads/GetAllAds");
+    this.$store.dispatch("shops/Ads");
     // this.$store.dispatch("ads/GetUserAds");
   },
 
   computed: {
     ads() {
-      return this.$store.state.allAds;
+      return this.$store.state.shops.ads;
     },
   },
   methods: {

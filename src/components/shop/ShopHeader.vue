@@ -26,7 +26,7 @@
               <v-icon color="primary">mdi-check-decagram</v-icon>
             </v-list-item-title>
             <v-list-item-subtitle>
-              <p>
+              <!-- <p>
                 Followers:
                 <span class="light-text">200</span>
                 <v-btn
@@ -52,7 +52,7 @@
                   Follow
                   <v-icon x-small right light> mdi-account </v-icon>
                 </v-btn>
-              </p>
+              </p> -->
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>

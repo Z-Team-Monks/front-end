@@ -42,6 +42,7 @@
           </v-card>
         </div>
       </div>
+
       <div class="map-view">
         <mapbox-map
           style="height: 600px"
@@ -87,6 +88,30 @@ export default {
       console.log("shop image: ", this.detailShop.coverImage);
       return this.detailShop.coverImage;
     },
+    getImage() {
+      console.log(this.detailShop);
+      if (!this.detailShop.coverImage) {
+        return "https://cdn.pixabay.com/photo/2021/03/02/01/07/cyberpunk-6061251__340.jpg";
+      }
+      console.log("shop image: ", this.detailShop.coverImage);
+      return this.detailShop.coverImage;
+    },
+  },
+  created() {
+    axios
+      .get("search/shops", {
+        params: {
+          "NearBy.Radius": 333,
+          "NearBy.Latitude": 23.2312,
+          "NearBy.Longitude": 22.42323,
+        },
+      })
+      .then((r) => {
+        this.shops = r.data;
+        this.detailShop = this.shops[0];
+        console.log(this.shops);
+      })
+      .catch((e) => console.log("shop error: ", e));
   },
   created() {
     axios
