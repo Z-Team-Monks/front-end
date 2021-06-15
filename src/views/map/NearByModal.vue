@@ -39,7 +39,7 @@ export default {
     }
 
     var cc = [
-        this.whereTo.shopLocation.longitude,
+      this.whereTo.shopLocation.longitude,
       this.whereTo.shopLocation.latitude,
     ];
     function showPosition(position) {

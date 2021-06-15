@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <!-- <TheSlider /> -->
+    <TheSlider />
     <Ads :ad="[1, 2, 3]" />
     <NewProducts />
     <NewShops />
@@ -25,7 +25,7 @@ export default {
     NewProducts,
     NewsFeed,
     NewsLetter,
-    NewShops
+    NewShops,
   },
 };
 </script>

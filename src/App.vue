@@ -12,6 +12,9 @@
 <script>
 import TheHeader from "@/components/common/TheHeader";
 import TheFooter from "@/components/common/TheFooter";
+
+import axios from "axios";
+
 export default {
   name: "App",
   components: {
@@ -29,6 +32,12 @@ export default {
       this.$store.dispatch("auth/ChangeStatus", true);
       this.$store.dispatch("auth/ChangeStatus", false);
     }
+
+    axios
+      .get("products")
+      .then((r) => console.log(r.json()))
+      .catch((e) => console.log(e));
+    console.log("requested");
   },
 };
 </script>
