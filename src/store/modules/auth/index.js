@@ -36,12 +36,6 @@ const auth = {
   },
   actions: {
     async Login({ commit, dispatch }, credentials) {
-      await axios.get("/products", { withCredentials: false })
-        .then(res => {
-          console.log(res.data)
-        }).catch(e => {
-          console.log(e)
-        })
 
       const options = {
         headers: {
@@ -95,7 +89,7 @@ const auth = {
         }
       };
       console.log("register ")
-      await axios.post("/user", credentials, options, { withCredentials: false })
+      await axios.post("/user", credentials, options, { withCredentials: true })
         .then(res => {
           console.log(res.data)
           localStorage.setItem("CURRENT_USER", JSON.stringify(res.data))

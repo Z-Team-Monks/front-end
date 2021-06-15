@@ -24,9 +24,11 @@
               />
             </label>
             <span class="input__icon"><i class="bx bx-user"></i></span>
-            <small class="input__error_message" v-if="!$v.loginName.required"
-              >Username can't be empty</small
-            >
+            <template v-if="$v.loginName.$error">
+              <small class="input__error_message" v-if="!$v.loginName.required"
+                >Username can't be empty</small
+              >
+            </template>
           </div>
           <div class="input__group">
             <label class="field">
@@ -40,14 +42,16 @@
             </label>
             <span class="input__icon"><i class="bx bx-lock"></i></span>
             <span class="showHide__Icon"><i class="bx bx-hide"></i></span>
-            <small
-              class="input__error_message"
-              v-if="!$v.loginPassword.required"
-              >Password can't be empty</small
-            >
+            <template v-if="$v.loginPassword.$error">
+              <small
+                class="input__error_message"
+                v-if="!$v.loginPassword.required"
+                >Password can't be empty</small
+              >
+            </template>
           </div>
           <div class="form__actions">
-            <label
+            <!-- <label
               for="checkboxInput"
               class="remeber_me"
               style="margin-left: 10px"
@@ -57,7 +61,7 @@
               <span class="remember-me" style="margin-left: 10px"
                 >Remeber Me</span
               >
-            </label>
+            </label> -->
             <!-- <div class="forgot_password">Forgot Password?</div> -->
           </div>
           <!-- Login Button -->
@@ -87,9 +91,11 @@
               />
             </label>
             <span class="input__icon"><i class="bx bx-user"></i></span>
-            <small class="input__error_message" v-if="!$v.name.required"
-              >Username can't be empty</small
-            >
+            <template v-if="$v.name.$error">
+              <small class="input__error_message" v-if="!$v.name.required"
+                >Username can't be empty</small
+              >
+            </template>
           </div>
           <div class="input__group">
             <label class="field">
@@ -102,12 +108,14 @@
               />
             </label>
             <span class="input__icon"><i class="bx bx-at"></i></span>
-            <small class="input__error_message" v-if="!$v.email.required"
-              >Email can't be empty</small
-            >
-            <small class="input__error_message" v-if="!$v.email.email"
-              >Invalid email</small
-            >
+            <template v-if="$v.email.$error">
+              <small class="input__error_message" v-if="!$v.email.required"
+                >Email can't be empty</small
+              >
+              <small class="input__error_message" v-if="!$v.email.email"
+                >Invalid email</small
+              >
+            </template>
           </div>
           <div class="input__group">
             <label class="field">
@@ -119,7 +127,11 @@
               />
             </label>
             <span class="input__icon"><i class="bx bx-at"></i></span>
-            <small class="input__error_message"></small>
+            <template v-if="$v.phone.$error">
+              <small class="input__error_message" v-if="!$v.phone.required"
+                >phonenumber can not be empty</small
+              >
+            </template>
           </div>
           <div class="input__group">
             <label class="field">
@@ -133,12 +145,14 @@
             </label>
             <span class="input__icon"><i class="bx bx-lock"></i></span>
             <span class="showHide__Icon"><i class="bx bx-hide"></i></span>
-            <small class="input__error_message" v-if="!$v.password.required"
-              >Password is required.</small
-            >
-            <small class="input__error_message" v-if="!$v.password.minLength"
-              >Password length should be greater than 5 characters.</small
-            >
+            <template v-if="$v.password.$error">
+              <small class="input__error_message" v-if="!$v.password.required"
+                >Password is required.</small
+              >
+              <small class="input__error_message" v-if="!$v.password.minLength"
+                >Password length should be greater than 5 characters.</small
+              >
+            </template>
           </div>
           <div class="input__group confirm__group">
             <label class="field">
@@ -152,11 +166,13 @@
             </label>
             <span class="input__icon"><i class="bx bx-lock"></i></span>
             <span class="showHide__Icon"><i class="bx bx-hide"></i></span>
-            <small
-              class="input__error_message"
-              v-if="!$v.repeatPassword.sameAsPassword"
-              >Passwords must be identical</small
-            >
+            <template v-if="$v.repeatPassword.$error">
+              <small
+                class="input__error_message"
+                v-if="!$v.repeatPassword.sameAsPassword"
+                >Passwords must be identical</small
+              >
+            </template>
           </div>
           <button
             type="submit"
@@ -216,9 +232,9 @@ import { required, minLength, sameAs, email } from "vuelidate/lib/validators";
 
 export default {
   computed: {
-    passwordMatch() {
-      return () => this.password === this.verify || "Password must match";
-    },
+    // passwordMatch() {
+    //   return () => this.password === this.verify || "Password must match";
+    // },
     snackbar() {
       return this.$store.state.message.showSnack;
     },
@@ -283,6 +299,9 @@ export default {
       required,
       minLength: minLength(4),
     },
+    phone: {
+      required,
+    },
     email: {
       email,
       required,
@@ -320,7 +339,8 @@ export default {
       // }
     },
     register() {
-      if (this.$refs.registerForm.validate()) {
+      // if (this.$refs.registerForm.validate()) {
+      // if (this.$v.$touch()) {
         this.$store.dispatch("auth/Register", {
           username: this.username,
           email: this.email,
@@ -328,7 +348,7 @@ export default {
           phone: this.phone,
           password: this.password,
         });
-      }
+      // }
     },
     toggleFormDiv() {
       this.signUpDiv = !this.signUpDiv;
@@ -346,12 +366,12 @@ export default {
           phone: this.phone,
           password: this.password,
         })
-        .then((r) => {
-          this.username = "";
-          this.email = "";
-          this.phone = "";
-          this.password = "";
-        });
+        // .then((r) => {
+        //   this.username = "";
+        //   this.email = "";
+        //   this.phone = "";
+        //   this.password = "";
+        // });
       // }
     },
     //dummies
@@ -360,37 +380,38 @@ export default {
     },
     signIn(e) {
       e.preventDefault();
-      console.log("this is me");
       this.firstSignInBtnTouch = false;
-      this.$store
-        .dispatch("auth/Login", {
-          username: this.loginName,
-          password: this.loginPassword,
-        })
-        .then((e) => {
-          // this.snackbar = this.$store.state.message.showSnack;
-          if (this.snackbar) {
-            if (this.$store.state.auth.message == "successfully logged in") {
-              this.$router.push({ name: "user" });
+      // if (this.$v.$touch()) {
+        console.log("touched");
+        this.$store
+          .dispatch("auth/Login", {
+            username: this.loginName,
+            password: this.loginPassword,
+          })
+          .then((e) => {
+            // this.snackbar = this.$store.state.message.showSnack;
+            if (this.snackbar) {
+              if (this.$store.state.auth.message == "successfully logged in") {
+                this.$router.push({ name: "user" });
+              }
+              this.$store.dispatch(
+                "message/SaveMessage",
+                this.$store.state.auth.message
+              );
+              this.$store.dispatch("message/HideNotification");
+              this.$store.dispatch("message/ShowNotification");
+            } else {
+              this.$store.dispatch(
+                "message/SaveMessage",
+                this.$store.state.auth.message
+              );
+              this.$store.dispatch("message/ShowNotification");
+              if (this.$store.state.auth.message == "successfully logged in") {
+                this.$router.push({ name: "user" });
+              }
             }
-            console.log("success");
-            this.$store.dispatch(
-              "message/SaveMessage",
-              this.$store.state.auth.message
-            );
-            this.$store.dispatch("message/HideNotification");
-            this.$store.dispatch("message/ShowNotification");
-          } else {
-            this.$store.dispatch(
-              "message/SaveMessage",
-              this.$store.state.auth.message
-            );
-            this.$store.dispatch("message/ShowNotification");
-            if (this.$store.state.auth.message == "successfully logged in") {
-              this.$router.push({ name: "user" });
-            }
-          }
-        });
+          });
+      // }
     },
     hideMessage() {
       this.$store.dispatch("message/HideNotification");
