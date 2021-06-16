@@ -15,6 +15,7 @@
               </div>
             </div>
           </div>
+
           <!-- tab content -->
           <div class="tab-content" id="myTabContent">
             <div
@@ -147,7 +148,9 @@
             <!-- <v-col cols="1" /> -->
 
             <v-col v-if="currentProductWatch" cols="6">
-              <div class="details-cat mb-20">{{ currentProductWatch.brand }}</div>
+              <div class="details-cat mb-20">
+                {{ currentProductWatch.brand }}
+              </div>
               <h2 class="pro-details-title">
                 {{ currentProductWatch.productName }}
               </h2>
@@ -197,7 +200,7 @@ export default {
       dialog: false,
       selectedProduct: {},
       pagging: false,
-      currentProduct: {}
+      currentProduct: {},
     };
   },
   watch: {
@@ -205,7 +208,6 @@ export default {
       this.products.forEach((s) => {
         if (newVal.length != 0) {
           if (newVal.includes(s.categoryId)) {
-            
             s.isVisible = true;
           } else {
             s.isVisible = false;
@@ -261,8 +263,7 @@ export default {
     },
     AddToCart(product) {
       console.log("add to cart");
-      this.$store.dispatch("shops/AddToCart" , product.productId)
-
+      this.$store.dispatch("shops/AddToCart", product.productId);
     },
   },
   props: {},

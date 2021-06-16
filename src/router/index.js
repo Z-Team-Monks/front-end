@@ -1,6 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import AuthLogin from "../views/Auth/index";
+import PasswordReset from "../views/Auth/password_reset.vue";
+import PasswordForget from "../views/Auth/password_forget.vue";
 import Home from "../views/Home.vue";
 import Admin from "../views/admin/index";
 import Shop from "../views/shop/index";
@@ -35,9 +37,7 @@ const routes = [
     path: "/admin",
     name: "Admin",
     component: Admin,
-    children: [
-
-    ]
+    children: [],
   },
   {
     path: "/user",
@@ -47,7 +47,7 @@ const routes = [
   {
     path: "/shops",
     name: "shops",
-    component: Shops, 
+    component: Shops,
   },
   {
     path: "/shop/:id",
@@ -55,10 +55,10 @@ const routes = [
     component: Shop,
   },
   {
-    path : "/map",
-    name : "map",
-    component : Map,
-  },  
+    path: "/map",
+    name: "map",
+    component: Map,
+  },
   {
     path: "/cart",
     name: "cart",
@@ -67,14 +67,23 @@ const routes = [
   {
     path: "/product/:id",
     name: "productDetail",
-    component: Product
+    component: Product,
   },
   {
-    path: '*',
-    name: 'Not Found',
-    component: NotFound
+    path: "*",
+    name: "Not Found",
+    component: NotFound,
   },
-
+  {
+    path: "/auth/forget",
+    name: "forget",
+    component: PasswordForget,
+  },
+  {
+    path: "/auth/reset",
+    name: "reset",
+    component: PasswordReset,
+  },
 ];
 
 const router = new VueRouter({
