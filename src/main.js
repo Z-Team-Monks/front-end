@@ -33,7 +33,7 @@ axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 // axios.defaults.baseURL = 'http://10.6.250.73:5522/api/v1';
 // axios.defaults.baseURL = "http://10.6.154.213:5522/api/v1";
-localStorage.setItem("url", axios.defaults.baseURL);
+localStorage.setItem("url", "http://10.6.250.75:4444/api/v1");
 Vue.use(require("vue-chartist"));
 Vue.use(Vuelidate);
 Vue.use(VueMapbox);
