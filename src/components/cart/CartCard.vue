@@ -3,25 +3,25 @@
     <v-row>
       <v-col cols="4">
         <div class="cart-img">
-          <a href="product-details.html">
+          <router-link
+            :to="{ name: 'shop', params: { id: cartItem.product.shopId } }"
+          >
             <img src="../../assets/img/product/pro1.jpg" alt="" />
-          </a>
+          </router-link>
         </div>
       </v-col>
 
       <v-col cols="6">
         <div class="cart-content">
           <h3>
-            <a href="product-details.html">{{
-              cartItem.product.productName
-            }}</a>
+            <router-link
+              :to="{ name: 'shop', params: { id: cartItem.product.shopId } }"
+              >{{ cartItem.product.productName }}</router-link
+            >
           </h3>
           <div class="cart-price">
-            <span class="new"> {{
-              cartItem.product.price
-            }} ETB</span>
-            <span>
-            </span>
+            <span class="new"> {{ cartItem.product.price }} ETB</span>
+            <span> </span>
           </div>
         </div>
       </v-col>

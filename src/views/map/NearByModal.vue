@@ -39,9 +39,10 @@ export default {
     }
 
     var cc = [
-        this.whereTo.shopLocation.longitude,
-      this.whereTo.shopLocation.latitude,
+      this.whereTo.location.latitude,
+      this.whereTo.location.longitude,
     ];
+    console.log(this.whereTo)
     function showPosition(position) {
       lng = position.coords.latitude;
       lat = position.coords.longitude;

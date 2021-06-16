@@ -141,7 +141,7 @@
                 lazy-src="https://picsum.photos/id/11/10/6"
                 max-height="300"
                 max-width="300"
-                src="https://picsum.photos/id/11/500/300"
+                :src="selectedProduct.imageUrl ? selectedProduct.imageUrl : 'https://images.unsplash.com/photo-1473187983305-f615310e7daa?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80'"
               ></v-img>
             </v-col>
             <!-- <v-col cols="1" /> -->
@@ -262,7 +262,7 @@ export default {
     AddToCart(product) {
       console.log("add to cart");
       this.$store.dispatch("shops/AddToCart" , product.productId)
-
+      this.dialog = false
     },
   },
   props: {},

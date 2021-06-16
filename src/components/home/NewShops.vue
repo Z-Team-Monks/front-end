@@ -37,7 +37,7 @@
     <VueSlickCarousel :dots="true" v-bind="settings" v-if="shops.length">
       <div v-for="(shop, n) in shops" class="mr-5" :key="n">
         <div v-if="shop.isVisible">
-          <HopShopCard @NearByModal="showModal(shop.shopId)" :shop="shop" />
+          <HopShopCard @NearByModal="showModal(shop.id)" :shop="shop" />
         </div>
       </div>
     </VueSlickCarousel>

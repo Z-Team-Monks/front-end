@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h3 style="margin: 2rem">Near By Shops</h3>
     <div class="full" mx-3>
       <div class="shop mx-2">
+        <h3 style="margin: 2rem" class="text-center">Near By Shops</h3>
         <div id="single-shop">
           <v-card class="mx-auto" max-width="374">
             <template slot="progress">
@@ -15,11 +15,11 @@
 
             <v-img height="250" :src="getImage()"></v-img>
 
-            <v-card-title>{{ detailShop.shopName }}</v-card-title>
+            <v-card-title>{{ detailShop.shop.shopName }}</v-card-title>
 
             <v-card-text>
               <div>
-                {{ detailShop.description }}
+                {{ detailShop.shop.description }}
               </div>
             </v-card-text>
 
@@ -32,7 +32,7 @@
                 active-class="deep-purple accent-4 white--text"
                 column
               >
-                <v-chip>{{ detailShop.phoneNumber }}</v-chip>
+                <v-chip>{{ detailShop.shop.phoneNumber }}</v-chip>
               </v-chip-group>
             </v-card-text>
 
@@ -54,7 +54,7 @@
           <mapbox-marker
             v-for="(shop, i) in shops"
             :key="i"
-            :lng-lat="[shop.shopLocation.longitude, shop.shopLocation.latitude]"
+            :lng-lat="[shop.longitude, shop.latitude]"
           >
             <p class="custom-marker" @click="showDetail(shop)">
               <i class="fas fa-shopping-cart"></i>
@@ -74,6 +74,8 @@ export default {
     return {
       shops: [],
       detailShop: null,
+      latitude: "",
+      longitude: "",
     };
   },
   methods: {
@@ -82,60 +84,62 @@ export default {
     },
     getImage() {
       console.log(this.detailShop);
-      if (!this.detailShop.imageUrl) {
-        return "https://cdn.pixabay.com/photo/2021/03/02/01/07/cyberpunk-6061251__340.jpg";
-      }
-      console.log("shop image: ", this.detailShop.coverImage);
-      return this.detailShop.coverImage;
+      //   console.log(this.detailShop);
+      //   if (!this.detailShop.imageUrl) {
+      //     return "https://cdn.pixabay.com/photo/2021/03/02/01/07/cyberpunk-6061251__340.jpg";
+      //   }
+      //   console.log("shop image: ", this.detailShop.coverImage);
+      //   return this.detailShop.coverImage;
+      // },
+      // getImage() {
+      //   console.log(this.detailShop);
+      //   if (!this.detailShop.imageUrl) {
+      //     return "https://cdn.pixabay.com/photo/2021/03/02/01/07/cyberpunk-6061251__340.jpg";
+      //   }
+      //   console.log("shop image: ", this.detailShop.imageUrl);
+      return "https://cdn.pixabay.com/photo/2021/03/02/01/07/cyberpunk-6061251__340.jpg";
     },
-    getImage() {
-      console.log(this.detailShop);
-      if (!this.detailShop.imageUrl) {
-        return "https://cdn.pixabay.com/photo/2021/03/02/01/07/cyberpunk-6061251__340.jpg";
-      }
-      console.log("shop image: ", this.detailShop.imageUrl);
-      return this.detailShop.imageUrl;
-    },
-  },
-  created() {
-    axios
-      .get("search/shops/nearme", {
-        params: {
-          "radius": 333,
-          "latitude": 23.2312,
-          "longitude": 22.42323,
-        },
-      })
-      .then((r) => {
-        this.shops = r.data.results;
-        this.detailShop = this.shops[0];
-        console.log(this.shops);
-      })
-      .catch((e) => console.log("shop error: ", e));
-  },
-  created() {
-    axios
-      .get("search/shops/nearme", {
-        params: {
-          "radius": 333,
-          "latitude": 23.2312,
-          "longitude": 22.42323,
-        },
-      })
-      .then((r) => {
-        this.shops = r.data;
-        this.detailShop = this.shops[1];
-        console.log(this.shops);
-      })
-      .catch((e) => console.log("shop error: ", e));
 
-    // this.shops.forEach((shop) => {
-    //   if (shop.coverImage == undefined) {
-    //     shop.coverImage =
-    //       "https://cdn.pixabay.com/photo/2021/03/02/01/07/cyberpunk-6061251__340.jpg";
-    //   }
-    // });
+    getLocation() {
+      if (navigator.geolocation) {
+        for (const key in navigator.geolocation) {
+          console.log(key);
+        }
+        navigator.geolocation.getCurrentPosition((e) => {
+          this.latitude = e.coords.latitude;
+          this.longitude = e.coords.longitude;
+          axios
+            .get("search/shops/nearme", {
+              params: {
+                radius: 333,
+                latitude: this.latitude,
+                longitude: this.longitude,
+              },
+            })
+            .then((r) => {
+              this.shops = r.data;
+              this.detailShop = this.shops[0];
+              console.log(this.shops);
+            })
+            .catch((e) => console.log("shop error: ", e));
+        });
+        // navigator.geolocation.getCurrentPosition(this.showPosition);
+      } else {
+        console.log("not supported");
+      }
+    },
+    showPosition(position) {
+      // console.log(position)
+      this.latitude = position.coords.latitude;
+      this.longitude = position.coords.longitude;
+    },
   },
+  created() {
+    console.log("geo location");
+    this.getLocation();
+  },
+
+  computed: {},
 };
 </script>
 

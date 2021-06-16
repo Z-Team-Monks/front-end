@@ -3,7 +3,7 @@
     <v-card class="mx-auto mb-12" max-width="300">
       <v-img
         height="150"
-        src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+        :src="product.imageUrl"
       ></v-img>
 
       <v-card-title>{{ product.productName }}</v-card-title>

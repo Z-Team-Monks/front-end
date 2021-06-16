@@ -5,7 +5,12 @@
         <div class="container-fluid" style="z-index: 10000">
           <div class="row align-items-center" style="z-index: 10000">
             <div
-              class="col-xl-2 col-lg-6 col-md-6 col-7 col-sm-5 d-flex align-items-center pos-relative"
+              class="
+                col-xl-2 col-lg-6 col-md-6 col-7 col-sm-5
+                d-flex
+                align-items-center
+                pos-relative
+              "
             >
               <router-link :to="{ name: 'Home' }">
                 <div class="basic-bar cat-toggle">
@@ -20,7 +25,7 @@
                 </router-link>
               </div>
             </div>
-            <div class="col-xl-8 col-lg-6 col-md-8 col-8 d-none d-xl-block">
+            <div class="col-xl-7 col-lg-6 col-md-8 col-8 d-none d-xl-block">
               <div class="main-menu text-center">
                 <nav id="mobile-menu">
                   <ul>
@@ -42,13 +47,13 @@
                 </nav>
               </div>
             </div>
-            <div class="col-xl-2 col-lg-6 col-md-6 col-5 col-sm-7 pl-0">
+            <div class="col-xl-3 col-lg-7 col-md-7 col-6 col-sm-7 pl-0">
               <div class="header-right f-right">
                 <ul>
-                  <li v-if="!showLogout" class="login-btn">
-                    <router-link :to="{ name: 'Auth' }" 
+                  <li class="login-btn">
+                    <a href="#" @click="LoginOrToRole"
                       ><i class="far fa-user"></i
-                    ></router-link>
+                    ></a>
                   </li>
                   <li class="notification-bell d-shop-cart" v-if="showLogout">
                     <a class="search-btn nav-search search-trigger" href="#">
@@ -75,11 +80,16 @@
                   <li class="d-shop-cart" v-if="showLogout">
                     <router-link :to="{ name: 'shops' }" href="#"
                       ><i class="flaticon-shopping-cart"></i>
-                      <span class="cart-count">{{ carts.length }}</span></router-link
+                      <span class="cart-count">{{
+                        carts.length
+                      }}</span></router-link
                     >
                     <ul class="minicart">
                       <li v-for="(item, i) in carts" :key="i">
-                        <CartCard :cartItem="item" @deleteCart="deleteCart(item.wishListItemId)" />
+                        <CartCard
+                          :cartItem="item"
+                          @deleteCart="deleteCart(item.wishListItemId)"
+                        />
                       </li>
 
                       <li v-if="carts.length == 0">
@@ -153,6 +163,9 @@ export default {
     carts() {
       return this.$store.state.shops.carts;
     },
+    role() {
+      return JSON.parse(localStorage.getItem("user")).role;
+    },
   },
   methods: {
     deleteCart(id) {
@@ -174,8 +187,21 @@ export default {
       this.$store.dispatch("notification/clearNotifications");
     },
     LogOut() {
-      this.$store.dispatch("auth/LogOut")
-    }
+      this.$store.dispatch("auth/LogOut");
+    },
+    LoginOrToRole() {
+      const role = JSON.parse(localStorage.getItem("user")).role;
+      console.log(this.$router.currentRoute)
+if (this.showLogout) {
+
+
+        this.$router.push({
+          name: role,
+        });
+      } else {
+        this.$router.push({ name: "Auth" });
+      }
+    },
   },
   props: {},
 };

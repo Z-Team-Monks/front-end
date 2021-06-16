@@ -15,6 +15,17 @@
                 Add Product
               </v-btn>
             </v-list-item>
+            <v-list-item v-if="mine">
+              <v-btn
+                small
+                block
+                @click="adsModal = !adsModal"
+                outlined
+                color="indigo"
+              >
+                Request Ads
+              </v-btn>
+            </v-list-item>
             <v-list-item>
               <div class="overline mr-5">Fillter Products</div>
             </v-list-item>
@@ -110,6 +121,7 @@
         </v-row>
       </v-col>
     </v-row>
+    <!-- Add Product Modal -->
     <v-dialog v-model="addModal" max-width="500px">
       <v-card>
         <v-card-title class="border-bottom">
@@ -120,12 +132,9 @@
             <v-container>
               <v-row>
                 <v-col cols="12">
-                  <!-- <v-file-input
-                    v-model="imageUrl"
-                    placeholder="Pick an avatar"
-                    prepend-icon="mdi-camera"
-                    label="product Image"
-                  ></v-file-input> -->
+                  <v-col cols="12">
+                    <input type="file" @change="getFile" name="file" id="" />
+                  </v-col>
                 </v-col>
                 <v-col cols="12">
                   <v-text-field
@@ -135,17 +144,29 @@
                   />
                 </v-col>
                 <v-col cols="12">
-                  <v-text-field
-                    v-model="brand"
-                    placeholder="Brand"
-                    prepend-icon="mdi-watermark"
-                  />
+                  <v-select
+                    prepend-icon="mdi-shape"
+                    v-model="categoryId"
+                    :items="categories"
+                    label="Categorey"
+                    item-text="categoryName"
+                    item-value="id"
+                    dense
+                  ></v-select>
                 </v-col>
                 <v-col cols="12">
                   <v-text-field
                     v-model="price"
                     type="number"
                     placeholder="Price"
+                    prepend-icon="mdi-currency-usd"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    v-model="discount"
+                    type="number"
+                    placeholder="Discount in percent"
                     prepend-icon="mdi-currency-usd"
                   />
                 </v-col>
@@ -178,6 +199,74 @@
         </v-form>
       </v-card>
     </v-dialog>
+    <!-- Request Ads -->
+
+    <v-dialog v-model="adsModal" max-width="500px">
+      <v-card>
+        <v-card-title class="border-bottom">
+          <span class="headline">Add Ads</span>
+        </v-card-title>
+        <v-form>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field
+                    v-model="discount"
+                    type="number"
+                    placeholder="Discount in percent"
+                    prepend-icon="mdi-currency-usd"
+                  />
+                </v-col>
+                <v-col>
+                  <v-textarea
+                    rows="1"
+                    v-model="description"
+                    prepend-icon="mdi-semantic-web"
+                    placeholder="Description"
+                  ></v-textarea>
+                </v-col>
+                <v-col cols="12">
+                  <v-date-picker v-model="startDate" no-title scrollable>
+                    <v-spacer></v-spacer>
+                    <v-btn text color="primary" @click="menu1 = false">
+                      Cancel
+                    </v-btn>
+                    <v-btn text color="primary" @click="$refs.menu.save(date)">
+                      OK
+                    </v-btn>
+                  </v-date-picker>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    v-model="endDate"
+                    label="Picker in menu"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    hint="Ending date"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="red lighten--4 darken-1"
+              text
+              @click="addModal = !addModal"
+            >
+              Cancel
+            </v-btn>
+            <v-btn color="red lighten--4 darken-1" @click="AddProduct" text>
+              Add Product
+            </v-btn>
+          </v-card-actions>
+        </v-form>
+      </v-card>
+    </v-dialog>
+
     <Detail
       @addToCart="addToCart"
       v-if="pass"
@@ -215,7 +304,10 @@ export default {
         { text: "Audience", icon: "mdi-account" },
         { text: "Conversions", icon: "mdi-flag" },
       ],
-
+      startDate: "",
+      endDate: "",
+      discount: "",
+      productImg: "",
       productName: "",
       dateInserted: "",
       brand: "",
@@ -229,6 +321,7 @@ export default {
 
       dialog: false,
       addModal: false,
+      adsModal: false,
       description: "",
       min: 0,
       maxRating: 5,
@@ -243,6 +336,7 @@ export default {
       pd: false,
       reviewsData: "",
       pid: "",
+      categoryId: "",
     };
   },
 
@@ -265,6 +359,7 @@ export default {
   },
   created() {
     this.length = this.$store.state.product.product;
+    this.$store.dispatch("category/GetCategories");
   },
   computed: {
     fillterCount() {
@@ -294,7 +389,9 @@ export default {
     ShopProducts() {
       return this.$store.state.shops.shopProducts;
     },
-
+    categories() {
+      return this.$store.state.category.categories;
+    },
     isAuthenticated() {
       return this.$store.state.shops.shop && localStorage.getItem("user")
         ? this.$store.state.shops.shop.ownerId ===
@@ -313,10 +410,12 @@ export default {
       console.log("[[[[[[[id]]]]]]]");
       // this.pid = id.productId;
     },
-
+    getFile(e) {
+      this.productImg = e.target.files[0];
+    },
     handleProductReview(id) {
       this.pid = id;
-      localStorage.setItem("selectedProduct" , id)
+      localStorage.setItem("selectedProduct", id);
       if (this.$store.state.product.product) {
         axios
           .get(`/products/${id}/reviews`)
@@ -339,27 +438,33 @@ export default {
           .catch((e) => console.log(e));
       }
 
-      console.log(this.pid)
+      console.log(this.pid);
     },
 
     addToCart() {
       this.$store.dispatch("shops/AddToCart", this.pid);
     },
     AddProduct() {
-      // let product = {
-      //   ownerId: this.$store.state.shops.shop.ownerId,
-      //   productName: this.productName,
-      //   dateInserted: this.dateInserted,
-      //   brand: this.brand,
-      //   description: this.description,
-      //   categoryId: 3,
-      //   price: this.price,
-      //   condition: "New",
-      //   imageUrl: "",
-      //   deliveryAvailable: this.deliveryAvailable,
-      //   productCount: this.productCount,
-      // };
-      // this.$store.dispatch("product/AddProduct", product);
+      let product = {
+        shopId: parseInt(this.$route.params.id),
+        productName: this.productName,
+        description: this.description,
+        categoryId: this.categoryId,
+        price: parseInt(this.price),
+        condition: "New",
+        discount: parseInt(this.discount),
+        // productCount: this.productCount,
+      };
+
+      let formData = new FormData();
+      formData.append("file", this.productImg);
+
+      this.$store
+        .dispatch("product/StoreProduct", { product, formData })
+        .then((r) => {
+          this.addModal = false;
+          this.$store.dispatch("category/GetCategories");
+        });
     },
     productReview(id) {
       this.$store.dispatch("product/GetProductByID", id);
@@ -370,16 +475,16 @@ export default {
     },
     submitReview(review) {
       console.log(review);
-      review.id = localStorage.getItem("selectedProduct")
+      review.id = localStorage.getItem("selectedProduct");
       this.$store.dispatch("product/PostReview", {
         rating: review.rating,
         comment: review.comment,
-        id : review.id
+        id: review.id,
       });
     },
     hideDetailModal(e) {},
   },
-  props: ["products" , "mine"  ],
+  props: ["products", "mine"],
 };
 </script>
 

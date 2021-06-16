@@ -179,9 +179,9 @@ const shops = {
 
     },
 
-    async GetAllShops({ commit }, q) {
+     GetAllShops({ commit }, q) {
 
-      await axios.get("/shops")
+       axios.get("/shops")
         .then(res => {
           res.data.forEach(e => {
             e.isVisible = true
@@ -250,7 +250,7 @@ const shops = {
     },
 
 
-    async AddToCart({ commit, dispatch }, id) {
+     AddToCart({ commit, dispatch }, id) {
       const options = {
         headers: {
           "Content-Type": "application/json",
@@ -309,7 +309,7 @@ const shops = {
         }
       }
 
-      await axios.post(`/shops/${id}/follow`, options)
+      await axios.post(`/shops/${id}/likes`, options)
         .then(e => {
           dispatch("GetAllShops")
         }).catch(e => {

@@ -79,14 +79,30 @@ const product = {
           console.log(e)
         })
     },
-    async StoreProduct({ commit }, data) {
+    StoreProduct({ commit }, data) {
       const options = {
         headers: {
-          "Content-Type": "application/json",
-        },
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
       };
-      await axios.post(`/products`, JSON.stringify(data), options)
+      axios.post(`/products`, data.product, options)
         .then(res => {
+          const options = {
+            headers: {
+              "Authorization": `Bearer ${localStorage.getItem("token")}`,
+              "Content-Type": "multipart/form-data",
+            },
+          };
+
+          console.log(res.data)
+          console.log("product created")
+          axios.post(`/products/${res.data.productId}/uploads`, data.formData, options)
+            .then(res => {
+              console.log("product image added")
+            })
+            .catch(e => {
+              console.log(e.message)
+            })
           console.log(res.data)
         }).catch(e => {
           console.log(e)
@@ -97,10 +113,10 @@ const product = {
     async GetProductWithLimit({ commit }, param) {
       await axios.get("/products", { params: { limit: param } })
         .then(res => {
-          res.data.forEach(p => {
+          res.data.results.forEach(p => {
             p.isVisible = true
           })
-          commit("SAVE_PRODUCTS", res.data)
+          commit("SAVE_PRODUCTS", res.data.results)
         }).catch(e => {
           console.log(e)
         })
@@ -122,14 +138,14 @@ const product = {
           console.log(e)
         })
     },
-    async GetReview({ commit }, data) {
+    GetReview({ commit }, data) {
       const options = {
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${localStorage.getItem("token")}`
         }
       }
-      await axios.get(`/products/${data.id}/reviews`, { comment: data.review, rating: data.rating }, options)
+      axios.get(`/products/${data.id}/reviews`, { comment: data.review, rating: data.rating }, options)
         .then(res => {
           console.log("reviewed")
           // commit("SAVE_PRODUCTS", res.data)

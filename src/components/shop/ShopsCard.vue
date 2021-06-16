@@ -36,7 +36,7 @@
 
           <span v-if="isAuthenticated">
             <a v-if="!shop.isFollowing" @click="followShop" title="Wishlist"
-              ><i class="flaticon-like"></i
+              ><i :class="isFollowed ? 'flaticon-like bg-danger' : 'flaticon-like'"></i
             ></a>
             <span v-else>Following</span>
           </span>
@@ -55,6 +55,13 @@ export default {
     isAuthenticated() {
       return this.$store.state.auth.isAuthenticated;
     },
+    isFollowed() {
+      let ans =  this.shop.followers.includes({
+        userId: JSON.parse(localStorage.getItem("user")).userId,
+      });
+      console.log(ans)
+      return ans
+    },
   },
   methods: {
     showShopDetails(e) {
@@ -63,7 +70,7 @@ export default {
     },
 
     followShop(e) {
-      // this.$emit("followShop");
+      this.$emit("followShop");
       e.preventDefault();
       console.log("show details");
     },

@@ -9,7 +9,7 @@
           <div class="row">
             <div class="col-xl-5 col-lg-6 col-md-6">
               <div class="product-showing mb-40">
-                <p>Showing 1–22 of 32 results</p>
+                <p>Showing 1–13 of 13 results</p>
               </div>
             </div>
           </div>
@@ -31,7 +31,7 @@
               aria-labelledby="profile-tab"
             >
               <div class="wrapper-shop" v-for="(shop, i) in shops" :key="i">
-                <ShopsCard :shop="shop" @followShop="followShop(shop.shopId)" />
+                <ShopsCard :shop="shop" @followShop="followShop(shop.id)" />
               </div>
             </div>
 
