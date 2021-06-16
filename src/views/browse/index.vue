@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-xl-8 col-lg-8">
           <div class="shop-banner mb-50">
-            <img src="../../assets/img/bg/shop-banner.jpg" alt="" />
+            <img :src="bannerProductImg" alt="" />
           </div>
           <div class="row">
             <div class="col-xl-5 col-lg-6 col-md-6 mb-0 pb-0">
@@ -192,6 +192,7 @@ export default {
   created() {
     this.$store.dispatch("category/GetCategories");
     this.$store.dispatch("shops/GetAllProductsInDB");
+    setInterval(this.changeBannerProductImage, 2000);
   },
   data() {
     return {
@@ -201,6 +202,14 @@ export default {
       selectedProduct: {},
       pagging: false,
       currentProduct: {},
+      bannerImages: [
+        "https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+        "https://images.pexels.com/photos/1598505/pexels-photo-1598505.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+        "https://cdn.pixabay.com/photo/2017/01/22/12/07/imac-1999636__340.png",
+      ],
+      bannerProductImg:
+        "https://cdn.pixabay.com/photo/2017/01/22/12/07/imac-1999636__340.png",
+      bannerProductImgCounter: 0,
     };
   },
   watch: {
@@ -265,7 +274,21 @@ export default {
       console.log("add to cart");
       this.$store.dispatch("shops/AddToCart", product.productId);
     },
+    changeBannerProductImage() {
+      // console.log(this.bannerProductImg);
+      this.bannerProductImg = this.bannerImages[this.bannerProductImgCounter];
+      this.bannerProductImgCounter =
+        (this.bannerProductImgCounter + 1) % this.bannerImages.length;
+    },
   },
   props: {},
 };
 </script>
+
+
+<style scoped>
+.shop-banner img {
+  width: 85%;
+  height: 400px;
+}
+</style>
