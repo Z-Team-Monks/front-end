@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-xl-8 col-lg-8">
           <div class="shop-banner mb-50">
-            <img src="../../assets/img/bg/shop-banner.jpg" alt="" />
+            <img :src="bannerImg" alt="" />
           </div>
           <div class="row">
             <div class="col-xl-5 col-lg-6 col-md-6">
@@ -99,11 +99,21 @@ export default {
   created() {
     this.$store.dispatch("category/GetCategories");
     this.$store.dispatch("shops/GetAllShops");
+    setInterval(this.changeAdBanner,3000);     
+
   },
   data() {
     return {
       tags: [],
       searchQuery: "",
+      bannerImgs : [                
+        "https://images.unsplash.com/photo-1591085686350-798c0f9faa7f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fHNob3BwaW5nfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+        "https://cdn.pixabay.com/photo/2015/10/12/15/18/clothing-store-984396__340.jpg",
+        "https://cdn.pixabay.com/photo/2015/09/21/14/24/supermarket-949913__340.jpg",
+        "https://images.pexels.com/photos/318236/pexels-photo-318236.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",        
+      ],
+      bannerImgCounter: 0,
+      bannerImg : "https://images.pexels.com/photos/318236/pexels-photo-318236.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
     };
   },
   watch: {
@@ -138,7 +148,18 @@ export default {
     followShop(id) {
       this.$store.dispatch("shops/FollowShop", id);
     },
+    changeAdBanner(){
+      this.bannerImg = this.bannerImgs[this.bannerImgCounter];
+      this.bannerImgCounter = (this.bannerImgCounter + 1) % this.bannerImgs.length;            
+    },
   },
   props: {},
 };
 </script>
+
+<style scoped>
+.shop-banner img{
+  width: 85%;  
+  height: 400px;
+}
+</style>
