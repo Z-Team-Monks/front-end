@@ -31,7 +31,11 @@
               aria-labelledby="profile-tab"
             >
               <div class="wrapper-shop" v-for="(shop, i) in shops" :key="i">
-                <ShopsCard :shop="shop" @followShop="followShop(shop.id)" />
+                <ShopsCard
+                  :shop="shop"
+                  @unfollow="unfollow(shop.shopId)"
+                  @followShop="followShop(shop.shopId)"
+                />
               </div>
             </div>
 
@@ -137,6 +141,10 @@ export default {
     },
     followShop(id) {
       this.$store.dispatch("shops/FollowShop", id);
+    },
+
+    unfollow(id) {
+      this.$store.dispatch("shops/UnFollowShop", id);
     },
   },
   props: {},

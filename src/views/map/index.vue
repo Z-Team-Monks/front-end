@@ -4,7 +4,7 @@
       <div class="shop mx-2">
         <h3 style="margin: 2rem" class="text-center">Near By Shops</h3>
         <div id="single-shop">
-          <v-card class="mx-auto" max-width="374">
+          <v-card v-if="detailShop" class="mx-auto" max-width="374">
             <template slot="progress">
               <v-progress-linear
                 color="deep-purple"
@@ -15,11 +15,11 @@
 
             <v-img height="250" :src="getImage()"></v-img>
 
-            <v-card-title>{{ detailShop.shop.shopName }}</v-card-title>
+            <v-card-title>{{ detailShop.shopName }}</v-card-title>
 
             <v-card-text>
               <div>
-                {{ detailShop.shop.description }}
+                {{ detailShop.description }}
               </div>
             </v-card-text>
 
@@ -32,12 +32,18 @@
                 active-class="deep-purple accent-4 white--text"
                 column
               >
-                <v-chip>{{ detailShop.shop.phoneNumber }}</v-chip>
+                <v-chip>{{ detailShop.phoneNumber }}</v-chip>
               </v-chip-group>
             </v-card-text>
 
             <v-card-actions>
-              <v-btn color="deep-purple lighten-2" text> Reserve </v-btn>
+              <router-link
+                :to="{ name: 'shop', params: { id: detailShop.id } }"
+                color="deep-purple lighten-2"
+                text
+              >
+                Check out shop page
+              </router-link>
             </v-card-actions>
           </v-card>
         </div>
@@ -54,7 +60,7 @@
           <mapbox-marker
             v-for="(shop, i) in shops"
             :key="i"
-            :lng-lat="[shop.longitude, shop.latitude]"
+            :lng-lat="[shop.location.longitude, shop.location.latitude]"
           >
             <p class="custom-marker" @click="showDetail(shop)">
               <i class="fas fa-shopping-cart"></i>
@@ -97,6 +103,7 @@ export default {
       //     return "https://cdn.pixabay.com/photo/2021/03/02/01/07/cyberpunk-6061251__340.jpg";
       //   }
       //   console.log("shop image: ", this.detailShop.imageUrl);
+      if (this.detailShop.imageUrl) return this.detailShop.imageUrl;
       return "https://cdn.pixabay.com/photo/2021/03/02/01/07/cyberpunk-6061251__340.jpg";
     },
 
@@ -117,9 +124,12 @@ export default {
               },
             })
             .then((r) => {
+              console.log(r);
               this.shops = r.data;
               this.detailShop = this.shops[0];
+              console.log("this.shops");
               console.log(this.shops);
+              console.log("this.shops");
             })
             .catch((e) => console.log("shop error: ", e));
         });

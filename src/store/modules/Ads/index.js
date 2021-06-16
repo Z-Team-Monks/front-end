@@ -16,13 +16,14 @@ const ads = {
         },
     },
     actions: {
-        async CreateAd({ commit }, ads) {
+        CreateAd({ commit }, ads) {
             const options = {
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
                 },
             };
-            await axios.post("ads/user", JSON.stringify(ads), options)
+            axios.post("/ads", ads, options)
                 .then(res => {
                     console.log(res.data)
                 }).catch(e => {
@@ -32,8 +33,7 @@ const ads = {
         async GetUserAds({ commit }) {
             const options = {
                 headers: {
-                    "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjIiLCJuYmYiOjE2MjI0ODY3MjYsImV4cCI6MTYzMTEyNjcyNiwiaWF0IjoxNjIyNDg2NzI2fQ.fOp-k_QW98ms0T3HpsytgXdupCHx9-xsgWfA5tnCUT0`
-
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
             }
             await axios.get("ads/user", options)
@@ -45,8 +45,8 @@ const ads = {
                 })
         },
 
-        async GetAllAds({ commit }) {
-            await axios.get("/ads")
+        GetAllAds({ commit }) {
+            axios.get("/ads")
                 .then(res => {
                     commit("SAVE_ALL_ADS", res.data)
                     console.log(res.data)

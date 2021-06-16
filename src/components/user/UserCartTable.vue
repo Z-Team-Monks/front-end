@@ -4,55 +4,73 @@
       <v-toolbar-title>My Cart </v-toolbar-title>
       <v-divider class="mx-4" inset vertical></v-divider>
       <v-spacer></v-spacer>
-
-      
-      <v-btn v-if ="carts.length != 0" @click="dialog = !dialog" class="mx-2" fab dark small color="pink">
-        <v-icon small dark> mdi-cart </v-icon>
-      </v-btn>
-      <v-btn v-else  @click="$router.push({name : 'Home'})" class="mx-2" fab dark small color="pink">
-        <v-icon small dark> mdi-cart </v-icon>
-      </v-btn>
-      <v-dialog v-model="dialog" max-width="500px">
-        <v-card>
-          <v-card-title class="border-bottom"> Total Cart </v-card-title>
-          <v-container style="margin-top: 0">
-            <div class="cart-page-total m-0 p-0" style="margin-top: 0">
-              <ul class="mb-20">
-                <li>Procut cost <span>$250.00</span></li>
-                <li>tax <span>$20</span></li>
-                <li>Total <span>$270.00</span></li>
-              </ul>
-            </div>
-            <v-btn dark color="red lighten--4" block elevation="0"
-              >Proceed to checkout</v-btn
-            >
-            <br />
-            <v-btn
-              @click="dialog = false"
-              dark
-              color="green lighten--4"
-              block
-              elevation="0"
-              >Cancel</v-btn
-            >
-          </v-container>
-        </v-card>
-      </v-dialog>
-      <v-dialog v-model="dialogDelete" max-width="500px">
-        <v-card>
-          <v-card-title> Are you sure you want remove this item? </v-card-title>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="closeDelete"
-              >Cancel</v-btn
-            >
-            <v-btn color="blue darken-1" text @click="deleteItemConfirm"
-              >OK</v-btn
-            >
-            <v-spacer></v-spacer>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <div v-if="carts">
+        <v-btn
+          v-if="carts.length != 0"
+          @click="GoToHomePage"
+          class="mx-2"
+          fab
+          dark
+          small
+          color="pink"
+        >
+          <v-icon small dark> mdi-cart </v-icon>
+        </v-btn>
+        <v-btn
+          v-else
+          @click="$router.push({ name: 'Home' })"
+          class="mx-2"
+          fab
+          dark
+          small
+          color="pink"
+        >
+          <v-icon small dark> mdi-cart </v-icon>
+        </v-btn>
+        <v-dialog v-model="dialog" max-width="500px">
+          <v-card>
+            <v-card-title class="border-bottom"> Total Cart </v-card-title>
+            <v-container style="margin-top: 0">
+              <div class="cart-page-total m-0 p-0" style="margin-top: 0">
+                <ul class="mb-20">
+                  <li>Procut cost <span>$250.00</span></li>
+                  <li>tax <span>$20</span></li>
+                  <li>Total <span>$270.00</span></li>
+                </ul>
+              </div>
+              <v-btn dark color="red lighten--4" block elevation="0"
+                >Proceed to checkout</v-btn
+              >
+              <br />
+              <v-btn
+                @click="dialog = false"
+                dark
+                color="green lighten--4"
+                block
+                elevation="0"
+                >Cancel</v-btn
+              >
+            </v-container>
+          </v-card>
+        </v-dialog>
+        <v-dialog v-model="dialogDelete" max-width="500px">
+          <v-card>
+            <v-card-title>
+              Are you sure you want remove this item?
+            </v-card-title>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="closeDelete"
+                >Cancel</v-btn
+              >
+              <v-btn color="blue darken-1" text @click="deleteItemConfirm"
+                >OK</v-btn
+              >
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </div>
     </v-toolbar>
     <v-data-table
       :headers="headers"
@@ -66,7 +84,11 @@
           class="my-3"
           :aspect-ratio="16 / 9"
           :width="200"
-          :src="item.imgUrl"
+          :src="
+            item.product.imageUrl
+              ? item.product.imageUrl
+              : 'https://images.unsplash.com/photo-1609980705251-8d7d6266036d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1951&q=80'
+          "
         ></v-img>
       </template>
       <template v-slot:item.productName="{ item }">
@@ -76,7 +98,7 @@
       <template v-slot:item.actions="{ item }">
         <v-icon
           small
-          @click="deleteItem(item.productId, item.wishListItemId)"
+          @click="deleteItem(item.wishListItemId)"
           color="red lighten--4"
         >
           mdi-delete
@@ -148,7 +170,7 @@ export default {
       return this.desserts;
     },
     carts() {
-      return this.$store.state.wishlist.userCarts;
+      return this.$store.state.shops.carts;
     },
   },
 
@@ -199,16 +221,8 @@ export default {
       // rating: 3.5,
     },
 
-    editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
-    },
-
-    deleteItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialogDelete = true;
+    deleteItem(id) {
+      this.$store.dispatch("shops/DeleteCartItem", id);
     },
 
     deleteItemConfirm() {
@@ -240,6 +254,9 @@ export default {
       }
       this.close();
     },
+    GoToHomePage() {
+      this.$router.push({name : "Home"})
+    }
   },
 };
 </script>

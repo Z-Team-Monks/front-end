@@ -1,91 +1,64 @@
 <template>
-  <main>
-    <!-- slider-area start -->
-    <section class="slider-area pos-relative">
-      <div class="slider-active">
-        <div
-          class="single-slider slide-1-style slide-height d-flex align-items-center"
-          data-background="../../assets/img/slider/slide1.jpg"
-        >
-          <div class="shape-title bounce-animate">
-            <h2>UX</h2>
-          </div>
-          <div class="shape-icon bounce-animate">
-            <img src="../../assets/img/slider/shape-icon.png" alt="" />
-          </div>
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-xl-7">
-                <div class="slide-content">
-                  <span data-animation="fadeInRight" data-delay=".2s"
-                    >Find your Nearest</span
-                  >
-                  <h1 data-animation="fadeInUp" data-delay=".5s">
-                    Find what you need, where ever you are
-                  </h1>
-                  <div class="slide-btn">
-                    <router-link
-                      to="/browse"
-                      class="btn theme-btn"
-                      data-animation="fadeInLeft"
-                      data-delay=".7s"
-                      >shop now</router-link
-                    >
-                    <router-link
-                      to="/browse"
-                      class="btn white-btn"
-                      data-animation="fadeInRight"
-                      data-delay=".9s"
-                      >category</router-link
-                    >
-                  </div>
-                </div>
-              </div>
+  <main id="carousel py-4">
+    <br />
+    <br />
+    <br />
+    <VueSlickCarousel v-bind="settings" v-if="ads.length">
+      <div class="item mb-3" v-for="(ad, i) in ads" :key="i">
+        <v-card class="mx-auto border" max-width="344">
+          <v-card-text>
+            <h4>{{ ad.shop.shopName }}</h4>
+            <p class="text--primary">
+              {{ ad.description }}
+            </p>
+            <div>
+              <span class="text-decoration-line-through">
+                {{ ad.discount }} off all prices
+              </span>
+              % until {{ ad.endDate }}
             </div>
-          </div>
-        </div>
+          </v-card-text>
+          <v-card-actions>
+            <router-link :to="{name :'shop' , params : { id : ad.shop.id}}" text color="teal accent-4" ripple> Check shop out </router-link>
+          </v-card-actions>
+        </v-card>
       </div>
-    </section>
-    <!-- slider-area end -->
-
-    <!-- banner area start -->
-    <section class="banner-area pt-30 pl-15 pr-15">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-4 col-md-6">
-            <div class="banner mb-30">
-              <a href="shop.html"
-                ><img src="../../assets/img/banner/banner-1/banner1.jpg" alt=""
-              /></a>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="banner mb-30">
-              <a href="shop.html"
-                ><img src="../../assets/img/banner/banner-1/banner2.jpg" alt=""
-              /></a>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="banner mb-30">
-              <a href="shop.html"
-                ><img src="../../assets/img/banner/banner-1/banner3.jpg" alt=""
-              /></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    </VueSlickCarousel>
   </main>
 </template>
+
 <script>
+import VueSlickCarousel from "vue-slick-carousel";
+import "vue-slick-carousel/dist/vue-slick-carousel.css";
+// optional style for arrows & dots
+import "vue-slick-carousel/dist/vue-slick-carousel-theme.css";
 export default {
-  data() {
-    return {};
+  components: {
+    VueSlickCarousel,
   },
-  created() {},
-  computed: {},
-  methods: {},
-  props: {},
+  data: () => ({
+    reveal: false,
+    selection: 1,
+    settings: {
+      infinite: true,
+      slidesToShow: 5,
+      rows: 1,
+    },
+  }),
+  computed: {
+    ads() {
+      return this.$store.state.ads.allAds;
+    },
+  },
+  created() {
+    this.$store.dispatch("ads/GetAllAds");
+  },
+  methods: {
+    reserve() {
+      this.loading = true;
+
+      setTimeout(() => (this.loading = false), 2000);
+    },
+  },
 };
 </script>

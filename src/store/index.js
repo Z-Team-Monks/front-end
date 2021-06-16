@@ -11,6 +11,7 @@ import search from "./modules/search";
 import users from "./modules/users";
 import wishlist from './modules/wishlist'
 import message from "./modules/snackbar";
+import ads from "./modules/ads";
 
 
 
@@ -28,6 +29,7 @@ export default new Vuex.Store({
     notification,
     admin,
     users,
-    message
+    message,
+    ads
   },
 });

@@ -22,8 +22,8 @@
               Deactivate
             </v-btn>
             <v-btn
-              @click="ActivateAd(item.adsId)"
               v-else
+              @click="ActivateAd(item.adsId)"
               small
               elevation="0"
               class="ml-2"
@@ -67,7 +67,7 @@ export default {
       // this.$store.dispatch("ads/UpdateAd", id);
     },
     ActivateAd(id) {
-      // this.$store.dispatch("ads/UpdateAd", id);
+      this.$store.dispatch("ads/UpdateAd", id);
     },
   },
 };

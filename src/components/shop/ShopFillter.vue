@@ -227,24 +227,52 @@
                   ></v-textarea>
                 </v-col>
                 <v-col cols="12">
-                  <v-date-picker v-model="startDate" no-title scrollable>
-                    <v-spacer></v-spacer>
-                    <v-btn text color="primary" @click="menu1 = false">
-                      Cancel
-                    </v-btn>
-                    <v-btn text color="primary" @click="$refs.menu.save(date)">
-                      OK
-                    </v-btn>
-                  </v-date-picker>
+                  <v-menu
+                    v-model="menu1"
+                    :close-on-content-click="false"
+                    max-width="290"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        :value="startDateComputed"
+                        clearable
+                        label="Start Date"
+                        readonly
+                        prepend-icon="mdi-google-ads"
+                        v-bind="attrs"
+                        v-on="on"
+                        @click:clear="startDate = null"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                      v-model="startDate"
+                      @change="menu1 = false"
+                    ></v-date-picker>
+                  </v-menu>
                 </v-col>
                 <v-col cols="12">
-                  <v-text-field
-                    v-model="endDate"
-                    label="Picker in menu"
-                    prepend-icon="mdi-calendar"
-                    readonly
-                    hint="Ending date"
-                  ></v-text-field>
+                  <v-menu
+                    v-model="menu2"
+                    :close-on-content-click="false"
+                    max-width="290"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        :value="endDateComputed"
+                        clearable
+                        label="Start Date"
+                        readonly
+                        prepend-icon="mdi-google-ads"
+                        v-bind="attrs"
+                        v-on="on"
+                        @click:clear="endDate = null"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                      v-model="endDate"
+                      @change="menu2 = false"
+                    ></v-date-picker>
+                  </v-menu>
                 </v-col>
               </v-row>
             </v-container>
@@ -255,12 +283,12 @@
             <v-btn
               color="red lighten--4 darken-1"
               text
-              @click="addModal = !addModal"
+              @click="adsModal = !adsModal"
             >
               Cancel
             </v-btn>
-            <v-btn color="red lighten--4 darken-1" @click="AddProduct" text>
-              Add Product
+            <v-btn color="red lighten--4 darken-1" @click="RequestAds" text>
+              Request Ads
             </v-btn>
           </v-card-actions>
         </v-form>
@@ -289,6 +317,8 @@ import axios from "axios";
 import ShopProductCard from "@/components/shop/ShopProductCard";
 import Detail from "@/components/shop/DetailModal";
 import ProductReviewModal from "@/components/shop/ProductReviewModal";
+import moment from "moment";
+
 export default {
   components: {
     ShopProductCard,
@@ -336,7 +366,11 @@ export default {
       pd: false,
       reviewsData: "",
       pid: "",
+
       categoryId: "",
+
+      menu1: false,
+      menu2: false,
     };
   },
 
@@ -362,6 +396,12 @@ export default {
     this.$store.dispatch("category/GetCategories");
   },
   computed: {
+    endDateComputed() {
+      return this.endDate ? moment(this.endDate).format("dddd, MMMM Do YYYY") : "";
+    },
+    startDateComputed() {
+      return this.startDate ? moment(this.startDate).format("dddd, MMMM Do YYYY") : "";
+    },
     fillterCount() {
       let count = 0;
       this.products.forEach((s) => {
@@ -400,6 +440,23 @@ export default {
     },
   },
   methods: {
+    RequestAds(e) {
+        let data = {
+          discount : parseFloat(this.discount),
+          description : this.description,
+          startDate : this.startDate,
+          endDate : this.endDate,
+          shopId : parseInt(this.$route.params.id)
+        };
+        
+        this.$store.dispatch("ads/CreateAd" ,data ).then(res => {
+          this.discount = ""
+          this.description = ""
+          this.startDate = ""
+          this.endDate = ""
+          this.addModal = false
+        })
+    },
     handleProductDetail(id) {
       this.$store.dispatch("product/GetProductByID", id).then((e) => {
         this.p = this.$store.state.product.product;

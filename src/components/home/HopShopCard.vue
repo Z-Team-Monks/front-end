@@ -3,7 +3,7 @@
     <div class="product-wrapper mb-50">
       <div class="product-img mb-25">
         <a @click="emitProductDetail">
-          <img src="../../assets/img/product/pro3.jpg" alt="" />
+          <img :src=" shop.imageUrl ? shop.imageUrl : '../../assets/img/product/pro3.jpg' " alt="" />
           <!-- <img
             class="secondary-img"
             src="../../assets/img/product/pro6.jpg"
@@ -11,7 +11,7 @@
           /> -->
         </a>
         <div class="product-action text-center">
-          <router-link :to="{ name: 'shop', params: { id: shop.shopId } }">
+          <router-link :to="{ name: 'shop', params: { id: shop.id } }">
             <i class="fas fa-link"></i>
           </router-link>
           <a href ="#" @click="EmitME">

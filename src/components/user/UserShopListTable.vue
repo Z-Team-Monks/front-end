@@ -2,8 +2,7 @@
   <div class="container w-75 mx-auto">
     <v-tabs v-model="tab">
       <v-tab :key="1">My Shops</v-tab>
-      <!-- <v-tab :key="1">Shop Products</v-tab> -->
-      <!-- <v-tab>Item Three</v-tab> -->
+      <v-tab :key="2">Shop Products</v-tab>
     </v-tabs>
     <v-tabs-items v-model="tab" class="p-3">
       <v-tab-item :key="1">
@@ -209,6 +208,101 @@
           </template>
         </v-data-table>
       </v-tab-item>
+      <v-tab-item :key="2">
+        <v-toolbar flat elevation="0">
+          <v-toolbar-title>Shop Products</v-toolbar-title>
+          <v-divider class="mx-4" inset vertical></v-divider>
+          <v-spacer></v-spacer>
+          <v-btn class="mb-2" @click="dialog = !dialog" dark color="pink">
+            Add new proposal
+          </v-btn>
+
+          <v-dialog v-model="dialogDeleteProduct" max-width="500px">
+            <v-card>
+              <v-card-title class="headline"
+                >Are you sure you want to delete this shop?</v-card-title
+              >
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="dialogDelete = !dialogDelete"
+                  >Cancel</v-btn
+                >
+                <v-btn color="blue darken-1" text @click="deleteItemConfirm"
+                  >OK</v-btn
+                >
+                <v-spacer></v-spacer>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-toolbar>
+        <v-data-table
+          :headers="shopProductHeaders"
+          :items="products"
+          sort-by="calories"
+          class="elevation-1"
+          :items-per-page="5"
+        >
+          <template v-slot:item.iamgeUrl="{ item }">
+            <v-img
+              v-if="item.imageUrl"
+              class="my-3"
+              :aspect-ratio="16 / 9"
+              :width="200"
+              lazy-src="https://picsum.photos/id/11/10/6"
+              :src="GetImageUrl(item.iamgeUrl)"
+            ></v-img>
+            <!-- <v-img
+          v-else
+          class="my-3"
+          :aspect-ratio="16 / 9"
+          :width="200"
+          src="https://images.unsplash.com/photo-1515706886582-54c73c5eaf41?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
+        ></v-img> -->
+          </template>
+          <template v-slot:item.shopName="{ item }">
+            <router-link :to="{ name: 'shop', params: { id: item.id } }">
+              {{ item.shopName.substr(0, 6) }}
+            </router-link>
+          </template>
+          <template v-slot:item.isActive="{ item }">
+            <v-chip
+              v-if="item.isActive"
+              x-small
+              color="secondary"
+              :ripple="false"
+            >
+              Active
+            </v-chip>
+            <v-chip color="primary" x-small v-else :ripple="false">
+              Pending
+            </v-chip>
+          </template>
+          <template v-slot:item.description="{ item }">
+            {{ item.description.substr(0, 20) }}
+          </template>
+
+          <template v-slot:item.actions="{ item }">
+            <v-btn icon fab x-small @click="deleteItem(item.productId)">
+              <v-icon small color="red lighten--4"> mdi-delete </v-icon>
+            </v-btn>
+          </template>
+
+          <template v-slot:no-data>
+            No Current Shops
+            <v-btn
+              small
+              color="red lighten-4"
+              class="my-2 ml-3 red--text"
+              @click="dialog = !dialog"
+            >
+              New Shop Request Form
+            </v-btn>
+          </template>
+        </v-data-table>
+      </v-tab-item>
     </v-tabs-items>
   </div>
 </template>
@@ -220,6 +314,7 @@ export default {
     tab: 1,
     dialog: false,
     store: true,
+    dialogDeleteProduct: false,
     dialogDelete: false,
     selected: "",
     file: "",
@@ -251,6 +346,18 @@ export default {
       { text: "Status", value: "isActive", sortable: false },
       // { text: "Category", value: "fat", sortable: false },
       { text: "Actions", value: "actions", sortable: false },
+    ],
+    shopProductHeaders: [
+      {
+        text: "Product Name",
+        align: "start",
+        sortable: true,
+        value: "productName",
+      },
+      { text: "Price", value: "price", sortable: true },
+      { text: "Discount", value: "discount", sortable: true },
+      { text: "Actions", value: "actions", sortable: true },
+      // { text: "Actions", value: "actions", sortable: false },
     ],
     rules: [
       (value) =>
@@ -291,6 +398,9 @@ export default {
     url() {
       return localStorage.getItem("url");
     },
+    products() {
+      return this.$store.state.product.products;
+    },
   },
 
   watch: {
@@ -308,6 +418,7 @@ export default {
   created() {
     this.$store.dispatch("category/GetCategories");
     this.$store.dispatch("shops/GetUserShops");
+    this.$store.dispatch("product/GetUserProducts");
   },
 
   methods: {
@@ -315,6 +426,9 @@ export default {
       // rating: 3.5,
     },
 
+    deleteItem(id) {
+      this.$store.dispatch("product/DeleteUserProduct", id);
+    },
     deleteItemConfirm() {
       console.log("deleted");
       this.$store.dispatch("shops/DeleteShop", this.shopID);
@@ -425,6 +539,9 @@ export default {
       this.shopLocationId = item.shopLocationId;
       // console.log(item.shopId); // delete the shop in here
       // this.$store.dispatch("shops/deleteShop", item.id);
+    },
+    DeleteShopProduct(item) {
+      this.dialogDeleteProduct = true
     },
 
     GetImageUrl(img) {

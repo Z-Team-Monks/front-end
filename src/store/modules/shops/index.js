@@ -42,7 +42,7 @@ const shops = {
     STAT(state, stats) {
       state.stats = stats
     },
-    SAVE_ADS(state,ads) {
+    SAVE_ADS(state, ads) {
       state.ads = ads
     }
   },
@@ -179,9 +179,9 @@ const shops = {
 
     },
 
-     GetAllShops({ commit }, q) {
+    GetAllShops({ commit }, q) {
 
-       axios.get("/shops")
+      axios.get("/shops")
         .then(res => {
           res.data.forEach(e => {
             e.isVisible = true
@@ -221,7 +221,7 @@ const shops = {
 
 
     GetAllProductsInDB({ commit }) {
-     axios.get("/products")
+      axios.get("/products")
         .then(res => {
           res.data.results.forEach(e => {
             e.isVisible = true
@@ -250,7 +250,7 @@ const shops = {
     },
 
 
-     AddToCart({ commit, dispatch }, id) {
+    AddToCart({ commit, dispatch }, id) {
       const options = {
         headers: {
           "Content-Type": "application/json",
@@ -277,7 +277,7 @@ const shops = {
 
       axios.get("/cart", options)
         .then(res => {
-
+          console.log(res.data)
           commit("SAVE_CART", res.data)
         }).catch(e => {
           console.log(e)
@@ -302,15 +302,31 @@ const shops = {
 
 
     },
-    async FollowShop({ commit, dispatch }, id) {
+    FollowShop({ commit, dispatch }, id) {
       const options = {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`
         }
       }
 
-      await axios.post(`/shops/${id}/likes`, options)
+      axios.post(`/shops/${id}/followers`,options)
         .then(e => {
+          console.log(id)
+          dispatch("GetAllShops")
+        }).catch(e => {
+
+        })
+    },
+    UnFollowShop({ commit, dispatch }, id) {
+      const options = {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+      }
+
+      axios.delete(`/shops/${id}/followers`,options)
+        .then(e => {
+          console.log(id)
           dispatch("GetAllShops")
         }).catch(e => {
 
@@ -335,14 +351,14 @@ const shops = {
 
     },
 
-    async Ads({commit} ) {
+    async Ads({ commit }) {
       await axios.get("/ads")
-      .then(res => {
-        commit("SAVE_ADS" ,res.data)
-      })
-      .catch(e => {
-        console.log(e)
-      })
+        .then(res => {
+          commit("SAVE_ADS", res.data)
+        })
+        .catch(e => {
+          console.log(e)
+        })
     }
 
 

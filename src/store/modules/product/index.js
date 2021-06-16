@@ -153,6 +153,34 @@ const product = {
           console.log(e)
         })
     },
+    GetUserProducts({ commit }) {
+      const options = {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+      }
+      axios.get(`/shops/products`, options)
+        .then(res => {
+          console.log("user-products-launched")
+          commit("SAVE_PRODUCTS", res.data)
+        }).catch(e => {
+          console.log(e)
+        })
+    },
+    DeleteUserProduct({ commit, dispatch }, id) {
+      const options = {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+      }
+      axios.delete(`/products/${id}`, options)
+        .then(res => {
+          console.log("user-products-launched")
+          dispatch("GetUserProducts")
+        }).catch(e => {
+          console.log(e)
+        })
+    },
 
 
 
