@@ -101,6 +101,23 @@
             <label class="field">
               <input
                 type="text"
+                name="fullName"
+                placeholder="Full Name"
+                id="name"
+                v-model.trim="$v.fullName.$model"
+              />
+            </label>
+            <span class="input__icon"><i class="bx bx-user"></i></span>
+            <template v-if="$v.fullName.$error">
+              <small class="input__error_message" v-if="!$v.fullName.required"
+                >Name can't be empty</small
+              >
+            </template>
+          </div>
+          <div class="input__group">
+            <label class="field">
+              <input
+                type="text"
                 name="email"
                 placeholder="Email@example.com"
                 id="signUpEmail"
@@ -122,6 +139,7 @@
               <input
                 type="text"
                 name="phone"
+                v-model.trim="$v.phone.$model"
                 placeholder="0911......"
                 id="phone"
               />
@@ -174,12 +192,7 @@
               >
             </template>
           </div>
-          <button
-            type="submit"
-            class="submit-button"
-            id="signUpSubmitBtn"
-            @click="signUp()"
-          >
+          <button type="submit" class="submit-button" id="signUpSubmitBtn">
             Sign Up
           </button>
         </form>
@@ -258,30 +271,14 @@ export default {
 
     name: "",
     email: "",
-    phoneNo: "",
     password: "",
     repeatPassword: "",
-
+    fullName: "",
     phone: "",
     verify: "",
     loginName: "",
     loginPassword: "",
     loginEmail: "",
-    loginEmailRules: [
-      (v) => !!v || "Required",
-      // (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
-    ],
-    emailRules: [
-      (v) => !!v || "Required",
-      (v) => /.+@.+\..+/.testf(v) || "E-mail must be valid",
-    ],
-    phoneRules: [
-      (v) => !!v || "Required",
-      (v) => (v && v.length == 10) || "invalid phone number",
-
-      // (v) => /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/.test(v) || "phone number must be valid",
-    ],
-
     show1: false,
     rules: {
       required: (value) => !!value || "Required.",
@@ -300,6 +297,9 @@ export default {
       minLength: minLength(4),
     },
     phone: {
+      required,
+    },
+    fullName: {
       required,
     },
     email: {
@@ -341,13 +341,13 @@ export default {
     register() {
       // if (this.$refs.registerForm.validate()) {
       // if (this.$v.$touch()) {
-        this.$store.dispatch("auth/Register", {
-          username: this.username,
-          email: this.email,
-          role: "user",
-          phone: this.phone,
-          password: this.password,
-        });
+      this.$store.dispatch("auth/Register", {
+        username: this.username,
+        email: this.email,
+        role: "user",
+        phone: this.phone,
+        password: this.password,
+      });
       // }
     },
     toggleFormDiv() {
@@ -356,22 +356,61 @@ export default {
 
     AttemptSignUp() {
       this.firstSignUpBtnTouch = false;
-
-      // if (this.$refs.registerForm.validate()) {
+      this.loginName = "somename";
+      this.loginPassword = "someoneelse";
+      this.$v.$touch();
+      this.phone = this.phone.trim();
+      let newPhonenumber = "";
+      if (this.phone.startsWith("0")) {
+        newPhonenumber = "+251" + this.phone.substring(1);
+      }
+      // if (!this.$v.$invalid) {
       this.$store
         .dispatch("auth/Register", {
-          username: this.username,
-          email: this.email,
+          username: this.name.trim(),
+          email: this.email.trim(),
+          name: this.fullName,
           role: "user",
-          phone: this.phone,
-          password: this.password,
+          phone: newPhonenumber,
+          password: this.password.trim(),
         })
-        // .then((r) => {
-        //   this.username = "";
-        //   this.email = "";
-        //   this.phone = "";
-        //   this.password = "";
-        // });
+        .then((res) => {
+          if (!this.$store.state.auth.hasError) {
+            this.loginName = "";
+            this.fullName = "";
+            this.loginPassword = "";
+            this.repeatPassword = "";
+            this.name = "";
+            this.email = "";
+            this.role = "";
+            this.phone = "";
+            this.password = "";
+          } else {
+            console.log(this.$store.state.auth.message)
+              
+            this.$store.dispatch(
+              "message/SaveMessage",
+              this.$store.state.auth.message
+            );
+            this.$store.dispatch("message/ShowNotification");
+            this.$store.dispatch("message/HideNotification");
+          }
+        });
+      this.$v.$reset();
+      // } else {
+      //   console.log("yes");
+      // }
+      // this.$store.dispatch("auth/saveMessage" , "Loged in successfully")
+      // console.log(this.$store.state.auth.message);
+
+      // } else newPhonenumber = this.phone;
+
+      // .then((r) => {
+      //   this.username = "";
+      //   this.email = "";
+      //   this.phone = "";
+      //   this.password = "";
+      // });
       // }
     },
     //dummies
@@ -382,35 +421,35 @@ export default {
       e.preventDefault();
       this.firstSignInBtnTouch = false;
       // if (this.$v.$touch()) {
-        console.log("touched");
-        this.$store
-          .dispatch("auth/Login", {
-            username: this.loginName,
-            password: this.loginPassword,
-          })
-          .then((e) => {
-            // this.snackbar = this.$store.state.message.showSnack;
-            if (this.snackbar) {
-              if (this.$store.state.auth.message == "successfully logged in") {
-                this.$router.push({ name: "user" });
-              }
-              this.$store.dispatch(
-                "message/SaveMessage",
-                this.$store.state.auth.message
-              );
-              this.$store.dispatch("message/HideNotification");
-              this.$store.dispatch("message/ShowNotification");
-            } else {
-              this.$store.dispatch(
-                "message/SaveMessage",
-                this.$store.state.auth.message
-              );
-              this.$store.dispatch("message/ShowNotification");
-              if (this.$store.state.auth.message == "successfully logged in") {
-                this.$router.push({ name: "user" });
-              }
+      console.log("touched");
+      this.$store
+        .dispatch("auth/Login", {
+          username: this.loginName,
+          password: this.loginPassword,
+        })
+        .then((e) => {
+          // this.snackbar = this.$store.state.message.showSnack;
+          if (this.snackbar) {
+            if (this.$store.state.auth.message == "successfully logged in") {
+              this.$router.push({ name: "user" });
             }
-          });
+            this.$store.dispatch(
+              "message/SaveMessage",
+              this.$store.state.auth.message
+            );
+            this.$store.dispatch("message/HideNotification");
+            this.$store.dispatch("message/ShowNotification");
+          } else {
+            this.$store.dispatch(
+              "message/SaveMessage",
+              this.$store.state.auth.message
+            );
+            this.$store.dispatch("message/ShowNotification");
+            if (this.$store.state.auth.message == "successfully logged in") {
+              this.$router.push({ name: "user" });
+            }
+          }
+        });
       // }
     },
     hideMessage() {

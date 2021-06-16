@@ -34,7 +34,7 @@
             >
               <div class="row">
                 <div
-                  class="wrapper-shop col-xl-4 col-lg-6 col-md-6"
+                  class="col-xl-4 col-lg-6 col-md-6"
                   v-for="(product, i) in products"
                   :key="i"
                 >

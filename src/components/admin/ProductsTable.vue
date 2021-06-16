@@ -12,6 +12,9 @@
               <v-icon small right>mdi-delete</v-icon>
             </v-btn>
           </template>
+          <template v-slot:item.discount="{ item }">
+              {{item.discount}} %
+          </template>
         </v-data-table>
       </v-card-text>
     </base-material-card>
@@ -38,6 +41,7 @@ export default {
           value: "productName",
         },
         { text: "Price", value: "price", sortable: true },
+        { text: "Discount", value: "discount", sortable: true },
         // { text: "Actions", value: "actions", sortable: false },
       ],
       // desserts:

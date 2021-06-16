@@ -6,16 +6,11 @@
       </template>
       <v-card-text>
         <v-data-table :headers="headers" :items="users">
-          <template v-slot:item.actions="{ item }">
-            <v-btn small elevation="0" class="ml-2" @click = "deleteUser" color="error">
-              Delete <v-icon right>mdi-delete</v-icon>
-            </v-btn>
-          </template>
           <template v-slot:item.role="{ item }">
-              {{item.role}}
+            {{ item.role }}
           </template>
           <template v-slot:item.dateAccountCreated="{ item }">
-              {{new Date(item.dateAccountCreated)}}
+            {{ new Date(item.dateAccountCreated) }}
           </template>
         </v-data-table>
       </v-card-text>
@@ -37,7 +32,6 @@ export default {
         { text: "email", value: "email" },
         { text: "role", value: "role" },
         { text: "phone", value: "phone" },
-        { text: "phone", value: "phone" },
         { text: "Date", value: "dateAccountCreated" },
         // { text: "actions", value: "actions" },
       ],
@@ -54,8 +48,8 @@ export default {
   methods: {
     deleteUser(id) {
       //delete your user in here
-      this.$store.dispatch("users/deleteUser",id)
-    }
-  }
+      this.$store.dispatch("users/deleteUser", id);
+    },
+  },
 };
 </script> 

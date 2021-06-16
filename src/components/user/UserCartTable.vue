@@ -163,7 +163,7 @@ export default {
 
   created() {
     // this.initialize();
-    this.$store.dispatch("wishlist/GetMyCart");
+    this.$store.dispatch("shops/GetUserCart");
   },
 
   methods: {

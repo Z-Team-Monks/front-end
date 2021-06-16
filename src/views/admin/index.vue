@@ -1,13 +1,14 @@
 <template>
   <section class="product-area box-90 pt-70 pb-40">
-
+    <!-- <h1 class="d-none">{{stat}}</h1> -->
+    <h1 class="d-none">{{stat}}</h1>
     <v-row v-if="stat">
       <v-col cols="12" sm="6" lg="3">
         <base-material-stats-card
           color="primary"
           icon="mdi-account"
           title="Users"
-          value="7"
+          :value ="`${stat.users}`"
           sub-icon="mdi-account"
           sub-text="Since 2021 May"
         />
@@ -17,7 +18,7 @@
           color="success"
           icon="mdi-store"
           title="Shops"
-          value="9"
+          :value="`${stat.shops}`"
           sub-icon="mdi-calendar"
           sub-text="Since 2021 May"
         />
@@ -27,7 +28,7 @@
           color="red lighten--4"
           icon="mdi-cart"
           title="Products"
-          :value="'32'"
+          :value="`${stat.products}`"
           sub-icon="mdi-cart"
           sub-text="Since 2019"
         />
@@ -37,16 +38,14 @@
           color="orange"
           icon="mdi-google-ads"
           title="Ads"
-          value="4"
+          :value="`${stat.ads}`"
           sub-icon="mdi-google-ads"
           sub-icon-color="red"
           sub-text="Since 2021 May"
         />
       </v-col>
     </v-row>
-
     <v-divider></v-divider>
-
     <v-toolbar>
       <v-tabs v-model="tab" background-color="red lighten-4" grow>
         <v-tab href="#ads"> Ads </v-tab>
@@ -95,12 +94,12 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch("shops/getStats")
+    this.$store.dispatch("admin/getStats")
   },
   computed: {
 
     stat() {
-      return this.$store.state.shops.stats;
+      return this.$store.state.admin.stat;
     }
   },
   methods: {},

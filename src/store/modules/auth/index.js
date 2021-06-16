@@ -8,7 +8,8 @@ const auth = {
     successMessage: "",
     status: false,
     isLoading: false,
-    user: {}
+    user: {},
+    hasError: false,
   },
   mutations: {
     CHANGE_AUTH_STATUS(state, status) {
@@ -33,6 +34,10 @@ const auth = {
       state.successMessage = message
     },
 
+    HAS_ERROR(state , message) {
+      state.hasError = message
+    }
+
   },
   actions: {
     async Login({ commit, dispatch }, credentials) {
@@ -51,7 +56,6 @@ const auth = {
       commit('CREATE_LOADING', true);
       await axios.post("/auth", JSON.stringify(credentials), options, { withCredentials: true })
         .then((res) => {
-          console.log(res.data)
           localStorage.setItem("isAuthenticated", true)
           localStorage.setItem("token", res.data.token)
           dispatch("GetMe")
@@ -66,6 +70,21 @@ const auth = {
         });
       commit('CREATE_LOADING', false);
     },
+    async LogOut({ commit }, credentials) {
+      const options = {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem('token')}`
+
+        }
+      }
+      axios.post("/users/logout", options)
+        .then((res) => {
+          console.log("logout")
+        })
+        .catch((error) => {
+          console.log(error)
+        });
+    },
     async GetMe({ commit }, credentials) {
       const options = {
         headers: {
@@ -73,7 +92,7 @@ const auth = {
 
         }
       }
-      await axios.get("/me", options)
+      axios.get("/users", options)
         .then((res) => {
           commit("current_user", res.data)
         })
@@ -82,21 +101,30 @@ const auth = {
         });
     },
 
-    async Register({ commit }, credentials) {
+    Register({ commit, dispatch }, credentials) {
       const options = {
         headers: {
           "Content-Type": "application/json"
         }
       };
-      console.log("register ")
-      await axios.post("/user", credentials, options, { withCredentials: true })
+      dispatch("saveMessage", "successfully registered, you can sign in now")
+      axios.post("/users", credentials)
         .then(res => {
-          console.log(res.data)
+          commit("HAS_ERROR" , false)
+
           localStorage.setItem("CURRENT_USER", JSON.stringify(res.data))
-          commit('SAVE_SUCCESS_MESSAGE', "successfully logged in");
+          // commit("SAVE_SUCCESS_MESSAGE" , "successfully registered, you can sign in now")
+          dispatch("saveMessage", "successfully registered, you can sign in now")
+          // commit("SAVE_MESSAGE", "successfully registered, you can sign in now")
         }).catch(e => {
-          console.log(e);
-        })
+          if(e.response.data.message.email) {
+            dispatch("saveMessage", "Email Already Exists")
+          } else if(e.response.data.message.username) {
+            dispatch("saveMessage", "username Already Exists")
+          }
+          console.log(e.response.data.message.username)
+          commit("HAS_ERROR" , true)
+        });
     },
     changeMessageStatus({ commit }) {
       commit('SAVE_SUCCESS_MESSAGE', "");
@@ -105,6 +133,10 @@ const auth = {
     ,
     ChangeStatus({ commit }, status) {
       commit("CHANGE_AUTH_STATUS", status)
+    }
+    ,
+    saveMessage({ commit }, message) {
+      commit("SAVE_MESSAGE", message)
     }
   },
 

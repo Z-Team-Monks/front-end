@@ -112,7 +112,6 @@
         </v-card>
       </v-dialog>
 
-      
       <v-dialog v-model="dialogDelete" max-width="500px">
         <v-card>
           <v-card-title class="headline"
@@ -141,28 +140,26 @@
       class="elevation-1"
       :items-per-page="5"
     >
-      <template v-slot:item.coverImage="{ item }">
+      <template v-slot:item.iamgeUrl="{ item }">
         <v-img
-          v-if="item.coverImage"
+          v-if="item.imageUrl"
           class="my-3"
           :aspect-ratio="16 / 9"
           :width="200"
           lazy-src="https://picsum.photos/id/11/10/6"
-          :src="GetImageUrl(item.coverImage)"
+          :src="GetImageUrl(item.iamgeUrl)"
         ></v-img>
-        <v-img
+        <!-- <v-img
           v-else
           class="my-3"
           :aspect-ratio="16 / 9"
           :width="200"
           src="https://images.unsplash.com/photo-1515706886582-54c73c5eaf41?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
-        ></v-img>
+        ></v-img> -->
       </template>
       <template v-slot:item.shopName="{ item }">
-
-        <router-link :to = "{name: 'shop' , params: {id: item.shopId}}">
-
-        {{ item.shopName.substr(0, 6) }}
+        <router-link :to="{ name: 'shop', params: { id: item.id } }">
+          {{ item.shopName.substr(0, 6) }}
         </router-link>
       </template>
       <template v-slot:item.description="{ item }">
@@ -215,7 +212,7 @@ export default {
         text: "Image",
         align: "start",
         sortable: false,
-        value: "coverImage",
+        value: "iamgeUrl",
       },
       {
         text: "Name",
@@ -291,7 +288,7 @@ export default {
     },
 
     deleteItemConfirm() {
-      console.log("deleted")
+      console.log("deleted");
       this.$store.dispatch("shops/DeleteShop", this.shopID);
       this.dialogDelete = false;
     },
@@ -306,7 +303,6 @@ export default {
 
     CreateShop() {
       this.close();
-
       const formData = new FormData();
       formData.append("file", this.file);
       const location = {
@@ -314,15 +310,21 @@ export default {
         latitude: this.latitude,
         locationName: this.locationName,
       };
-
+      let phonenumber = this.phonenumber.trim();
+      let newPhonenumber = "";
+      if (phonenumber.startsWith("0")) {
+        newPhonenumber = "+251" + this.phonenumber.substring(1);
+      }
       const data = {
-        shopName: this.shopName,
-        buildingName: this.buildingName,
-        categoryId: 1,
-        coverImage: "",
-        phoneNumber: this.phonenumber,
-        shopLocationDto: location,
-        description: this.description,
+        shop: {
+          shopName: this.shopName,
+          buildingName: this.buildingName,
+          categoryId: 1,
+          imageUrl: "",
+          phoneNumber: newPhonenumber,
+          description: this.description,
+        },
+        location: location,
       };
 
       this.$store.dispatch("shops/CreateShop", {
@@ -357,8 +359,8 @@ export default {
       this.phonenumber = item.phonenumber;
       this.dialog = true;
       this.store = false;
-      this.shopID = item.shopId;
-      console.log(item.shopId)
+      this.shopID = item.id;
+      console.log(item.id);
     },
 
     storeOrUpdate(store) {
@@ -391,18 +393,18 @@ export default {
       this.description = item.description;
       this.phonenumber = item.phonenumber;
       this.store = false;
-      this.shopID = item.shopId;
+      this.shopID = item.id;
       this.shopLocationId = item.shopLocationId;
-      console.log(item.shopId)      // delete the shop in here
+      // console.log(item.shopId); // delete the shop in here
       // this.$store.dispatch("shops/deleteShop", item.id);
     },
 
     GetImageUrl(img) {
-      if (img.startsWith("/")) {
-        console.log(this.url + img);
+      // if (img.startsWith("/")) {
+        // console./log(this.url + img);
         return this.url + img;
-      }
-      return img;
+      // }
+      // return img;
     },
   },
 };

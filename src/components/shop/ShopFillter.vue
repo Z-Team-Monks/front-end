@@ -4,7 +4,7 @@
       <v-col cols="3">
         <v-card class="mx-auto p-4" max-width="300" tile>
           <v-list>
-            <v-list-item v-if="isAuthenticated">
+            <v-list-item v-if="mine">
               <v-btn
                 small
                 block
@@ -120,13 +120,12 @@
             <v-container>
               <v-row>
                 <v-col cols="12">
-                  <v-file-input
+                  <!-- <v-file-input
                     v-model="imageUrl"
-                    accept="image/png, image/jpeg, image/bmp"
                     placeholder="Pick an avatar"
                     prepend-icon="mdi-camera"
                     label="product Image"
-                  ></v-file-input>
+                  ></v-file-input> -->
                 </v-col>
                 <v-col cols="12">
                   <v-text-field
@@ -179,7 +178,13 @@
         </v-form>
       </v-card>
     </v-dialog>
-    <Detail @addToCart = "addToCart" v-if="pass" @hideModal="hideModal" :dialog="pass" :prod="p" />
+    <Detail
+      @addToCart="addToCart"
+      v-if="pass"
+      @hideModal="hideModal"
+      :dialog="pass"
+      :prod="p"
+    />
     <ProductReviewModal
       v-if="passReview"
       @submitReview="submitReview"
@@ -251,11 +256,11 @@ export default {
       });
     },
     ratingRange(newVal, old) {
-      this.products.forEach((s) => {
-        if ((s.rating >= newVal[0]) & (s.rating <= newVal[1])) {
-          s.isVisible = true;
-        } else s.isVisible = false;
-      });
+      // this.products.forEach((s) => {
+      //   if ((s.rating >= newVal[0]) & (s.rating <= newVal[1])) {
+      //     s.isVisible = true;
+      //   } else s.isVisible = false;
+      // });
     },
   },
   created() {
@@ -303,37 +308,42 @@ export default {
         this.p = this.$store.state.product.product;
       });
       this.passData = true;
-
-      this.pid = id;
+      console.log("[[[[[[[id]]]]]]]");
+      console.log(id);
+      console.log("[[[[[[[id]]]]]]]");
+      // this.pid = id.productId;
     },
 
-   async handleProductReview(id) {
+    handleProductReview(id) {
       this.pid = id;
+      localStorage.setItem("selectedProduct" , id)
       if (this.$store.state.product.product) {
-        await axios
+        axios
           .get(`/products/${id}/reviews`)
           .then((res) => {
-            console.log(res.data)
-            this.reviewsData = res.data;
+            console.log(res.data);
+            this.reviewsData = res.data.productReviews;
             this.pd = false;
             this.pd = true;
           })
           .catch((e) => console.log(e));
       } else {
         console.log("handling it ");
-        await axios
+        axios
           .get(`/products/${id}/reviews`)
           .then((res) => {
-            this.reviewsData = res.data;
+            this.reviewsData = res.data.productReviews;
             this.pd = false;
             this.pd = true;
           })
           .catch((e) => console.log(e));
       }
+
+      console.log(this.pid)
     },
 
     addToCart() {
-      this.$store.dispatch("shops/AddToCart" , this.pid)
+      this.$store.dispatch("shops/AddToCart", this.pid);
     },
     AddProduct() {
       // let product = {
@@ -359,16 +369,17 @@ export default {
       this.pd = false;
     },
     submitReview(review) {
-      console.log(this.pid);
+      console.log(review);
+      review.id = localStorage.getItem("selectedProduct")
       this.$store.dispatch("product/PostReview", {
         rating: review.rating,
-        reviewString: review.reviewString,
-        id: this.pid,
+        comment: review.comment,
+        id : review.id
       });
     },
     hideDetailModal(e) {},
   },
-  props: ["products"],
+  props: ["products" , "mine"  ],
 };
 </script>
 
