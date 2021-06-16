@@ -8,7 +8,6 @@ const message = {
 
     },
     mutations: {
-
         SHOW_NOTIFICATION(state, status) {
             state.showSnack = status
         },
@@ -20,7 +19,6 @@ const message = {
     actions: {
 
         ShowNotification({ commit }) {
-            console.log("this commti me")
             commit("SHOW_NOTIFICATION", true)
         },
         HideNotification({ commit }) {

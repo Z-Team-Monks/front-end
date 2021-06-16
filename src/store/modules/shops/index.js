@@ -67,7 +67,7 @@ const shops = {
 
         }
       }
-      await axios.get("/user/shops", options)
+      axios.get(`/users/shops`, options)
         .then(res => {
           res.data.forEach(e => {
             e.isVisible = true
@@ -88,11 +88,11 @@ const shops = {
       console.log("dispatching")
       await axios.get(`/shops/${id}/products`)
         .then(res => {
-          res.data.forEach(e => {
+          res.data.products.forEach(e => {
             e.isVisible = true;
           })
 
-          commit("SAVE_SHOP_PRODUCTS", res.data)
+          commit("SAVE_SHOP_PRODUCTS", res.data.products)
         }).catch(e => {
           console.log(e)
         })
@@ -131,8 +131,9 @@ const shops = {
               "Authorization": `Bearer ${localStorage.getItem("token")}`
             },
           };
-          axios.post(`/shops/${res.data.shopId}/uploads`, data.formData, options2)
+          axios.post(`/shops/${res.data.id}/uploads`, data.formData, options2)
             .then(res => {
+              dispatch("GetUserShops")
               console.log("sent file ")
 
             }).catch(e => {
@@ -161,7 +162,14 @@ const shops = {
     },
 
     async DeleteShop({ commit, dispatch }, id) {
-      await axios.delete(`/shops/${id}`)
+      const options = {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },
+      };
+
+      await axios.delete(`/shops/${id}`, options)
         .then(res => {
           dispatch("GetUserShops")
           console.log(res.data)
@@ -172,13 +180,14 @@ const shops = {
     },
 
     async GetAllShops({ commit }, q) {
+
       await axios.get("/shops")
         .then(res => {
           res.data.forEach(e => {
             e.isVisible = true
           });
           commit("SAVE_ALL_SHOPS", res.data)
-          console.log(res.data)
+          console.log(res.data.results)
         }).catch(e => {
           console.log(e)
         })
@@ -211,16 +220,16 @@ const shops = {
     },
 
 
-    async GetAllProductsInDB({ commit }) {
-      await axios.get("/products")
+    GetAllProductsInDB({ commit }) {
+     axios.get("/products")
         .then(res => {
-          res.data.forEach(e => {
+          res.data.results.forEach(e => {
             e.isVisible = true
           });
           console.log("--------------")
           console.log(res.data)
           console.log("--------------")
-          commit("SAVE_PRODUCTS", res.data)
+          commit("SAVE_PRODUCTS", res.data.results)
 
         }).catch(e => {
           console.log(e)
@@ -248,7 +257,7 @@ const shops = {
           "Authorization": `Bearer ${localStorage.getItem("token")}`
         },
       };
-      await axios.post("/cart", JSON.stringify({ productId: id }), options)
+      axios.post("/cart", JSON.stringify({ productId: id }), options)
         .then(res => {
           dispatch("GetUserCart")
           commit("SAVE_TO_CART", res.data)
@@ -264,7 +273,9 @@ const shops = {
         },
       };
 
-      await axios.get("/cart", options)
+      console.log(localStorage.getItem("token"))
+
+      axios.get("/cart", options)
         .then(res => {
 
           commit("SAVE_CART", res.data)

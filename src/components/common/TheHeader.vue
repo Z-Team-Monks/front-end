@@ -46,7 +46,7 @@
               <div class="header-right f-right">
                 <ul>
                   <li v-if="!showLogout" class="login-btn">
-                    <router-link :to="{ name: 'Auth' }"
+                    <router-link :to="{ name: 'Auth' }" 
                       ><i class="far fa-user"></i
                     ></router-link>
                   </li>
@@ -135,7 +135,7 @@ export default {
     return {};
   },
   created() {
-    this.$store.dispatch("notification/getNotifications");
+    // this.$store.dispatch("notification/getNotifications");
     if (this.showLogout) {
       this.$store.dispatch("shops/GetUserCart");
     }
@@ -167,11 +167,15 @@ export default {
     logMeTheHellOut() {
       localStorage.clear();
       this.$store.dispatch("auth/ChangeStatus", false);
+      this.LogOut();
       this.$router.push({ name: "Home" }).catch(() => {});
     },
     clearNotification() {
       this.$store.dispatch("notification/clearNotifications");
     },
+    LogOut() {
+      this.$store.dispatch("auth/LogOut")
+    }
   },
   props: {},
 };

@@ -3,7 +3,7 @@
     <div class="col-xl-5">
       <div class="product-top">
         <div class="product-img rounded">
-          <router-link :to="{ name: 'shop', params: { id: shop.shopId } }">
+          <router-link :to="{ name: 'shop', params: { id: shop.id } }">
             <img
               :src="(shop.coverImage) ? shop.coverImage : 'https://images.unsplash.com/photo-1541535650810-10d26f5c2ab3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1055&q=80' "
               alt=""
@@ -20,7 +20,7 @@
     <div class="col-xl-7 my-auto">
       <div class="product-content pro-list-content pr-0">
         <h4>
-          <router-link :to="{ name: 'shop', params: { id: shop.shopId } }">{{
+          <router-link :to="{ name: 'shop', params: { id: shop.id } }">{{
             shop.shopName
           }}</router-link>
         </h4>

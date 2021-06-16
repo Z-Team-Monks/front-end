@@ -36,12 +36,12 @@
                 class="border-bottom border-top"
               >
                 <v-list-item-content>
-                  <v-list-item-title>{{ r.reviewString }}</v-list-item-title>
+                  <v-list-item-title>{{ r.comment }}</v-list-item-title>
                   <v-list-item-subtitle> </v-list-item-subtitle>
                   <v-row>
                     <v-col>
                       <v-list-item-subtitle>{{
-                        r.userName
+                        r.user.name
                       }}</v-list-item-subtitle>
                     </v-col>
                     <v-col>
@@ -95,9 +95,11 @@ export default {
       this.$emit("hideMe")
     },
     submitReview() {
+      console.log(this.reviews);
       this.$emit("submitReview", {
         rating: this.rating,
-        reviewString: this.reviewString,
+        comment: this.reviewString,
+        id : this.reviews.productId
 
       });
     },

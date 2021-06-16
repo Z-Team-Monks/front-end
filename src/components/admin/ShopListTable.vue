@@ -1,6 +1,7 @@
 <template>
   <v-col cols="12" class="mt-50">
     <base-material-card color="warning" class="px-5 py-3">
+
       <template v-slot:heading>
         <div class="display-2 font-weight-light">Shop Admission table</div>
       </template>
@@ -8,7 +9,7 @@
         <v-data-table :headers="headers" :items="shops">
           <template v-slot:item.actions="{ item }">
             <v-btn
-              v-if="item.status != 'Approved'"
+              v-if="item.isActive == null"
               small
               @click="Approve(item)"
               elevation="0"
@@ -18,7 +19,7 @@
             </v-btn>
 
             <v-btn
-              v-if="item.status != 'Approved'"
+              v-if="item.isActive == null"
               small
               elevation="0"
               @click="reject(item)"
@@ -70,24 +71,26 @@ export default {
     goToShopPage(id) {
       this.$router.push({ name: "shop", params: { id: id } });
     },
-    reject(id) {
+    reject(item) {
       console.log("reject")
       // const data = this.shops.filter((e) => {
         //   return e.shopId == id;
       // });
       // data = data[0]
-      // data.status = "Rejected"
+      // data.status = "Rejected"RejectShop
+      this.$store.dispatch("admin/RejectShop", item.id);
+
       // this.$store.dispatch("admin/UpdateShopStatus" , data);
     },
 
-    Approve(id) {
+    Approve(item) {
       console.log("approve")
       // const data = this.shops.filter((e) => {
       //   return e.shopId == id;
       // });
       // data = data[0];
       // data.status = "Approved";
-      // this.$store.dispatch("admin/UpdateShopStatus", data);
+      this.$store.dispatch("admin/ApproveShop", item.id);
     },
   },
 };

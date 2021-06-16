@@ -82,7 +82,7 @@ export default {
     },
     getImage() {
       console.log(this.detailShop);
-      if (!this.detailShop.coverImage) {
+      if (!this.detailShop.imageUrl) {
         return "https://cdn.pixabay.com/photo/2021/03/02/01/07/cyberpunk-6061251__340.jpg";
       }
       console.log("shop image: ", this.detailShop.coverImage);
@@ -90,24 +90,24 @@ export default {
     },
     getImage() {
       console.log(this.detailShop);
-      if (!this.detailShop.coverImage) {
+      if (!this.detailShop.imageUrl) {
         return "https://cdn.pixabay.com/photo/2021/03/02/01/07/cyberpunk-6061251__340.jpg";
       }
-      console.log("shop image: ", this.detailShop.coverImage);
-      return this.detailShop.coverImage;
+      console.log("shop image: ", this.detailShop.imageUrl);
+      return this.detailShop.imageUrl;
     },
   },
   created() {
     axios
-      .get("search/shops", {
+      .get("search/shops/nearme", {
         params: {
-          "NearBy.Radius": 333,
-          "NearBy.Latitude": 23.2312,
-          "NearBy.Longitude": 22.42323,
+          "radius": 333,
+          "latitude": 23.2312,
+          "longitude": 22.42323,
         },
       })
       .then((r) => {
-        this.shops = r.data;
+        this.shops = r.data.results;
         this.detailShop = this.shops[0];
         console.log(this.shops);
       })
@@ -115,11 +115,11 @@ export default {
   },
   created() {
     axios
-      .get("search/shops", {
+      .get("search/shops/nearme", {
         params: {
-          "NearBy.Radius": 333,
-          "NearBy.Latitude": 23.2312,
-          "NearBy.Longitude": 22.42323,
+          "radius": 333,
+          "latitude": 23.2312,
+          "longitude": 22.42323,
         },
       })
       .then((r) => {

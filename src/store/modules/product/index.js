@@ -106,15 +106,17 @@ const product = {
         })
     },
 
-    async PostReview({ commit }, data) {
+    PostReview({ commit, dispatch }, data) {
       const options = {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`
         }
-      }
-      await axios.post(`/products/${data.id}/reviews`, { comment: data.review, rating: data.rating }, options)
+      };
+
+      axios.post(`/products/${data.id}/reviews`, { comment: data.review, rating: data.rating }, options)
         .then(res => {
           console.log("reviewed")
+          dispatch("GetReview", data.id)
           // commit("SAVE_PRODUCTS", res.data)
         }).catch(e => {
           console.log(e)

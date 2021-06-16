@@ -6,7 +6,12 @@ const admin = {
         AUsers: [],
         AShops: [],
         AProducts: [],
-        stat: {}
+        stat: {
+            ads: "",
+            users: "",
+            products: "",
+            shops: "",
+        }
     },
     mutations: {
         SAVE_USERS(state, users) {
@@ -20,16 +25,45 @@ const admin = {
         },
         stats(state, stat) {
             state.stat = stat
-        }
+        },
+
     },
     actions: {
-        async GetAllUsers({ commit }) {
+        ApproveShop({ commit, dispatch }, id) {
             const options = {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                 },
             };
-            await axios.get("/users", options)
+            axios.patch(`/shops/${id}/status`, { isActive: true }, options)
+                .then(res => {
+                    dispatch("GetAllShops")
+                    console.log("approved")
+                }).catch(e => {
+                    console.log("error")
+                    console.log(e)
+                })
+            },
+        RejectShop({ commit, dispatch }, id) {
+            const options = {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
+            };
+            axios.patch(`/shops/${id}/status`, { isActive: false }, options)
+            .then(res => {
+                    dispatch("GetAllShops")
+                }).catch(e => {
+                    console.log(e)
+                })
+        },
+        GetAllUsers({ commit }) {
+            const options = {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
+            };
+            axios.get("/users", options)
                 .then(res => {
                     commit("SAVE_USERS", res.data)
                     console.log(res.data)
@@ -37,8 +71,22 @@ const admin = {
                     console.log(e)
                 })
         },
-        async GetAllShops({ commit }) {
-            await axios.get("/shops")
+        getStats({ commit }) {
+            const options = {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
+            };
+            axios.get("/admin/status", options)
+                .then(res => {
+                    commit("stats", res.data)
+                    console.log(res.data)
+                }).catch(e => {
+                    console.log(e)
+                })
+        },
+        GetAllShops({ commit }) {
+            axios.get("/shops")
                 .then(res => {
                     commit("SAVE_ALL_SHOPS", res.data)
                     console.log(res.data)
@@ -49,9 +97,9 @@ const admin = {
         async GetAllProducts({ commit }) {
             await axios.get("/products")
                 .then(res => {
-                    commit("SAVE_ALL_PRODUCTS", res.data)
-                    console.log(res.data)
-                    return res.data
+                    commit("SAVE_ALL_PRODUCTS", res.data.results)
+                    console.log(res.data.results)
+
                 }).catch(e => {
                     console.log(e)
                 })
