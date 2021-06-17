@@ -1,8 +1,10 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation>
-    <v-text-field v-model="email" label="E-mail" required></v-text-field>
-    <v-btn color="warning" @click="submit"> Send Email </v-btn>
-  </v-form>
+  <div class="w-50 container">
+    <v-form ref="form" v-model="valid" lazy-validation>
+      <v-text-field v-model="email" label="E-mail" required></v-text-field>
+      <v-btn color="warning" @click="submit"> Send Email </v-btn>
+    </v-form>
+  </div>
 </template>
 
 <script>
@@ -55,6 +57,7 @@ export default {
           host: window.location.origin,
         })
         .then((e) => {
+          this.email = "";
           console.log("email sent");
         });
       // }

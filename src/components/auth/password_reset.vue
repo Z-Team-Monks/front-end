@@ -61,6 +61,9 @@ export default {
           token: this.token,
         })
         .then((e) => {
+          this.password = ""
+          this.token = ""
+          this.$router.push({name : "Auth"})
           console.log("password changes successfuly!");
         });
       // }

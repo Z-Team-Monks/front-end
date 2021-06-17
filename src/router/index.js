@@ -75,8 +75,8 @@ const routes = [
     component: NotFound,
   },
   {
-    path: "/auth/forget",
-    name: "forget",
+    path: "/auth/forgot",
+    name: "forgot",
     component: PasswordForget,
   },
   {

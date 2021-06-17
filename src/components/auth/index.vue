@@ -1,9 +1,11 @@
 <template>
   <div class="">
     <div
-    style = "border: 1px solid; border-radius: none;"
+      style="border: 1px solid; border-radius: none"
       :class="[
-        signUpDiv ? 'wrapper__area sign-up__Mode-active shadow-sm border' : 'wrapper__area shadow-md border',
+        signUpDiv
+          ? 'wrapper__area sign-up__Mode-active shadow-sm border'
+          : 'wrapper__area shadow-md border',
       ]"
       id="wrapper_Area"
     >
@@ -71,9 +73,7 @@
           </button>
           <v-btn color="accent" plain
             >forgot password?
-            <v-btn text :to="{ name: 'reset' }"
-              >here</v-btn
-            ></v-btn
+            <v-btn text :to="{ name: 'forgot' }">here</v-btn></v-btn
           >
           >
         </form>
@@ -245,6 +245,23 @@
         </v-btn>
       </template>
     </v-snackbar>
+
+    <v-snackbar v-model="registered">
+      successfully Registerd!!
+      <template v-slot:action="{ attrs }">
+        <v-btn color="pink" text v-bind="attrs" @click="registered = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+    <v-snackbar v-model="registerFail">
+      Please use valid information to register!!
+      <template v-slot:action="{ attrs }">
+        <v-btn color="pink" text v-bind="attrs" @click="registerFail = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -271,13 +288,14 @@ export default {
   data: () => ({
     dialog: true,
     tab: 0,
+    registered: false,
     tabs: [
       { name: "Login", icon: "mdi-account" },
       { name: "Register", icon: "mdi-account-outline" },
     ],
     valid: true,
-
     name: "",
+    registerFail: false,
     email: "",
     password: "",
     repeatPassword: "",
@@ -349,13 +367,19 @@ export default {
     register() {
       // if (this.$refs.registerForm.validate()) {
       // if (this.$v.$touch()) {
-      this.$store.dispatch("auth/Register", {
-        username: this.username,
-        email: this.email,
-        role: "user",
-        phone: this.phone,
-        password: this.password,
-      });
+      this.$store
+        .dispatch("auth/Register", {
+          username: this.username,
+          email: this.email,
+          role: "user",
+          phone: this.phone,
+          password: this.password,
+        })
+        .then((res) => {
+          this.registered = true
+        }).catch(res => {
+          this.registerFail = true
+        });
       // }
     },
     toggleFormDiv() {
