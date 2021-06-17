@@ -3,43 +3,43 @@ import axios from 'axios'
 const notification = {
     namespaced: true,
     state: {
-        notifications : [],
-        
+        notifications: [],
+
     },
     mutations: {
-        CLEAR_NOTIFICATIONS : (state) => {
+        CLEAR_NOTIFICATIONS: (state) => {
             state.notifications = [];
         },
-        GET_NOTIFICATIONS : (state,notifications) => {            
-            state.notifications = notifications;            
+        GET_NOTIFICATIONS: (state, notifications) => {
+            state.notifications = notifications;
         }
     },
     actions: {
-        async getNotifications({ commit }){            
+        getNotifications({ commit }) {
             const options = {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
             }
-            await axios.get("/users/notification", options)
+            axios.get("/users/notification", options)
                 .then(res => {
-                    commit('GET_NOTIFICATIONS',res.data);                    
+                    commit('GET_NOTIFICATIONS', res.data);
                 }).catch(e => {
                     console.log(e)
-                })            
+                })
         },
-        async clearNotifications({ commit }){
+        clearNotifications({ commit }) {
             const options = {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
                 }
             }
-            await axios.delete("/users/notification", options)
-                .then(res => {                    
+            axios.delete("/users/notification", options)
+                .then(res => {
                     commit("CLEAR_NOTIFICATIONS");
                 }).catch(e => {
                     console.log(e)
-                })            
+                })
         }
     },
     getters: {

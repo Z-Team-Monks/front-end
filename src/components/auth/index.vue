@@ -71,7 +71,7 @@
           </button>
           <v-btn color="accent" plain
             >forgot password?
-            <v-btn :color="l.color" text :to="{ name: 'reset' }"
+            <v-btn text :to="{ name: 'reset' }"
               >here</v-btn
             ></v-btn
           >

@@ -145,7 +145,9 @@ export default {
     return {};
   },
   created() {
-    // this.$store.dispatch("notification/getNotifications");
+    if (localStorage.getItem("isAuthenticated")) {
+      this.$store.dispatch("notification/getNotifications");
+    }
     if (this.showLogout) {
       this.$store.dispatch("shops/GetUserCart");
     }
@@ -183,9 +185,9 @@ export default {
       this.LogOut();
       this.$router.push({ name: "Home" }).catch(() => {});
     },
-    clearNotification() {
-      this.$store.dispatch("notification/clearNotifications");
-    },
+    // clearNotification() {
+    //   this.$store.dispatch("notification/clearNotifications");
+    // },
     LogOut() {
       this.$store.dispatch("auth/LogOut");
     },

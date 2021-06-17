@@ -330,12 +330,12 @@ export default {
     shopLocationId: "",
     phoneRules: [(v) => (v && v.length == 10) || "invalid phone number"],
     headers: [
-      {
-        text: "Image",
-        align: "start",
-        sortable: false,
-        value: "iamgeUrl",
-      },
+      // {
+      //   text: "Image",
+      //   align: "start",
+      //   sortable: false,
+      //   value: "iamgeUrl",
+      // },
       {
         text: "Name",
         align: "start",
