@@ -68,7 +68,7 @@ const shops = {
           "Authorization": `Bearer ${localStorage.getItem("token")}`
         },
       };
-      axios.patch(`/ads/${ads}` , options)
+      axios.patch(`/ads/${ads}`, { is_active: true }, options)
         .then(res => {
           dispatch("Ads")
           console.log(res.data)
@@ -385,8 +385,8 @@ const shops = {
 
     },
 
-     Ads({ commit }) {
-       axios.get("/ads")
+    Ads({ commit }) {
+      axios.get("/ads")
         .then(res => {
           commit("SAVE_ADS", res.data)
         })

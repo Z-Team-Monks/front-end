@@ -13,7 +13,7 @@
           <template v-slot:item.actions="{ item }">
             <v-btn
               @click="DeactivateAd(item)"
-              v-if="item.isActive"
+              v-if="item.is_active"
               small
               elevation="0"
               class="ml-2"
