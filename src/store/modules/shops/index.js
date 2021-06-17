@@ -187,7 +187,9 @@ const shops = {
             e.isVisible = true
           });
           commit("SAVE_ALL_SHOPS", res.data)
-          console.log(res.data.results)
+          console.log("res.data")
+          console.log(res.data)
+          console.log("res.data")
         }).catch(e => {
           console.log(e)
         })
@@ -200,7 +202,9 @@ const shops = {
             e.isVisible = true
           });
           commit("SAVE_ALL_SHOPS", res.data)
+          console.log("res.data")
           console.log(res.data)
+          console.log("res.data")
         }).catch(e => {
           console.log(e)
         })

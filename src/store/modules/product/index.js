@@ -128,6 +128,9 @@ const product = {
           "Authorization": `Bearer ${localStorage.getItem("token")}`
         }
       };
+      console.log("---------------------------")
+      console.log(data.id)
+      console.log("---------------------------")
 
       axios.post(`/products/${data.id}/reviews`, { comment: data.review, rating: data.rating }, options)
         .then(res => {
@@ -158,10 +161,12 @@ const product = {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`
         }
-      }
+      };
       axios.get(`/shops/products`, options)
         .then(res => {
           console.log("user-products-launched")
+          console.log(res.data)
+
           commit("SAVE_PRODUCTS", res.data)
         }).catch(e => {
           console.log(e)

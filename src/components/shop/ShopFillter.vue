@@ -461,6 +461,7 @@ export default {
       this.$store.dispatch("product/GetProductByID", id).then((e) => {
         this.p = this.$store.state.product.product;
       });
+      localStorage.setItem("selectedProduct" , id)
       this.passData = true;
       console.log("[[[[[[[id]]]]]]]");
       console.log(id);
@@ -472,7 +473,8 @@ export default {
     },
     handleProductReview(id) {
       this.pid = id;
-      localStorage.setItem("selectedProduct", id);
+
+      console.log(id)
       if (this.$store.state.product.product) {
         axios
           .get(`/products/${id}/reviews`)
@@ -499,7 +501,7 @@ export default {
     },
 
     addToCart() {
-      this.$store.dispatch("shops/AddToCart", this.pid);
+      this.$store.dispatch("shops/AddToCart", parseInt(this.pid));
     },
     AddProduct() {
       let product = {
@@ -532,11 +534,11 @@ export default {
     },
     submitReview(review) {
       console.log(review);
-      review.id = localStorage.getItem("selectedProduct");
+      // console.
       this.$store.dispatch("product/PostReview", {
         rating: review.rating,
         comment: review.comment,
-        id: review.id,
+        id: this.pid ,
       });
     },
     hideDetailModal(e) {},

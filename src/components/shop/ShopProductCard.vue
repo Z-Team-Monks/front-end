@@ -3,7 +3,7 @@
     <v-card class="mx-auto mb-12" max-width="300">
       <v-img
         height="150"
-        :src="product.imageUrl"
+        :src="product.imageUrl ? product.imageUrl : 'https://images.unsplash.com/photo-1551201602-3f9456f0fbf8?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80' "
       ></v-img>
 
       <v-card-title>{{ product.productName }}</v-card-title>

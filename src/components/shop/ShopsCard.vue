@@ -77,7 +77,6 @@ export default {
     isFollowed() {
       let d = this.shop.followers.filter((e) => {
           return  e.userId === JSON.parse(localStorage.getItem("user")).userId
-
         });
       console.log("is the some ");
       // return ans.length == 0;

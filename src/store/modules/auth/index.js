@@ -47,10 +47,13 @@ const auth = {
           "Content-Type": "application/json",
         },
       };
-      if (credentials.username == "Niko") {
-        commit("current_user", { role: "admin" })
+      console.log(credentials)
+      if (credentials.username == "admin") {
+        localStorage.setItem("role" , "admin")
+        // commit("current_user", { role: "admin" })
       } else {
-        commit("current_user", { role: "user" })
+        localStorage.setItem("role" , "user")
+        // commit("current_user", { role: "user" })
 
       }
       commit('CREATE_LOADING', true);

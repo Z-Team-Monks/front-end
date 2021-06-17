@@ -37,7 +37,7 @@
     <VueSlickCarousel :dots="true" v-bind="settings" v-if="shops.length">
       <div v-for="(shop, n) in shops" class="mr-5" :key="n">
         <div v-if="shop.isVisible">
-          <HopShopCard @NearByModal="showModal(shop.id)" :shop="shop" />
+          <HopShopCard @NearByModal="showModal(shop.shopId)" :shop="shop" />
         </div>
       </div>
     </VueSlickCarousel>
@@ -127,9 +127,9 @@ export default {
     categories() {
       return this.$store.state.category.categories;
     },
-    shop() {
-      return this.$store.state.shops.shop;
-    },
+    // shop() {
+    //   return this.$store.state.shops.allShops;
+    // },
     showModalWatch() {
       return this.passProp;
     },
@@ -177,12 +177,7 @@ export default {
     },
 
     showModal(id) {
-      console.log("id is emitted");
-      console.log(id);
-
-      console.log("dispatching");
       this.getShop(id);
-      console.log("dispatching");
     },
     emitHideModal() {
       this.showDialog = false;

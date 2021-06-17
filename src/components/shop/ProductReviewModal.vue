@@ -99,7 +99,6 @@ export default {
       this.$emit("submitReview", {
         rating: this.rating,
         comment: this.reviewString,
-        id : this.reviews.productId
 
       });
     },

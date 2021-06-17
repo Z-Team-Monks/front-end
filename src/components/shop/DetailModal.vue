@@ -15,18 +15,23 @@
                 contain
                 lazy-src="https://picsum.photos/id/11/10/6"
                 max-height="200"
-                src="https://picsum.photos/id/11/500/300"
+                :src="
+                  prod.imageUrl
+                    ? prod.imageUrl
+                    : 'https://picsum.photos/id/11/500/300'
+                "
               ></v-img>
             </v-col>
             <!-- <v-col cols="1" /> -->
             <v-col cols="6">
+              <h1>{{ prod.product.productName }}</h1>
               <div class="details-cat mb-20">
-                {{ prod.brand }}
+                {{ prod.product.brand }}
               </div>
-              <h2 class="pro-details-title">{{ prod.productName }} </h2>
+              <h2 class="pro-details-title">{{ prod.productName }}</h2>
               <div class="details-price mb-20">
                 <span>{{ prod.price }} ETB</span>
-                <span class="old-price">59.99 ETB</span> 
+                <span class="old-price">59.99 ETB</span>
               </div>
 
               <div class="product-desc variant-item">
@@ -69,7 +74,7 @@ export default {
       this.$emit("hideModal");
     },
     AddToCart() {
-      this.$emit("addToCart")
+      this.$emit("addToCart");
       console.log("added to cart");
     },
   },

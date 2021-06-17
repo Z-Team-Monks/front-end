@@ -41,35 +41,37 @@ Vue.use(VueMapbox);
 Vue.config.productionTip = false;
 Vue.component("messageComp", messageComp);
 
-// router.beforeEach((to, from, next) => {
-//   const a = JSON.parse(localStorage.getItem("user"));
-//   console.log(a);
-//   console.log(localStorage.getItem("isAuthenticated"));
-//   if (to.path == "/user") {
-//     if (localStorage.getItem("isAuthenticated") == "true") {
-//       next();
-//     } else {
-//       router.push({ name: "Home" }).catch(() => {});
-//     }
-//   } else if (to.path == "/admin") {
-//     if (
-//       localStorage.getItem("isAuthenticated") == "true" &&
-//       a.role == "admin"
-//     ) {
-//       next();
-//     } else {
-//       router.push({ name: "Home" }).catch(() => {});
-//     }
-//   } else if (to.path == "/auth") {
-//     if (localStorage.getItem("isAuthenticated") == "true") {
-//       router.push({ name: "Home" }).catch(() => {});
-//     } else {
-//       next();
-//     }
-//   } else {
-//     next();
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  const a = JSON.parse(localStorage.getItem("user"));
+  console.log("[--------------------------]");
+  console.log(localStorage.getItem("isAuthenticated"));
+  console.log(a);
+  console.log("[--------------------------]")
+  if (to.path == "/user") {
+    if (JSON.parse(localStorage.getItem("isAuthenticated")) && localStorage.getItem("role")  === "user") {
+      next();
+    } else {
+      router.push({ name: "Home" }).catch(() => {});
+    }
+  } else if (to.path == "/admin") {
+    if (
+      JSON.parse(localStorage.getItem("isAuthenticated")) === true &&
+      localStorage.getItem("role")  == "admin"
+      ) {
+        next();
+      } else {
+        router.push({ name: "Home" }).catch(() => {});
+      }
+    } else if (to.path == "/auth") {
+    if (JSON.parse(localStorage.getItem("isAuthenticated"))) {
+      router.push({ name: "Home" }).catch(() => {});
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
 
 const app = new Vue({
   router,

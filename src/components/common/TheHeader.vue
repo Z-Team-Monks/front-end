@@ -190,14 +190,18 @@ export default {
       this.$store.dispatch("auth/LogOut");
     },
     LoginOrToRole() {
-      const role = JSON.parse(localStorage.getItem("user")).role;
-      console.log(this.$router.currentRoute)
-if (this.showLogout) {
-
-
-        this.$router.push({
-          name: role,
-        });
+      const role = localStorage.getItem("role");
+      // console.log(this.$router.currentRoute);
+      if (this.showLogout) {
+        if (role == "admin" && this.$router.name != "/admin") {
+          this.$router.push({
+            name: role,
+          });
+        } else {
+          this.$router.push({
+            name: role,
+          });
+        }
       } else {
         this.$router.push({ name: "Auth" });
       }
