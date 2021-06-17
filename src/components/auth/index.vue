@@ -69,6 +69,13 @@
           <button type="submit" class="submit-button" id="loginSubmitBtn">
             Sign in
           </button>
+          <v-btn color="accent" plain
+            >forgot password?
+            <v-btn :color="l.color" text :to="{ name: 'reset' }"
+              >here</v-btn
+            ></v-btn
+          >
+          >
         </form>
         <!-- End Login Form -->
 
@@ -387,8 +394,8 @@ export default {
             this.phone = "";
             this.password = "";
           } else {
-            console.log(this.$store.state.auth.message)
-              
+            console.log(this.$store.state.auth.message);
+
             this.$store.dispatch(
               "message/SaveMessage",
               this.$store.state.auth.message

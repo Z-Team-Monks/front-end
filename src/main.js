@@ -23,7 +23,7 @@ this is where you added any headers that are global to all the requests to the a
 // axios.defaults.withCredentials = true;
 
 // we could add a bse url to shorten the routes eg. by setting the base url to  http://localhost:500 we could just use /route_name in our axios calls
-// axios.defaults.baseURL = "http://127.0.0.1:51042/api/v1";
+axios.defaults.baseURL = "http://10.6.250.75:4444/api/v1";
 // axios.defaults.baseURL = "http://localhost:51042/api/v1";
 
 Vue.prototype.$http = axios;

@@ -15,6 +15,7 @@
               </div>
             </div>
           </div>
+
           <!-- tab content -->
           <div class="tab-content" id="myTabContent">
             <div
@@ -147,7 +148,9 @@
             <!-- <v-col cols="1" /> -->
 
             <v-col v-if="currentProductWatch" cols="6">
-              <div class="details-cat mb-20">{{ currentProductWatch.brand }}</div>
+              <div class="details-cat mb-20">
+                {{ currentProductWatch.brand }}
+              </div>
               <h2 class="pro-details-title">
                 {{ currentProductWatch.productName }}
               </h2>
@@ -189,7 +192,7 @@ export default {
   created() {
     this.$store.dispatch("category/GetCategories");
     this.$store.dispatch("shops/GetAllProductsInDB");
-    setInterval(this.changeBannerProductImage,2000);
+    setInterval(this.changeBannerProductImage, 2000);
   },
   data() {
     return {
@@ -199,13 +202,14 @@ export default {
       selectedProduct: {},
       pagging: false,
       currentProduct: {},
-      bannerImages : [                                        
-        "https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",                
+      bannerImages: [
+        "https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
         "https://images.pexels.com/photos/1598505/pexels-photo-1598505.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "https://cdn.pixabay.com/photo/2017/01/22/12/07/imac-1999636__340.png",        
-      ],  
-      bannerProductImg : "https://cdn.pixabay.com/photo/2017/01/22/12/07/imac-1999636__340.png",
-      bannerProductImgCounter : 0,
+        "https://cdn.pixabay.com/photo/2017/01/22/12/07/imac-1999636__340.png",
+      ],
+      bannerProductImg:
+        "https://cdn.pixabay.com/photo/2017/01/22/12/07/imac-1999636__340.png",
+      bannerProductImgCounter: 0,
     };
   },
   watch: {
@@ -213,7 +217,6 @@ export default {
       this.products.forEach((s) => {
         if (newVal.length != 0) {
           if (newVal.includes(s.categoryId)) {
-            
             s.isVisible = true;
           } else {
             s.isVisible = false;
@@ -272,10 +275,11 @@ export default {
       this.$store.dispatch("shops/AddToCart" , product.productId)
       this.dialog = false
     },
-    changeBannerProductImage(){
+    changeBannerProductImage() {
       // console.log(this.bannerProductImg);
       this.bannerProductImg = this.bannerImages[this.bannerProductImgCounter];
-      this.bannerProductImgCounter = (this.bannerProductImgCounter + 1) % this.bannerImages.length;      
+      this.bannerProductImgCounter =
+        (this.bannerProductImgCounter + 1) % this.bannerImages.length;
     },
   },
   props: {},
@@ -284,8 +288,8 @@ export default {
 
 
 <style scoped>
-.shop-banner img{
-  width: 85%;  
+.shop-banner img {
+  width: 85%;
   height: 400px;
 }
 </style>

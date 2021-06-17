@@ -14,12 +14,24 @@
 import TheHeader from "@/components/common/TheHeader";
 import TheSlider from "@/components/home/TheSlider";
 import TheFooter from "@/components/common/TheFooter";
+
+import axios from "axios";
+console.log("initiate request");
+axios
+  .post("http://10.6.250.75:4444/api/v1/auth", {
+    username: "abbi",
+    password: "fake",
+  })
+  .then((r) => console.log("this is response: ", r.data))
+  .catch((e) => console.log("this is error: ", e))
+  .finally((g) => console.log("end request"));
+
 export default {
   name: "App",
   components: {
     TheHeader,
     TheFooter,
-    TheSlider
+    TheSlider,
   },
   data: () => ({
     //

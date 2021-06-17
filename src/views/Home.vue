@@ -2,7 +2,7 @@
   <div class="">
     <!-- <TheSlider /> -->
     <!-- <Ads :ad="[1, 2, 3]" /> -->
-          <TheSlider />
+    <TheSlider />
 
     <NewProducts />
     <NewShops />
@@ -29,7 +29,7 @@ export default {
     NewProducts,
     NewsFeed,
     NewsLetter,
-    NewShops
+    NewShops,
   },
 };
 </script>
