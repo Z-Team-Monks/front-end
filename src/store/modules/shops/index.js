@@ -46,7 +46,37 @@ const shops = {
       state.ads = ads
     }
   },
+
   actions: {
+    DeactivateAd({ commit, dispatch }, ads) {
+      const options = {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },
+      };
+      axios.delete(`/ads/${ads}`, options)
+        .then(res => {
+          dispatch("Ads")
+          console.log(res.data)
+        }).catch(e => {
+          console.log(e)
+        })
+    },
+    ActivateAd({ commit, dispatch }, ads) {
+      const options = {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },
+      };
+      axios.patch(`/ads/${ads}` , options)
+        .then(res => {
+          dispatch("Ads")
+          console.log(res.data)
+        }).catch(e => {
+          console.log(e)
+        })
+    },
+
     async GetShops({ commit }) {
       await axios.get("/shops")
         .then(res => {
@@ -313,7 +343,7 @@ const shops = {
         }
       }
 
-      axios.post(`/shops/${id}/followers`,options)
+      axios.post(`/shops/${id}/followers`, options)
         .then(e => {
           console.log(id)
           dispatch("GetAllShops")
@@ -328,7 +358,7 @@ const shops = {
         }
       }
 
-      axios.delete(`/shops/${id}/followers`,options)
+      axios.delete(`/shops/${id}/followers`, options)
         .then(e => {
           console.log(id)
           dispatch("GetAllShops")
@@ -355,8 +385,8 @@ const shops = {
 
     },
 
-    async Ads({ commit }) {
-      await axios.get("/ads")
+     Ads({ commit }) {
+       axios.get("/ads")
         .then(res => {
           commit("SAVE_ADS", res.data)
         })

@@ -30,6 +30,32 @@ const ads = {
                     console.log(e)
                 })
         },
+        DeactivateAd({ commit }, ads) {
+            const options = {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
+            };
+            axios.delete(`/ads/${id}`, options)
+                .then(res => {
+                    console.log(res.data)
+                }).catch(e => {
+                    console.log(e)
+                })
+        },
+        ActivateAd({ commit }, ads) {
+            const options = {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
+            };
+            axios.post(`/ads/${id}`, options)
+                .then(res => {
+                    console.log(res.data)
+                }).catch(e => {
+                    console.log(e)
+                })
+        },
         async GetUserAds({ commit }) {
             const options = {
                 headers: {

@@ -4,8 +4,8 @@
       style="border: 1px solid; border-radius: none"
       :class="[
         signUpDiv
-          ? 'wrapper__area sign-up__Mode-active shadow-sm border'
-          : 'wrapper__area shadow-md border',
+          ? 'wrapper__area sign-up__Mode-active shadow-lg border'
+          : 'wrapper__area shadow-lg border',
       ]"
       id="wrapper_Area"
     >

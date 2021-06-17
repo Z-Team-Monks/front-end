@@ -12,7 +12,7 @@
         >
           <template v-slot:item.actions="{ item }">
             <v-btn
-              @click="DeactivateAd(item.adsId)"
+              @click="DeactivateAd(item)"
               v-if="item.isActive"
               small
               elevation="0"
@@ -23,7 +23,7 @@
             </v-btn>
             <v-btn
               v-else
-              @click="ActivateAd(item.adsId)"
+              @click="ActivateAd(item)"
               small
               elevation="0"
               class="ml-2"
@@ -43,7 +43,6 @@ export default {
   data() {
     return {
       headers: [
-        
         // { text: "Product Name", value: "name" },
         { text: "Description", value: "description" },
         // { text: "Discount", value: "discount" },
@@ -64,10 +63,12 @@ export default {
   },
   methods: {
     DeactivateAd(id) {
-      // this.$store.dispatch("ads/UpdateAd", id);
+      this.$store.dispatch("shops/DeactivateAd", id.id);
+      console.log(id.id);
     },
     ActivateAd(id) {
-      this.$store.dispatch("ads/UpdateAd", id);
+      console.log(id.id);
+      this.$store.dispatch("shops/ActivateAd", id.id);
     },
   },
 };
