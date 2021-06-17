@@ -28,13 +28,13 @@ this is where you added any headers that are global to all the requests to the a
 
 Vue.prototype.$http = axios;
 axios.defaults.withCredentials = true;
-axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+// axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 // axios.defaults.xsrfCookieName = undefined;
 // axios.defaults.baseURL = 'http://10.6.250.73:5522/api/v1';
 
-axios.defaults.baseURL = "http://10.6.195.63:4444/api/v1";
+axios.defaults.baseURL = "http://192.168.43.252:4444/api/v1";
 // axios.defaults.baseURL = "http://10.6.154.213:5522/api/v1";
-localStorage.setItem("url", "http://10.6.195.63:4444/");
+localStorage.setItem("url", "http://192.168.43.252:4444/");
 Vue.use(require("vue-chartist"));
 Vue.use(Vuelidate);
 Vue.use(VueMapbox);

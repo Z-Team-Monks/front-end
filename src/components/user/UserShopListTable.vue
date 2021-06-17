@@ -213,9 +213,6 @@
           <v-toolbar-title>Shop Products</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
-          <v-btn class="mb-2" @click="dialog = !dialog" dark color="pink">
-            Add new proposal
-          </v-btn>
 
           <v-dialog v-model="dialogDeleteProduct" max-width="500px">
             <v-card>
@@ -476,12 +473,16 @@ export default {
     },
     getLocation() {
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(this.showPosition);
+        console.log("getlocation")
+        navigator.geolocation.getCurrentPosition(this.showPosition , e=> {
+          console.log(e)
+        });
       } else {
         console.log("not supported");
       }
     },
     showPosition(position) {
+      console.log(position.coords.latitude)
       this.latitude = position.coords.latitude;
       this.longtiude = position.coords.longitude;
     },

@@ -124,7 +124,7 @@ export default {
     tags(newVal, old) {
       this.shops.forEach((s) => {
         if (newVal.length != 0) {
-          if (newVal.includes(s.categoryId)) {
+          if (newVal.includes(s.category_id)) {
             s.isVisible = true;
           } else {
             s.isVisible = false;

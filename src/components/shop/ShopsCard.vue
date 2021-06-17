@@ -38,7 +38,7 @@
             <i class="flaticon-eye"></i>
           </a> -->
 
-          <span v-if="isAuthenticated">
+          <!-- <span v-if="isAuthenticated">
             <a
               v-if="!isFollowed"
               @click="unFollow()"
@@ -58,7 +58,7 @@
                 class="fas fa-thumbs-up"
               ></i
             ></a>
-          </span>
+          </span> -->
         </div>
       </div>
     </div>

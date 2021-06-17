@@ -343,12 +343,13 @@ const shops = {
         }
       }
 
+      console.log(options);
       axios.post(`/shops/${id}/followers`, options)
         .then(e => {
           console.log(id)
           dispatch("GetAllShops")
         }).catch(e => {
-
+          console.log(e)
         })
     },
     UnFollowShop({ commit, dispatch }, id) {
